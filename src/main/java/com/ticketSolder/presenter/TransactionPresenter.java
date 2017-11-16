@@ -2,7 +2,7 @@ package com.ticketSolder.presenter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ticketSolder.model.service.TransactionService;
+import com.ticketSolder.model.service.rest.TransactionHandler;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 class TransactionPresenter {
 
     @Autowired
-    private TransactionService transactionService;
+    private TransactionHandler transactionHandler;
     private Gson gson = new GsonBuilder().create();
     private Logger logger = Logger.getLogger(TransactionPresenter.class);
 

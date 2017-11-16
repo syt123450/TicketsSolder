@@ -3,7 +3,7 @@ package com.ticketSolder.presenter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ticketSolder.model.bean.user.UserInfoRequest;
-import com.ticketSolder.model.service.UserService;
+import com.ticketSolder.model.service.rest.UserHandler;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 class UserPresenter {
 
     @Autowired
-    private UserService userService;
+    private UserHandler userHandler;
     private Gson gson = new GsonBuilder().create();
     private Logger logger = Logger.getLogger(UserPresenter.class);
 
@@ -33,7 +33,7 @@ class UserPresenter {
 
         UserInfoRequest userInfoRequest = gson.fromJson(body, UserInfoRequest.class);
 
-        return gson.toJson(userService.authenticate(userInfoRequest.getUserName(), userInfoRequest.getPassword()));
+        return gson.toJson(userHandler.authenticate(userInfoRequest.getUserName(), userInfoRequest.getPassword()));
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -43,6 +43,6 @@ class UserPresenter {
 
         UserInfoRequest userInfoRequest = gson.fromJson(body, UserInfoRequest.class);
 
-        return gson.toJson(userService.createUser(userInfoRequest.getUserName(), userInfoRequest.getPassword()));
+        return gson.toJson(userHandler.createUser(userInfoRequest.getUserName(), userInfoRequest.getPassword()));
     }
 }

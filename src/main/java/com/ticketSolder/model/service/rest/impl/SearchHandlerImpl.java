@@ -1,8 +1,8 @@
-package com.ticketSolder.model.service.impl;
+package com.ticketSolder.model.service.rest.impl;
 
 import com.ticketSolder.model.bean.trip.*;
 import com.ticketSolder.model.dao.SearchDao;
-import com.ticketSolder.model.service.SearchService;
+import com.ticketSolder.model.service.rest.SearchHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +13,10 @@ import java.util.List;
  */
 
 @Service
-public class SearchServiceImpl implements SearchService {
+public class SearchHandlerImpl implements SearchHandler {
 
-    @Autowired
-    private SearchDao searchDao;
+//    @Autowired
+//    private SearchDao searchDao;
 
     @Override
     public TripSearchResult searchTripInfo(TripRequest tripRequest) {
