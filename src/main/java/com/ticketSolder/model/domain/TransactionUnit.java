@@ -1,4 +1,4 @@
-package com.ticketSolder.model.bean;
+package com.ticketSolder.model.domain;
 
 import lombok.Data;
 
@@ -7,8 +7,10 @@ import lombok.Data;
  */
 
 @Data
-public class FastTripInfo {
+public class TransactionUnit {
 
+    private long transactionId;
+    private String userName;
     private String trainName;
     private int year;
     private int month;

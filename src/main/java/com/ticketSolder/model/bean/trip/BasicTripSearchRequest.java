@@ -1,4 +1,4 @@
-package com.ticketSolder.model.bean;
+package com.ticketSolder.model.bean.trip;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BasicTripSearchInfo {
+public class BasicTripSearchRequest {
 
     private int year;
     private int month;

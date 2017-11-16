@@ -1,4 +1,4 @@
-package com.ticketSolder.model.bean;
+package com.ticketSolder.model.bean.trip;
 
 import lombok.Data;
 
@@ -13,12 +13,12 @@ public class TripRequest {
     private boolean fast;
     private boolean normal;
 
-    private int comeYear;
-    private int comeMonth;
-    private int comeDay;
-    private double comeTime;
-    private char comeStartStation;
-    private char comeEndStation;
+    private int goYear;
+    private int goMonth;
+    private int goDay;
+    private double goTime;
+    private char goStartStation;
+    private char goEndStation;
 
     private int backYear;
     private int backMonth;

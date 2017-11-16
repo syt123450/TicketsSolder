@@ -1,6 +1,6 @@
 package com.ticketSolder.model.service.impl;
 
-import com.ticketSolder.model.bean.*;
+import com.ticketSolder.model.bean.trip.*;
 import com.ticketSolder.model.dao.SearchDao;
 import com.ticketSolder.model.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +33,12 @@ public class SearchServiceImpl implements SearchService {
         SingleTripRequest goTripRequest = new SingleTripRequest(
                 tripRequest.isFast(),
                 tripRequest.isNormal(),
-                tripRequest.getComeYear(),
-                tripRequest.getComeMonth(),
-                tripRequest.getComeDay(),
-                tripRequest.getComeTime(),
-                tripRequest.getComeStartStation(),
-                tripRequest.getComeEndStation()
+                tripRequest.getGoYear(),
+                tripRequest.getGoMonth(),
+                tripRequest.getGoDay(),
+                tripRequest.getGoTime(),
+                tripRequest.getGoStartStation(),
+                tripRequest.getGoEndStation()
         );
 
         TripSearchResult tripSearchResult = new TripSearchResult();
@@ -53,12 +53,12 @@ public class SearchServiceImpl implements SearchService {
         SingleTripRequest goTripRequest = new SingleTripRequest(
                 tripRequest.isFast(),
                 tripRequest.isNormal(),
-                tripRequest.getComeYear(),
-                tripRequest.getComeMonth(),
-                tripRequest.getComeDay(),
-                tripRequest.getComeTime(),
-                tripRequest.getComeStartStation(),
-                tripRequest.getComeEndStation()
+                tripRequest.getGoYear(),
+                tripRequest.getGoMonth(),
+                tripRequest.getGoDay(),
+                tripRequest.getGoTime(),
+                tripRequest.getGoStartStation(),
+                tripRequest.getGoEndStation()
         );
 
         SingleTripRequest backTripRequest = new SingleTripRequest(
@@ -82,7 +82,7 @@ public class SearchServiceImpl implements SearchService {
 
     private TripInfoAggregation searchOneWay(SingleTripRequest singleTripRequest) {
 
-        BasicTripSearchInfo basicTripSearchInfo = new BasicTripSearchInfo(
+        BasicTripSearchRequest basicTripSearchRequest = new BasicTripSearchRequest(
                 singleTripRequest.getYear(),
                 singleTripRequest.getMonth(),
                 singleTripRequest.getDay(),
@@ -94,22 +94,24 @@ public class SearchServiceImpl implements SearchService {
         TripInfoAggregation tripInfoAggregation = new TripInfoAggregation();
 
         if (singleTripRequest.isNormal()) {
-            tripInfoAggregation.setNormalTrainTrips(searchNormalTrainTrip(basicTripSearchInfo));
+            tripInfoAggregation.setNormal(true);
+            tripInfoAggregation.setNormalTrainTrips(searchNormalTrainTrip(basicTripSearchRequest));
         }
 
         if (singleTripRequest.isFast()) {
-            tripInfoAggregation.setFastTrainTrips(searchFastTrainTrip(basicTripSearchInfo));
+            tripInfoAggregation.setNormal(true);
+            tripInfoAggregation.setFastTrainTrips(searchFastTrainTrip(basicTripSearchRequest));
         }
 
         return tripInfoAggregation;
     }
 
-    private List<NormalTripInfo> searchNormalTrainTrip(BasicTripSearchInfo basicTripSearchInfo) {
+    private List<TripInfo> searchNormalTrainTrip(BasicTripSearchRequest basicTripSearchRequest) {
 
         return null;
     }
 
-    private List<FastTripInfo> searchFastTrainTrip(BasicTripSearchInfo basicTripSearchInfo) {
+    private List<TripInfo> searchFastTrainTrip(BasicTripSearchRequest basicTripSearchRequest) {
 
         return null;
     }

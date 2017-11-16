@@ -1,8 +1,8 @@
 package com.ticketSolder.model.service.impl;
 
-import com.ticketSolder.model.bean.AuthenticationResult;
+import com.ticketSolder.model.bean.user.AuthenticationResult;
 import com.ticketSolder.model.dao.UserDao;
-import com.ticketSolder.model.bean.CreationResult;
+import com.ticketSolder.model.bean.user.UserCreationResult;
 import com.ticketSolder.model.domain.UserInfo;
 import com.ticketSolder.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,21 +21,21 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public CreationResult createUser(String userName, String password) {
+    public UserCreationResult createUser(String userName, String password) {
 
-        CreationResult creationResult = new CreationResult();
+        UserCreationResult userCreationResult = new UserCreationResult();
 
         UserInfo userInfo = userDao.searchUserByName(userName);
         if (userInfo != null) {
-            creationResult.setResult(false);
-            creationResult.setReason(FAIL_MESSAGE);
-            return creationResult;
+            userCreationResult.setResult(false);
+            userCreationResult.setReason(FAIL_MESSAGE);
+            return userCreationResult;
         }
 
         int result = userDao.createUser(userName, password);
-        creationResult.setResult(result == 1);
+        userCreationResult.setResult(result == 1);
 
-        return creationResult;
+        return userCreationResult;
     }
 
     @Override

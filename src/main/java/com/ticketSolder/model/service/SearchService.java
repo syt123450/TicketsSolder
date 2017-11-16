@@ -1,7 +1,7 @@
 package com.ticketSolder.model.service;
 
-import com.ticketSolder.model.bean.TripSearchResult;
-import com.ticketSolder.model.bean.TripRequest;
+import com.ticketSolder.model.bean.trip.TripSearchResult;
+import com.ticketSolder.model.bean.trip.TripRequest;
 
 /**
  * Created by ss on 2017/11/16.

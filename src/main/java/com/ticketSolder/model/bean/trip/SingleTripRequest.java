@@ -1,4 +1,4 @@
-package com.ticketSolder.model.bean;
+package com.ticketSolder.model.bean.trip;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

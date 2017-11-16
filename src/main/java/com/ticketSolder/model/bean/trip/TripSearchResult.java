@@ -1,5 +1,6 @@
-package com.ticketSolder.model.bean;
+package com.ticketSolder.model.bean.trip;
 
+import com.ticketSolder.model.bean.trip.TripInfoAggregation;
 import lombok.Data;
 
 /**

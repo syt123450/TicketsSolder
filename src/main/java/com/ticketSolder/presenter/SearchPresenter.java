@@ -2,7 +2,7 @@ package com.ticketSolder.presenter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.ticketSolder.model.bean.TripRequest;
+import com.ticketSolder.model.bean.trip.TripRequest;
 import com.ticketSolder.model.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
