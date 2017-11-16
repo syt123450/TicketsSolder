@@ -8,28 +8,28 @@
 
     <parameterMap id="UserInfo" type="UserInfo"/>
 
-    <!--<sql id="Base_Column_List">-->
-        <!--id, province_id, city_name, description-->
-    <!--</sql>-->
-
-    <!--<select id="findByName" resultMap="BaseResultMap" parameterType="string">-->
-        <!--select-->
-        <!--<include refid="Base_Column_List" />-->
-        <!--from city-->
-        <!--where city_name = #{cityName}-->
-    <!--</select>-->
+    <sql id="Base_Column_List">
+        userName, password
+    </sql>
 
     <select id="searchUser" parameterType="string" resultMap="userInfoMap">
-        select userName, password
+        select
+        <include refid="Base_Column_List" />
         from USER
         where userName = #{userName}
         and password = #{password}
     </select>
 
     <select id="searchUserByName" parameterType="string" resultMap="userInfoMap">
-        select userName, password
+        select
+        <include refid="Base_Column_List" />
         from USER
         where userName = #{userName}
     </select>
+    
+    <insert id="createUser" parameterType="string">
+        insert into user (userName, password)
+        values (#{userName}, #{password})
+    </insert>
 
 </mapper>

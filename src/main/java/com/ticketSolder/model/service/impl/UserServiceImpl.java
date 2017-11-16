@@ -26,14 +26,14 @@ public class UserServiceImpl implements UserService {
         CreationResult creationResult = new CreationResult();
 
         UserInfo userInfo = userDao.searchUserByName(userName);
-        if (userInfo.getUserName() != null) {
+        if (userInfo != null) {
             creationResult.setResult(false);
             creationResult.setReason(FAIL_MESSAGE);
             return creationResult;
         }
 
-//        int result = userDao.createUser(userName, password);
-//        creationResult.setResult(result == 1);
+        int result = userDao.createUser(userName, password);
+        creationResult.setResult(result == 1);
 
         return creationResult;
     }

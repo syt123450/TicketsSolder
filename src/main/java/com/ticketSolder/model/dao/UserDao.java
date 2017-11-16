@@ -8,7 +8,8 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface UserDao {
 
-    //    int createUser(String userName, String password);
+    int createUser(@Param("userName") String userName, @Param("password") String password);
+
     UserInfo searchUser(@Param("userName") String userName, @Param("password") String password);
 
     UserInfo searchUserByName(@Param("userName") String userName);
