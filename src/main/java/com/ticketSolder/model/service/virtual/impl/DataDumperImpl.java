@@ -1,6 +1,7 @@
 package com.ticketSolder.model.service.virtual.impl;
 
 import com.ticketSolder.model.service.virtual.DataDumper;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,8 +10,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DataDumperImpl implements DataDumper {
+
+    private Logger logger = Logger.getLogger(DataDumperImpl.class);
+
     @Override
     public void initDumper() {
-        System.out.println("start dumper.");
+        logger.info("start dumper.");
     }
 }

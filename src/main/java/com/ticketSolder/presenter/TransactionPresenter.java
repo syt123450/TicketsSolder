@@ -2,6 +2,8 @@ package com.ticketSolder.presenter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ticketSolder.model.bean.transaction.CreateTransactionRequest;
+import com.ticketSolder.model.bean.transaction.DeleteTransactionRequest;
 import com.ticketSolder.model.service.rest.TransactionHandler;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ class TransactionPresenter {
 
         logger.info("Check transaction for specific user.");
 
-        return "";
+        return gson.toJson(transactionHandler.searchTransaction(userName));
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -35,14 +37,21 @@ class TransactionPresenter {
 
         logger.info("Create new transaction.");
 
-        return "";
+        CreateTransactionRequest createTransactionRequest = gson.fromJson(body, CreateTransactionRequest.class);
+
+        return gson.toJson(transactionHandler.createTransaction(createTransactionRequest));
     }
 
-    @RequestMapping("/delete/{transactionId}")
-    private String deleteTransaction(@PathVariable(value = "userName", required = true) String transactionId) {
+    @RequestMapping("/delete/{userName}/{password}/{transactionId}")
+    private String deleteTransaction(@PathVariable(value = "userName", required = true) String userName,
+                                     @PathVariable(value = "password", required = true) String password,
+                                     @PathVariable(value = "transactionId", required = true) long transactionId) {
 
         logger.info("Delete transaction.");
 
-        return "";
+        DeleteTransactionRequest deleteTransactionRequest =
+                new DeleteTransactionRequest(userName, password, transactionId);
+
+        return gson.toJson(transactionHandler.deleteTransaction(deleteTransactionRequest));
     }
 }

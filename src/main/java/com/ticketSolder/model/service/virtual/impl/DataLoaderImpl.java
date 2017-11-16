@@ -1,6 +1,7 @@
 package com.ticketSolder.model.service.virtual.impl;
 
 import com.ticketSolder.model.service.virtual.DataLoader;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,8 +10,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DataLoaderImpl implements DataLoader {
+
+    private Logger logger = Logger.getLogger(DataLoaderImpl.class);
+
     @Override
     public void loadData() {
-        System.out.println("load data to memory.");
+        logger.info("load data to memory.");
     }
 }

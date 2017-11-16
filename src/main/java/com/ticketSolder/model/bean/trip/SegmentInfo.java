@@ -17,4 +17,5 @@ public class SegmentInfo {
     private double endTime;
     private char startStation;
     private char endStation;
+    private double price;
 }
