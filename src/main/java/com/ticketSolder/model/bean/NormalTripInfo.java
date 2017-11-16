@@ -1,4 +1,4 @@
-package com.ticketSolder.model.domain;
+package com.ticketSolder.model.bean;
 
 import lombok.Data;
 
@@ -7,12 +7,14 @@ import lombok.Data;
  */
 
 @Data
-public class TripInfo {
+public class NormalTripInfo {
 
+    private String trainName;
     private int year;
     private int month;
     private int day;
     private double startTime;
+    private double endTime;
     private char startStation;
     private char endStation;
 }

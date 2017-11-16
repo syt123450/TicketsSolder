@@ -7,7 +7,7 @@ import lombok.Data;
  */
 
 @Data
-public class AuthenticateResult {
+public class CreateTransactionRequest {
 
-    private boolean result;
+
 }

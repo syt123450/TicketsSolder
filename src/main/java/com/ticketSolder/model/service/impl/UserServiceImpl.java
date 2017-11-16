@@ -1,6 +1,6 @@
 package com.ticketSolder.model.service.impl;
 
-import com.ticketSolder.model.bean.AuthenticateResult;
+import com.ticketSolder.model.bean.AuthenticationResult;
 import com.ticketSolder.model.dao.UserDao;
 import com.ticketSolder.model.bean.CreationResult;
 import com.ticketSolder.model.domain.UserInfo;
@@ -39,13 +39,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public AuthenticateResult authenticate(String userName, String password) {
+    public AuthenticationResult authenticate(String userName, String password) {
 
-        AuthenticateResult authenticateResult = new AuthenticateResult();
+        AuthenticationResult authenticationResult = new AuthenticationResult();
 
         UserInfo userInfo = userDao.searchUser(userName, password);
-        authenticateResult.setResult(userInfo != null);
+        authenticationResult.setResult(userInfo != null);
 
-        return authenticateResult;
+        return authenticationResult;
     }
 }

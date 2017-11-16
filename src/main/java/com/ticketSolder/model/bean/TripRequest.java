@@ -7,7 +7,11 @@ import lombok.Data;
  */
 
 @Data
-public class RoundTripRequest {
+public class TripRequest {
+
+    private boolean round;
+    private boolean fast;
+    private boolean normal;
 
     private int comeYear;
     private int comeMonth;

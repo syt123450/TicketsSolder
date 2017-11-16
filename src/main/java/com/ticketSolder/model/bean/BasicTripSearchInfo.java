@@ -11,10 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SingleTripRequest {
+public class BasicTripSearchInfo {
 
-    private boolean fast;
-    private boolean normal;
     private int year;
     private int month;
     private int day;

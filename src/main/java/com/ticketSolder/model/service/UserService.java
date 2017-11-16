@@ -1,6 +1,6 @@
 package com.ticketSolder.model.service;
 
-import com.ticketSolder.model.bean.AuthenticateResult;
+import com.ticketSolder.model.bean.AuthenticationResult;
 import com.ticketSolder.model.bean.CreationResult;
 
 /**
@@ -10,5 +10,5 @@ public interface UserService {
 
     CreationResult createUser(String userName, String password);
 
-    AuthenticateResult authenticate(String userName, String password);
+    AuthenticationResult authenticate(String userName, String password);
 }

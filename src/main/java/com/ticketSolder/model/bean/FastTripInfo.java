@@ -1,24 +1,20 @@
 package com.ticketSolder.model.bean;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Created by ss on 2017/11/16.
  */
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class SingleTripRequest {
+public class FastTripInfo {
 
-    private boolean fast;
-    private boolean normal;
+    private String trainName;
     private int year;
     private int month;
     private int day;
-    private double time;
+    private double startTime;
+    private double endTime;
     private char startStation;
     private char endStation;
 }

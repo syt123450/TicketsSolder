@@ -10,4 +10,12 @@ import lombok.Data;
 public class TransactionInfo {
 
     private String userName;
+    private String trainName;
+    private int year;
+    private int month;
+    private int day;
+    private double startTime;
+    private double endTime;
+    private char startStation;
+    private char endStation;
 }
