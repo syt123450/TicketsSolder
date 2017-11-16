@@ -1,4 +1,4 @@
-package com.ticketSolder.model.bean;
+package com.ticketSolder.model.domain;
 
 import lombok.Data;
 
@@ -7,8 +7,7 @@ import lombok.Data;
  */
 
 @Data
-public class UserInfoRequest {
+public class TransactionInfo {
 
     private String userName;
-    private String password;
 }

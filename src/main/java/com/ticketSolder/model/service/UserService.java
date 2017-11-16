@@ -9,5 +9,6 @@ import com.ticketSolder.model.bean.CreationResult;
 public interface UserService {
 
     CreationResult createUser(String userName, String password);
+
     AuthenticateResult authenticate(String userName, String password);
 }
