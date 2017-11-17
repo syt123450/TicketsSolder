@@ -1,5 +1,8 @@
 package com.ticketSolder.model.dao;
 
+import com.ticketSolder.model.domain.SegmentInsertionUnit;
+import com.ticketSolder.model.domain.SegmentStationInfo;
+import com.ticketSolder.model.domain.TransactionTableUnit;
 import com.ticketSolder.model.domain.TransactionUnit;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,7 +15,11 @@ public interface TransactionDao {
 
     List<TransactionUnit> searchTransactionsByName(@Param("userName") String userName);
 
-    int deleteTransactionById(@Param("transactionId") long transactionId);
+    List<SegmentStationInfo> searchTransactionStations(@Param("transactionId") long transactionId);
 
-    int createTransaction();
+    int deleteTransaction(@Param("transactionId") long transactionId);
+
+    int createTransactionAndGetId(TransactionTableUnit transactionTableUnit);
+
+    int createDetailedTransactions(@Param("segmentInsertionUnits") List<SegmentInsertionUnit> segmentInsertionUnits);
 }

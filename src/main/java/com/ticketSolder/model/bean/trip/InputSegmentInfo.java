@@ -7,14 +7,17 @@ import lombok.Data;
  */
 
 @Data
-public class SegmentInfo {
+public class InputSegmentInfo {
 
     private String trainName;
+    private boolean fast;
     private int year;
     private int month;
     private int day;
-    private double startTime;
-    private double endTime;
+    private int startHour;
+    private int startMinute;
+    private int endHour;
+    private int endMinute;
     private char startStation;
     private char endStation;
     private double price;

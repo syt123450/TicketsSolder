@@ -1,6 +1,6 @@
 package com.ticketSolder.model.bean.transaction;
 
-import com.ticketSolder.model.bean.trip.SegmentInfo;
+import com.ticketSolder.model.bean.trip.OutputSegmentInfo;
 import com.ticketSolder.model.bean.trip.TripInfo;
 import lombok.Data;
 
@@ -16,6 +16,6 @@ public class BasicTransactionInfo {
     private String userName;
     private long transactionId;
     private boolean round;
-    private TripInfo goTripInfo;
-    private TripInfo backTripInfo;
+    private List<OutputSegmentInfo> goSegments;
+    private List<OutputSegmentInfo> backSegments;
 }

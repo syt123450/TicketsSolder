@@ -2,4 +2,80 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ticketSolder.model.dao.TransactionDao">
 
+    <insert id="createTransactionAndGetId" parameterType="TransactionTableUnit"
+            useGeneratedKeys="true" keyProperty="transactionId">
+        insert into transaction (userId, round)
+          select userId, #{round}
+          from user
+          where userName = #{userName};
+    </insert>
+
+    <insert id="createDetailedTransactions" parameterType="java.util.List">
+        insert into segment (
+            transactionId,
+            trainName,
+            fast,
+            day,
+            startTime,
+            endTime,
+            price,
+            startStation,
+            endStation,
+            segmentNumber,
+            go
+        )
+        VALUES
+        <foreach collection="segmentInsertionUnits" item="segment" index="index" separator=",">
+            (
+              #{segment.transactionId},
+              #{segment.trainName},
+              #{segment.fast},
+              #{segment.day},
+              #{segment.startTime},
+              #{segment.endTime},
+              #{segment.price},
+              #{segment.startStation},
+              #{segment.endStation},
+              #{segment.segmentNumber},
+              #{segment.go}
+            )
+        </foreach>
+        ;
+    </insert>
+
+    <delete id="deleteTransaction" parameterType="long">
+        DELETE segment, transaction
+        FROM segment
+          LEFT JOIN transaction
+            ON segment.transactionId = transaction.transactionId
+        WHERE segment.transactionId = #{transactionId};
+    </delete>
+
+    <select id="searchTransactionsByName" parameterType="string" resultType="TransactionUnit">
+        SELECT
+          t.transactionId                   AS transactionId,
+          t.round                           AS round,
+          u.userName                        AS userName,
+          s.trainName                       AS trainName,
+          s.fast                            AS fast,
+          DATE_FORMAT(s.day, "%Y-%c-%d")    AS day,
+          TIME_FORMAT(s.startTime, "%h:%i") AS startTime,
+          TIME_FORMAT(s.endTime, "%h:%i")   AS endTime,
+          s.startStation                    AS startStation,
+          s.endStation                      AS endStation,
+          s.price                           AS price
+          s.segmentNumber                   AS segmentNumber
+        FROM user AS u, segment AS s, transaction AS t
+        WHERE u.userID = t.userId
+        AND t.transactionId = s.transactionId
+        AND u.userName = #{userName}
+        ORDER BY t.transactionId, s.segmentNumber
+    </select>
+
+    <select id="searchTransactionStations" parameterType="long" resultType="SegmentStationInfo">
+        select startStation, endStation
+        FROM segment
+        WHERE segment.transactionId = #{transactionId}
+    </select>
+
 </mapper>

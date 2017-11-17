@@ -1,20 +1,17 @@
-package com.ticketSolder.model.domain;
+package com.ticketSolder.model.bean.trip;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * Created by ss on 2017/11/16.
+ * Created by ss on 2017/11/17.
  */
 
 @Data
-public class TransactionUnit {
-
-    private long transactionId;
-    private boolean round;
-    private String userName;
-
-    private int segmentNumber;
-    private boolean go;
+@NoArgsConstructor
+@AllArgsConstructor
+public class OutputSegmentInfo {
 
     private String trainName;
     private boolean fast;
@@ -24,5 +21,4 @@ public class TransactionUnit {
     private char startStation;
     private char endStation;
     private double price;
-
 }
