@@ -11,5 +11,7 @@ import java.util.List;
 @Data
 public class TransactionAggregation {
 
-    List<BasicTransactionInfo> transactions;
+    private boolean result;
+    private List<BasicTransactionInfo> transactions;
+    private String reason;
 }

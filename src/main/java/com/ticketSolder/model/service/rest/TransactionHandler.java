@@ -7,7 +7,7 @@ import com.ticketSolder.model.bean.transaction.*;
  */
 public interface TransactionHandler {
 
-    TransactionAggregation searchTransaction(String userName);
+    TransactionAggregation searchTransaction(String userName, String password);
 
     TransactionCreationResult createTransaction(CreateTransactionRequest createTransactionRequest);
 

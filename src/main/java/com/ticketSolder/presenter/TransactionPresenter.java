@@ -24,12 +24,13 @@ class TransactionPresenter {
     private Gson gson = new GsonBuilder().create();
     private Logger logger = Logger.getLogger(TransactionPresenter.class);
 
-    @RequestMapping("/check/{userName}")
-    private String checkTransaction(@PathVariable(value = "userName", required = true) String userName) {
+    @RequestMapping("/check/{userName}/{password}")
+    private String checkTransaction(@PathVariable(value = "userName", required = true) String userName,
+                                    @PathVariable(value = "password", required = true) String password) {
 
         logger.info("Check transaction for specific user.");
 
-        return gson.toJson(transactionHandler.searchTransaction(userName));
+        return gson.toJson(transactionHandler.searchTransaction(userName, password));
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
