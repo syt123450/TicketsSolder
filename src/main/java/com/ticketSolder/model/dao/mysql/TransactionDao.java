@@ -1,9 +1,9 @@
-package com.ticketSolder.model.dao;
+package com.ticketSolder.model.dao.mysql;
 
-import com.ticketSolder.model.domain.SegmentInsertionUnit;
-import com.ticketSolder.model.domain.SegmentStationInfo;
-import com.ticketSolder.model.domain.TransactionTableUnit;
-import com.ticketSolder.model.domain.TransactionUnit;
+import com.ticketSolder.model.domain.mysql.SegmentInsertionUnit;
+import com.ticketSolder.model.domain.mysql.SegmentStationInfo;
+import com.ticketSolder.model.domain.mysql.TransactionTableUnit;
+import com.ticketSolder.model.domain.mysql.TransactionUnit;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

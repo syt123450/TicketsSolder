@@ -3,9 +3,9 @@ package com.ticketSolder.model.utils;
 import com.ticketSolder.model.bean.transaction.BasicTransactionInfo;
 import com.ticketSolder.model.bean.trip.InputSegmentInfo;
 import com.ticketSolder.model.bean.trip.OutputSegmentInfo;
-import com.ticketSolder.model.domain.SegmentInsertionUnit;
-import com.ticketSolder.model.domain.TransactionTableUnit;
-import com.ticketSolder.model.domain.TransactionUnit;
+import com.ticketSolder.model.domain.mysql.SegmentInsertionUnit;
+import com.ticketSolder.model.domain.mysql.TransactionTableUnit;
+import com.ticketSolder.model.domain.mysql.TransactionUnit;
 
 import java.sql.Date;
 import java.sql.Time;

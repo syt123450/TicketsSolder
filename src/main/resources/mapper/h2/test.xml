@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ticketSolder.model.dao.h2.TestDao">
+
+    <insert id="insert">
+        insert into test values ('222', '333');
+    </insert>
+
+    <select id="select" resultType="string">
+        select name from test where password = '333';
+    </select>
+
+</mapper>

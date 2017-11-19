@@ -1,16 +1,13 @@
 package com.ticketSolder;
 
-import com.ticketSolder.model.dao.TransactionDao;
-import com.ticketSolder.model.domain.SegmentInsertionUnit;
-import com.ticketSolder.model.domain.TransactionTableUnit;
-import com.ticketSolder.model.domain.TransactionUnit;
-import com.ticketSolder.model.service.virtual.DataLoader;
+import com.ticketSolder.model.dao.mysql.TransactionDao;
+import com.ticketSolder.model.domain.mysql.SegmentInsertionUnit;
+import com.ticketSolder.model.domain.mysql.TransactionTableUnit;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Time;
@@ -108,6 +105,7 @@ public class MybatisTest {
     }
 
     @Test
+    @Ignore
     public void testSearchTransactionStations() {
         transactionDao.searchTransactionStations(6).forEach(System.out::println);
     }

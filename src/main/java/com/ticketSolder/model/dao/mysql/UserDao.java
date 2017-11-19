@@ -1,6 +1,6 @@
-package com.ticketSolder.model.dao;
+package com.ticketSolder.model.dao.mysql;
 
-import com.ticketSolder.model.domain.UserInfo;
+import com.ticketSolder.model.domain.mysql.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
 /**

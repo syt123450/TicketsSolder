@@ -1,7 +1,7 @@
 package com.ticketSolder.model.aop;
 
 import com.ticketSolder.model.bean.user.AuthenticationResult;
-import com.ticketSolder.model.domain.UserInfo;
+import com.ticketSolder.model.domain.mysql.UserInfo;
 import com.ticketSolder.model.service.rest.UserHandler;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;

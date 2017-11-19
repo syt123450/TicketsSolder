@@ -1,9 +1,9 @@
 package com.ticketSolder.model.service.rest.impl;
 
 import com.ticketSolder.model.bean.user.AuthenticationResult;
-import com.ticketSolder.model.dao.UserDao;
+import com.ticketSolder.model.dao.mysql.UserDao;
 import com.ticketSolder.model.bean.user.UserCreationResult;
-import com.ticketSolder.model.domain.UserInfo;
+import com.ticketSolder.model.domain.mysql.UserInfo;
 import com.ticketSolder.model.service.rest.UserHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
