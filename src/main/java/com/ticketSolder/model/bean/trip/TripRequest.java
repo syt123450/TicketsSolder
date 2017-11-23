@@ -16,14 +16,16 @@ public class TripRequest {
     private int goYear;
     private int goMonth;
     private int goDay;
-    private double goTime;
+    private int goHour;
+    private int goMinute;
     private char goStartStation;
     private char goEndStation;
 
     private int backYear;
     private int backMonth;
     private int backDay;
-    private double backTime;
+    private int backHour;
+    private int backMinute;
     private char backStartStation;
     private char backEndStation;
 }

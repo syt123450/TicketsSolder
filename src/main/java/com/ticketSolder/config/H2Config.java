@@ -53,7 +53,7 @@ public class H2Config {
         dataSource.setUsername(user);
         dataSource.setPassword(password);
         sqls.add("CREATE table test ( name varchar(40) not null, password varchar(40) not null );");
-//        dataSource.setConnectionInitSqls(sqls);
+        dataSource.setConnectionInitSqls(sqls);
         return dataSource;
     }
 

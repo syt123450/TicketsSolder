@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ticketSolder.model.dao.mysql.TicketsDao">
+
+    <delete id="clearTicketsHistory">
+        DELETE FROM ticketamount;
+    </delete>
+
+    <insert id="insertNewTickets" parameterType="java.util.List">
+        insert into ticketamount (
+        trainID,
+        date,
+        AB,
+        BC,
+        CD,
+        DE,
+        EF,
+        FG,
+        GH,
+        HI,
+        IJ,
+        JK,
+        KL,
+        LM,
+        MN,
+        NO,
+        OP,
+        PQ,
+        QR,
+        RS,
+        ST,
+        TU,
+        UV,
+        VW,
+        WX,
+        XY,
+        YZ
+        )
+        VALUES
+        <foreach collection="lines" item="line" index="index" separator=",">
+            (
+            #{line.trainID},
+            #{line.date},
+            #{line.AB},
+            #{line.BC},
+            #{line.CD},
+            #{line.DE},
+            #{line.EF},
+            #{line.FG},
+            #{line.GH},
+            #{line.HI},
+            #{line.IJ},
+            #{line.JK},
+            #{line.KL},
+            #{line.LM},
+            #{line.MN},
+            #{line.NO},
+            #{line.OP},
+            #{line.PQ},
+            #{line.QR},
+            #{line.RS},
+            #{line.ST},
+            #{line.TU},
+            #{line.UV},
+            #{line.VW},
+            #{line.WX},
+            #{line.XY},
+            #{line.YZ}
+            )
+        </foreach>
+        ;
+    </insert>
+
+</mapper>

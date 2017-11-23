@@ -16,7 +16,8 @@ public class BasicTripSearchRequest {
     private int year;
     private int month;
     private int day;
-    private double time;
+    private int hour;
+    private int minute;
     private char startStation;
     private char endStation;
 }

@@ -2,6 +2,8 @@ package com.ticketSolder.model.service.rest.impl;
 
 import com.ticketSolder.model.bean.trip.*;
 import com.ticketSolder.model.service.rest.SearchHandler;
+import com.ticketSolder.model.utils.SearchHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +15,8 @@ import java.util.List;
 @Service
 public class SearchHandlerImpl implements SearchHandler {
 
-//    @Autowired
-//    private SearchDao searchDao;
+    @Autowired
+    private SearchHelper searchHelper;
 
     @Override
     public TripSearchResult searchTripInfo(TripRequest tripRequest) {
@@ -34,7 +36,8 @@ public class SearchHandlerImpl implements SearchHandler {
                 tripRequest.getGoYear(),
                 tripRequest.getGoMonth(),
                 tripRequest.getGoDay(),
-                tripRequest.getGoTime(),
+                tripRequest.getGoHour(),
+                tripRequest.getGoMinute(),
                 tripRequest.getGoStartStation(),
                 tripRequest.getGoEndStation()
         );
@@ -54,7 +57,8 @@ public class SearchHandlerImpl implements SearchHandler {
                 tripRequest.getGoYear(),
                 tripRequest.getGoMonth(),
                 tripRequest.getGoDay(),
-                tripRequest.getGoTime(),
+                tripRequest.getGoHour(),
+                tripRequest.getGoMinute(),
                 tripRequest.getGoStartStation(),
                 tripRequest.getGoEndStation()
         );
@@ -65,7 +69,8 @@ public class SearchHandlerImpl implements SearchHandler {
                 tripRequest.getBackYear(),
                 tripRequest.getBackMonth(),
                 tripRequest.getBackDay(),
-                tripRequest.getBackTime(),
+                tripRequest.getBackHour(),
+                tripRequest.getBackMinute(),
                 tripRequest.getBackStartStation(),
                 tripRequest.getBackEndStation()
         );
@@ -84,7 +89,8 @@ public class SearchHandlerImpl implements SearchHandler {
                 singleTripRequest.getYear(),
                 singleTripRequest.getMonth(),
                 singleTripRequest.getDay(),
-                singleTripRequest.getTime(),
+                singleTripRequest.getHour(),
+                singleTripRequest.getMinute(),
                 singleTripRequest.getStartStation(),
                 singleTripRequest.getEndStation()
         );
@@ -93,24 +99,14 @@ public class SearchHandlerImpl implements SearchHandler {
 
         if (singleTripRequest.isNormal()) {
             tripInfoAggregation.setNormal(true);
-            tripInfoAggregation.setNormalTrainTrips(searchNormalTrainTrip(basicTripSearchRequest));
+            tripInfoAggregation.setNormalTrainTrips(searchHelper.searchNormalTrainTrip(basicTripSearchRequest));
         }
 
         if (singleTripRequest.isFast()) {
             tripInfoAggregation.setNormal(true);
-            tripInfoAggregation.setFastTrainTrips(searchFastTrainTrip(basicTripSearchRequest));
+            tripInfoAggregation.setFastTrainTrips(searchHelper.searchFastTrainTrip(basicTripSearchRequest));
         }
 
         return tripInfoAggregation;
-    }
-
-    private List<TripInfo> searchNormalTrainTrip(BasicTripSearchRequest basicTripSearchRequest) {
-
-        return null;
-    }
-
-    private List<TripInfo> searchFastTrainTrip(BasicTripSearchRequest basicTripSearchRequest) {
-
-        return null;
     }
 }
