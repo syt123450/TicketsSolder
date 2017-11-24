@@ -61,25 +61,61 @@ public class GeneratorUtils {
         basicTransactionInfo.setGoSegments(new ArrayList<>());
         basicTransactionInfo.setBackSegments(new ArrayList<>());
 
-        for (int i = 0; i < transactionUnits.size(); i++) {
-            OutputSegmentInfo outputSegmentInfo = new OutputSegmentInfo(
-                    transactionUnits.get(i).getTrainName(),
-                    transactionUnits.get(i).isFast(),
-                    transactionUnits.get(i).getDay(),
-                    transactionUnits.get(i).getStartTime(),
-                    transactionUnits.get(i).getEndTime(),
-                    transactionUnits.get(i).getStartStation(),
-                    transactionUnits.get(i).getEndStation(),
-                    transactionUnits.get(i).getPrice()
-            );
-
-            if (transactionUnits.get(i).isGo()) {
-                basicTransactionInfo.getGoSegments().add(outputSegmentInfo);
-            } else {
-                basicTransactionInfo.getBackSegments().add(outputSegmentInfo);
-            }
-        }
+//        for (int i = 0; i < transactionUnits.size(); i++) {
+//            OutputSegmentInfo outputSegmentInfo = new OutputSegmentInfo(
+//                    transactionUnits.get(i).getTrainName(),
+//                    transactionUnits.get(i).isFast(),
+//                    transactionUnits.get(i).getDay(),
+//                    transactionUnits.get(i).getStartTime(),
+//                    transactionUnits.get(i).getEndTime(),
+//                    transactionUnits.get(i).getStartStation(),
+//                    transactionUnits.get(i).getEndStation(),
+//                    transactionUnits.get(i).getPrice()
+//            );
+//
+//            if (transactionUnits.get(i).isGo()) {
+//                basicTransactionInfo.getGoSegments().add(outputSegmentInfo);
+//            } else {
+//                basicTransactionInfo.getBackSegments().add(outputSegmentInfo);
+//            }
+//        }
 
         return basicTransactionInfo;
+    }
+
+    public static List<Character> generateStations(char startStation, char endStation) {
+
+        List<Character> stations = new ArrayList<>();
+
+        if (startStation > endStation) {
+            char temp = startStation;
+            startStation = endStation;
+            endStation = temp;
+        }
+
+        for (char i = startStation; i <= endStation; i++) {
+            stations.add(i);
+        }
+
+        return stations;
+
+    }
+
+    public static List<String> generateSegments(char startStation, char endStation) {
+
+
+        List<String> segments = new ArrayList<>();
+
+        if (startStation > endStation) {
+            char temp = startStation;
+            startStation = endStation;
+            endStation = temp;
+        }
+
+        for (char i = startStation; i < endStation; i++) {
+            segments.add("" + i + (char)(i + 1));
+        }
+
+        return segments;
     }
 }

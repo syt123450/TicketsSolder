@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ticketSolder.model.dao.mysql.SearchDao">
+
+    <select id="search" resultType="SearchResultUnit">
+        SELECT
+        TI.trainName          as trainName,
+        TI.isFast             as fast,
+        S.${startStation}     as startTime,
+        S.${endStation}       as endTime,
+        least (
+        <foreach collection="segments" item="segment" index="index" separator=",">
+            TA.${segment}
+        </foreach>
+        )                     as ticketsLeft
+        FROM traininfo as TI, ticketamount as TA, slowschedule as S
+        WHERE TI.trainID = TA.trainID
+        AND TI.trainID = S.trainID
+        AND TI.isFast = FALSE
+        AND TI.direction = #{direction}
+        AND S.${startStation} > #{startTime}
+        AND TA.date = #{startDate}
+        <foreach collection="segments" item="segment" index="index" separator=" ">
+            AND TA.${segment} > 0
+        </foreach>
+    </select>
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ticketSolder.model.dao.mysql.TesterDao">
+
+    <select id="test" parameterType="TestBean" resultType="string">
+
+        select userName from user
+
+        <if test="TestBean.name != null">
+            where userName = "syt123450"
+        </if>
+
+    </select>
+
+    <select id="hello" resultType="string">
+        select U.${name} from user as U
+        where userName = "syt123450";
+    </select>
+
+    <select id="testTime" resultType="string">
+        select trainID from fastschedule
+        where A = #{time};
+    </select>
+
+</mapper>

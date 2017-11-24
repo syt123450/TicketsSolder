@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Time;
+
 /**
  * Created by ss on 2017/11/17.
  */
@@ -15,10 +17,11 @@ public class OutputSegmentInfo {
 
     private String trainName;
     private boolean fast;
-    private String day;
+    private String startDay;
     private String startTime;
+    private String endDay;
     private String endTime;
     private char startStation;
     private char endStation;
-    private double price;
+    private int price;
 }
