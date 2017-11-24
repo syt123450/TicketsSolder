@@ -1,10 +1,11 @@
-package com.ticketSolder.model.utils;
+package com.ticketSolder.model.service.rest.helper;
 
 import com.ticketSolder.model.bean.transaction.BasicTransactionInfo;
 import com.ticketSolder.model.bean.transaction.CreateTransactionRequest;
 import com.ticketSolder.model.bean.transaction.DeleteTransactionRequest;
 import com.ticketSolder.model.dao.mysql.TransactionDao;
 import com.ticketSolder.model.domain.mysql.*;
+import com.ticketSolder.model.utils.GeneratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

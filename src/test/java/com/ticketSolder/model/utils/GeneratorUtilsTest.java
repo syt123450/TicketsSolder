@@ -1,9 +1,8 @@
 package com.ticketSolder.model.utils;
 
+import com.ticketSolder.model.service.rest.helper.SearchHelper;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by ss on 2017/11/24.

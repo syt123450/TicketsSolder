@@ -2,11 +2,9 @@ package com.ticketSolder.model.service.rest.impl;
 
 import com.ticketSolder.model.bean.trip.*;
 import com.ticketSolder.model.service.rest.SearchHandler;
-import com.ticketSolder.model.utils.SearchHelper;
+import com.ticketSolder.model.service.rest.helper.SearchHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by ss on 2017/11/16.

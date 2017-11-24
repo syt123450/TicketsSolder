@@ -2,7 +2,7 @@ package com.ticketSolder.model.service.rest.impl;
 
 import com.ticketSolder.model.bean.Reset.ResetResult;
 import com.ticketSolder.model.service.rest.ResetHandler;
-import com.ticketSolder.model.utils.ResetHelper;
+import com.ticketSolder.model.service.rest.helper.ResetHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

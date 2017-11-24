@@ -3,7 +3,7 @@ package com.ticketSolder.model.service.rest.impl;
 import com.ticketSolder.model.bean.transaction.*;
 import com.ticketSolder.model.domain.mysql.UserInfo;
 import com.ticketSolder.model.service.rest.TransactionHandler;
-import com.ticketSolder.model.utils.TransactionHelper;
+import com.ticketSolder.model.service.rest.helper.TransactionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -13,5 +13,10 @@ import java.util.List;
 public interface TicketsDao {
 
     void clearTicketsHistory();
+
     void insertNewTickets(@Param("lines") List<TicketsLine> lines);
+
+    void updateTickets(@Param("trainName") String trainName,
+                       @Param("segments") List<String> segments,
+                       @Param("date") Date date);
 }

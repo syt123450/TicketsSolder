@@ -3,6 +3,7 @@ package com.ticketSolder.model.dao.mysql;
 import com.ticketSolder.model.domain.mysql.SearchResultUnit;
 import com.ticketSolder.model.utils.GeneratorUtils;
 import org.apache.ibatis.annotations.Param;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,8 @@ public class SearchDaoTest {
     private SearchDao searchDao;
 
     @Test
+    @Ignore
     public void testSearch() {
-
-//        List<SearchResultUnit> search(@Param("startDate") Date startDate,
-//                @Param("startTime") Time startTime,
-//        @Param("startStation") char startStation,
-//        @Param("endStation") char endStation,
-//        @Param("segments") List<String> segments,
-//        @Param("direction") boolean direction);
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 2017);

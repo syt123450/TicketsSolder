@@ -1,10 +1,12 @@
-package com.ticketSolder.model.utils;
+package com.ticketSolder.model.service.rest.helper;
 
 import com.ticketSolder.model.bean.trip.BasicTripSearchRequest;
 import com.ticketSolder.model.bean.trip.OutputSegmentInfo;
 import com.ticketSolder.model.bean.trip.TripInfo;
 import com.ticketSolder.model.dao.mysql.SearchDao;
 import com.ticketSolder.model.domain.mysql.SearchResultUnit;
+import com.ticketSolder.model.utils.GeneratorUtils;
+import com.ticketSolder.model.utils.PriceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +37,7 @@ public class SearchHelper {
         startCalendar.set(Calendar.DAY_OF_MONTH, basicTripSearchRequest.getDay());
         startCalendar.set(Calendar.HOUR_OF_DAY, basicTripSearchRequest.getHour());
         startCalendar.set(Calendar.MINUTE, basicTripSearchRequest.getMinute());
+        startCalendar.set(Calendar.SECOND, 0);
         startCalendar.set(Calendar.MILLISECOND, 0);
 
         Date startDate = new Date(startCalendar.getTimeInMillis());

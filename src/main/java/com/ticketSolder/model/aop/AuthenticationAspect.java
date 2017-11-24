@@ -24,7 +24,7 @@ public class AuthenticationAspect {
     @Autowired
     private UserHandler userHandler;
 
-    @Pointcut("execution(public * com.ticketSolder.model.utils.TransactionHelper.*(..))")
+    @Pointcut("execution(public * com.ticketSolder.model.service.rest.helper.TransactionHelper.*(..))")
     public void Transaction(){}
 
     @Before("Transaction()")

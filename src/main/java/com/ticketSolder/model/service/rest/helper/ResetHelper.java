@@ -1,4 +1,4 @@
-package com.ticketSolder.model.utils;
+package com.ticketSolder.model.service.rest.helper;
 
 import com.ticketSolder.model.dao.mysql.TicketsDao;
 import com.ticketSolder.model.domain.mysql.TicketsLine;
