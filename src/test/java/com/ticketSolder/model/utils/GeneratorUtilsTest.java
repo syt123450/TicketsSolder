@@ -11,15 +11,7 @@ public class GeneratorUtilsTest {
 
     @Test
     @Ignore
-    public void testGenerateStations() {
-        SearchHelper searchHelper = new SearchHelper();
-        System.out.println(GeneratorUtils.generateStations('C', 'A'));
-    }
-
-    @Test
-    @Ignore
     public void testGenerateSegments() {
-        SearchHelper searchHelper = new SearchHelper();
         System.out.println(GeneratorUtils.generateSegments('A', 'C'));
     }
 }

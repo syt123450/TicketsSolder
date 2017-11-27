@@ -2,6 +2,8 @@ package com.ticketSolder.model.bean.cancel;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * Created by ss on 2017/11/27.
  */
@@ -11,4 +13,5 @@ public class CancelResult {
 
     private boolean result;
     private String reason;
+    private List<UnbookedUser> unbookedUsers;
 }

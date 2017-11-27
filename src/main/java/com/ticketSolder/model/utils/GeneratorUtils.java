@@ -1,6 +1,8 @@
 package com.ticketSolder.model.utils;
 
+import com.ticketSolder.model.bean.cancel.CanceledTransactionInfo;
 import com.ticketSolder.model.bean.transaction.BasicTransactionInfo;
+import com.ticketSolder.model.bean.transaction.CreateTransactionRequest;
 import com.ticketSolder.model.bean.transaction.TransactionOutputSegmentInfo;
 import com.ticketSolder.model.bean.trip.InputSegmentInfo;
 import com.ticketSolder.model.domain.mysql.SegmentInsertionUnit;
@@ -9,6 +11,7 @@ import com.ticketSolder.model.domain.mysql.TransactionUnit;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -18,9 +21,12 @@ import java.util.List;
  */
 public class GeneratorUtils {
 
+    private static final String DATE_FORMAT = "yyyy-MM-DD";
+    private static final String TIME_FORMAT = "HH:mm";
+
     public static SegmentInsertionUnit generateSegmentUnit(TransactionTableUnit transactionTableUnit,
-                                                     InputSegmentInfo inputSegmentInfo,
-                                                     int segmentNumber) {
+                                                           InputSegmentInfo inputSegmentInfo,
+                                                           int segmentNumber) {
 
         Calendar dayCalendar = Calendar.getInstance();
         dayCalendar.set(Calendar.YEAR, inputSegmentInfo.getYear());
@@ -40,7 +46,6 @@ public class GeneratorUtils {
         return new SegmentInsertionUnit(
                 transactionTableUnit.getTransactionId(),
                 inputSegmentInfo.getTrainName(),
-                inputSegmentInfo.isFast(),
                 new Date(dayCalendar.getTimeInMillis()),
                 new Time(startCalendar.getTimeInMillis()),
                 new Time(endCalendar.getTimeInMillis()),
@@ -48,58 +53,75 @@ public class GeneratorUtils {
                 inputSegmentInfo.getStartStation(),
                 inputSegmentInfo.getEndStation(),
                 segmentNumber,
+                inputSegmentInfo.isFast(),
                 inputSegmentInfo.getStartStation() - inputSegmentInfo.getEndStation() < 0
         );
     }
 
     public static BasicTransactionInfo generateBasicTransactionInfo(List<TransactionUnit> transactionUnits) {
 
-        BasicTransactionInfo basicTransactionInfo = new BasicTransactionInfo();
-        basicTransactionInfo.setRound(transactionUnits.get(0).isRound());
-        basicTransactionInfo.setUserName(transactionUnits.get(0).getUserName());
-        basicTransactionInfo.setTransactionId(transactionUnits.get(0).getTransactionId());
+        //init basicTransaction unit
 
-        basicTransactionInfo.setGoSegments(new ArrayList<>());
-        basicTransactionInfo.setBackSegments(new ArrayList<>());
+        BasicTransactionInfo basicTransactionInfo = new BasicTransactionInfo(
+                transactionUnits.get(0).getUserName(),
+                transactionUnits.get(0).getTransactionId(),
+                transactionUnits.get(0).isCanceled(),
+                transactionUnits.get(0).isRound()
+        );
 
-        for (int i = 0; i < transactionUnits.size(); i++) {
-            TransactionOutputSegmentInfo outputSegmentInfo = new TransactionOutputSegmentInfo(
-//                    transactionUnits.get(i).getTrainName(),
-//                    transactionUnits.get(i).isFast(),
-//                    transactionUnits.get(i).getDay(),
-//                    transactionUnits.get(i).getStartTime(),
-//                    transactionUnits.get(i).getEndTime(),
-//                    transactionUnits.get(i).getStartStation(),
-//                    transactionUnits.get(i).getEndStation(),
-//                    transactionUnits.get(i).getPrice()
+        //init direction
+
+        boolean lastDirection = transactionUnits.get(0).isGo();
+
+        //prepare for formatter
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT);
+        SimpleDateFormat timeFormatter = new SimpleDateFormat(TIME_FORMAT);
+
+        //add detailed information
+
+        Calendar startCalendar = Calendar.getInstance();
+        Calendar endCalendar = Calendar.getInstance();
+
+        for (TransactionUnit transactionUnit : transactionUnits) {
+
+            startCalendar.setTime(transactionUnit.getDay());
+            startCalendar.setTime(transactionUnit.getStartTime());
+
+            endCalendar = TimeUtils.getEndCalendar(
+                    transactionUnit.getDay(),
+                    transactionUnit.getEndTime(),
+                    startCalendar,
+                    endCalendar
             );
 
-            if (transactionUnits.get(i).isGo()) {
+            TransactionOutputSegmentInfo outputSegmentInfo = new TransactionOutputSegmentInfo(
+                    transactionUnit.getTrainName(),
+                    transactionUnit.isFast(),
+                    dateFormatter.format(startCalendar),
+                    timeFormatter.format(startCalendar),
+                    dateFormatter.format(endCalendar),
+                    timeFormatter.format(endCalendar),
+                    transactionUnit.getStartStation(),
+                    transactionUnit.getEndStation(),
+                    transactionUnit.getPrice()
+            );
+
+            //judge whether have back in this transaction, if exist, add to back list
+
+            if (transactionUnit.isGo() == lastDirection) {
                 basicTransactionInfo.getGoSegments().add(outputSegmentInfo);
             } else {
                 basicTransactionInfo.getBackSegments().add(outputSegmentInfo);
             }
+
+            //update the direction
+
+            lastDirection = transactionUnit.isGo();
         }
+
 
         return basicTransactionInfo;
-    }
-
-    public static List<Character> generateStations(char startStation, char endStation) {
-
-        List<Character> stations = new ArrayList<>();
-
-        if (startStation > endStation) {
-            char temp = startStation;
-            startStation = endStation;
-            endStation = temp;
-        }
-
-        for (char i = startStation; i <= endStation; i++) {
-            stations.add(i);
-        }
-
-        return stations;
-
     }
 
     public static List<String> generateSegments(char startStation, char endStation) {
@@ -114,9 +136,26 @@ public class GeneratorUtils {
         }
 
         for (char i = startStation; i < endStation; i++) {
-            segments.add("" + i + (char)(i + 1));
+            segments.add("" + i + (char) (i + 1));
         }
 
         return segments;
+    }
+
+    public static List<Long> generateTransactionIds(List<CanceledTransactionInfo> canceledTransactionInfoList) {
+
+        List<Long> transactionIds = new ArrayList<>();
+
+        for (CanceledTransactionInfo canceledTransactionInfo: canceledTransactionInfoList) {
+            transactionIds.add(canceledTransactionInfo.getTransactionId());
+        }
+
+        return transactionIds;
+    }
+
+    public static List<CreateTransactionRequest> generateCreateTransactionRequestList(
+            List<CanceledTransactionInfo> canceledTransactionInfoList) {
+
+        return null;
     }
 }

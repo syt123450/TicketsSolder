@@ -18,7 +18,6 @@ public class SegmentInsertionUnit {
 
     private long transactionId;
     private String trainName;
-    private boolean fast;
     private Date day;
     private Time startTime;
     private Time endTime;
@@ -26,5 +25,6 @@ public class SegmentInsertionUnit {
     private char startStation;
     private char endStation;
     private int segmentNumber;
+    private boolean fast;
     private boolean direction;
 }

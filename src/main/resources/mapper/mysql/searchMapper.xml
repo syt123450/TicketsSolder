@@ -17,7 +17,7 @@
         WHERE TI.trainID = TA.trainID
         AND TI.trainID = S.trainID
         AND TI.isFast = FALSE
-        AND TI.direction = #{direction}
+        AND TI.go = #{go}
         AND S.${startStation} > #{startTime}
         AND TA.date = #{startDate}
         <foreach collection="segments" item="segment" index="index" separator=" ">

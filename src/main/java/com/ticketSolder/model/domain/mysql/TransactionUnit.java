@@ -2,6 +2,10 @@ package com.ticketSolder.model.domain.mysql;
 
 import lombok.Data;
 
+import java.sql.Date;
+import java.sql.Time;
+
+
 /**
  * Created by ss on 2017/11/16.
  */
@@ -10,6 +14,7 @@ import lombok.Data;
 public class TransactionUnit {
 
     private long transactionId;
+    private boolean canceled;
     private boolean round;
     private String userName;
 
@@ -18,11 +23,10 @@ public class TransactionUnit {
 
     private String trainName;
     private boolean fast;
-    private String day;
-    private String startTime;
-    private String endTime;
+    private Date day;
+    private Time startTime;
+    private Time endTime;
     private char startStation;
     private char endStation;
-    private double price;
-
+    private int price;
 }

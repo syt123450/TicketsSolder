@@ -7,6 +7,7 @@ import com.ticketSolder.model.dao.mysql.SearchDao;
 import com.ticketSolder.model.domain.mysql.SearchResultUnit;
 import com.ticketSolder.model.utils.GeneratorUtils;
 import com.ticketSolder.model.utils.PriceUtils;
+import com.ticketSolder.model.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,31 +25,29 @@ import java.util.List;
 @Component
 public class SearchHelper {
 
+    private static final String DATE_FORMAT = "yyyy-MM-DD";
+    private static final String TIME_FORMAT = "HH:mm";
+
     @Autowired
     private SearchDao searchDao;
 
     public List<TripInfo> searchNormalTrainTrip(BasicTripSearchRequest basicTripSearchRequest) {
 
-        List<TripInfo> tripInfoList = new ArrayList<>();
+        //prepare for the parameter for search
 
-        Calendar startCalendar = Calendar.getInstance();
-        startCalendar.set(Calendar.YEAR, basicTripSearchRequest.getYear());
-        startCalendar.set(Calendar.MONTH, basicTripSearchRequest.getMonth());
-        startCalendar.set(Calendar.DAY_OF_MONTH, basicTripSearchRequest.getDay());
-        startCalendar.set(Calendar.HOUR_OF_DAY, basicTripSearchRequest.getHour());
-        startCalendar.set(Calendar.MINUTE, basicTripSearchRequest.getMinute());
-        startCalendar.set(Calendar.SECOND, 0);
-        startCalendar.set(Calendar.MILLISECOND, 0);
+        Calendar startCalendar = TimeUtils.getStartCalendarForSearch(basicTripSearchRequest);
 
         Date startDate = new Date(startCalendar.getTimeInMillis());
         Time startTime = new Time(startCalendar.getTimeInMillis());
-
-        boolean direction = basicTripSearchRequest.getEndStation() - basicTripSearchRequest.getStartStation() > 0;
 
         List<String> segments = GeneratorUtils.generateSegments(
                 basicTripSearchRequest.getStartStation(),
                 basicTripSearchRequest.getEndStation()
         );
+
+        boolean direction = basicTripSearchRequest.getEndStation() - basicTripSearchRequest.getStartStation() > 0;
+
+        //execute search to get the basic result
 
         List<SearchResultUnit> searchResultUnits = searchDao.search(startDate,
                 startTime,
@@ -57,42 +56,42 @@ public class SearchHelper {
                 segments,
                 direction);
 
-        SimpleDateFormat dateFormatter=new SimpleDateFormat("yyyy-MM-DD");
-        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
+        //format the result
+
+        List<TripInfo> tripInfoList = new ArrayList<>();
+
+        SimpleDateFormat dateFormatter=new SimpleDateFormat(DATE_FORMAT);
+        SimpleDateFormat timeFormatter = new SimpleDateFormat(TIME_FORMAT);
 
         Calendar trainStart = Calendar.getInstance();
         Calendar trainEnd = Calendar.getInstance();
 
-        for (int i = 0; i < searchResultUnits.size(); i++) {
+        for (SearchResultUnit searchResultUnit: searchResultUnits) {
+
             TripInfo tripInfo = new TripInfo();
             List<SearchOutputSegmentInfo> searchOutputSegmentInfoList = new ArrayList<>();
 
-            Time trainStartTime = searchResultUnits.get(i).getStartTime();
-            Time trainEndTime = searchResultUnits.get(i).getEndTime();
+            trainStart.setTime(startDate);
+
+            Time trainStartTime = searchResultUnit.getStartTime();
+            Time trainEndTime = searchResultUnit.getEndTime();
             trainStart.setTime(trainStartTime);
-            trainEnd.setTime(trainEndTime);
-            trainEnd.add(Calendar.MINUTE, -3);
+            trainEnd = TimeUtils.getEndCalendar(startDate, trainEndTime, trainStart, trainEnd);
 
-            if (trainStart.getTimeInMillis() > trainEnd.getTimeInMillis()) {
-                trainEnd.add(Calendar.DAY_OF_MONTH, 1);
-            }
-
-            SearchOutputSegmentInfo searchOutputSegmentInfo = new SearchOutputSegmentInfo();
-
-            searchOutputSegmentInfo.setTrainName(searchResultUnits.get(i).getTrainName());
-            searchOutputSegmentInfo.setFast(searchResultUnits.get(i).isFast());
-
-            searchOutputSegmentInfo.setStartDay(dateFormatter.format(startCalendar));
-            searchOutputSegmentInfo.setStartTime(timeFormatter.format(trainStartTime));
-            searchOutputSegmentInfo.setEndDay(dateFormatter.format(trainEnd));
-            searchOutputSegmentInfo.setEndTime(timeFormatter.format(trainEndTime));
-
-            searchOutputSegmentInfo.setStartStation(basicTripSearchRequest.getStartStation());
-            searchOutputSegmentInfo.setEndStation(basicTripSearchRequest.getEndStation());
-            searchOutputSegmentInfo.setPrice(PriceUtils.getPrice(false,
+            SearchOutputSegmentInfo searchOutputSegmentInfo = new SearchOutputSegmentInfo(
+                    searchResultUnit.getTrainName(),
+                    searchResultUnit.isFast(),
+                    dateFormatter.format(startCalendar),
+                    timeFormatter.format(startCalendar),
+                    dateFormatter.format(trainEnd),
+                    timeFormatter.format(trainEnd),
                     basicTripSearchRequest.getStartStation(),
-                    basicTripSearchRequest.getEndStation()));
-            searchOutputSegmentInfo.setTicketsLeft(searchResultUnits.get(i).getTicketsLeft());
+                    basicTripSearchRequest.getEndStation(),
+                    PriceUtils.getPrice(false,
+                            basicTripSearchRequest.getStartStation(),
+                            basicTripSearchRequest.getEndStation()),
+                    searchResultUnit.getTicketsLeft()
+            );
 
             searchOutputSegmentInfoList.add(searchOutputSegmentInfo);
             tripInfo.setSegments(searchOutputSegmentInfoList);

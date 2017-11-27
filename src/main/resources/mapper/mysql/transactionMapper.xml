@@ -14,7 +14,6 @@
         insert into segment (
             transactionId,
             trainName,
-            fast,
             day,
             startTime,
             endTime,
@@ -22,14 +21,14 @@
             startStation,
             endStation,
             segmentNumber,
-            direction
+            fast,
+            direction,
         )
         VALUES
         <foreach collection="segmentInsertionUnits" item="segment" index="index" separator=",">
             (
               #{segment.transactionId},
               #{segment.trainName},
-              #{segment.fast},
               #{segment.day},
               #{segment.startTime},
               #{segment.endTime},
@@ -37,6 +36,7 @@
               #{segment.startStation},
               #{segment.endStation},
               #{segment.segmentNumber},
+              #{segment.fast},
               #{segment.direction}
             )
         </foreach>
@@ -54,17 +54,19 @@
     <select id="searchTransactionsByName" parameterType="string" resultType="TransactionUnit">
         SELECT
           t.transactionId                   AS transactionId,
+          t.canceled                        AS canceled,
           t.round                           AS round,
           u.userName                        AS userName,
           s.trainName                       AS trainName,
           s.fast                            AS fast,
-          DATE_FORMAT(s.day, "%Y-%c-%d")    AS day,
-          TIME_FORMAT(s.startTime, "%h:%i") AS startTime,
-          TIME_FORMAT(s.endTime, "%h:%i")   AS endTime,
+          s.day                             AS day,
+          s.startTime                       AS startTime,
+          s.endTime                         AS endTime,
           s.startStation                    AS startStation,
           s.endStation                      AS endStation,
-          s.price                           AS price
-          s.segmentNumber                   AS segmentNumber
+          s.price                           AS price,
+          s.segmentNumber                   AS segmentNumber,
+          s.direction                       AS go
         FROM user AS u, segment AS s, transaction AS t
         WHERE u.userID = t.userId
         AND t.transactionId = s.transactionId

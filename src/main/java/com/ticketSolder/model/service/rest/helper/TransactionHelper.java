@@ -33,7 +33,6 @@ public class TransactionHelper {
     @Autowired
     private TicketsDao ticketsDao;
 
-
     public List<BasicTransactionInfo> searchHelper(UserInfo userInfo) throws Exception {
 
         Map<Long, List<TransactionUnit>> IdMap = transactionDao.searchTransactionsByName(userInfo.getUserName()).

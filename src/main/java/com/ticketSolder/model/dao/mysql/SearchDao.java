@@ -17,5 +17,5 @@ public interface SearchDao {
                                   @Param("startStation") char startStation,
                                   @Param("endStation") char endStation,
                                   @Param("segments") List<String> segments,
-                                  @Param("direction") boolean direction);
+                                  @Param("go") boolean direction);
 }
