@@ -11,5 +11,5 @@ import java.util.List;
 @Data
 public class TripInfo {
 
-    private List<OutputSegmentInfo> segments;
+    private List<SearchOutputSegmentInfo> segments;
 }

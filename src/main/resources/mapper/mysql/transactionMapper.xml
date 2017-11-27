@@ -22,7 +22,7 @@
             startStation,
             endStation,
             segmentNumber,
-            go
+            direction
         )
         VALUES
         <foreach collection="segmentInsertionUnits" item="segment" index="index" separator=",">
@@ -37,7 +37,7 @@
               #{segment.startStation},
               #{segment.endStation},
               #{segment.segmentNumber},
-              #{segment.go}
+              #{segment.direction}
             )
         </foreach>
         ;
@@ -72,8 +72,12 @@
         ORDER BY t.transactionId, s.segmentNumber
     </select>
 
-    <select id="searchTransactionStations" parameterType="long" resultType="SegmentStationInfo">
-        select startStation, endStation
+    <select id="searchTransactionTicketsInfo" parameterType="long" resultType="SegmentStationInfo">
+        select
+          trainName          AS trainName,
+          day                AS day
+          startStation       AS startStation,
+          endStation         AS endStation
         FROM segment
         WHERE segment.transactionId = #{transactionId}
     </select>

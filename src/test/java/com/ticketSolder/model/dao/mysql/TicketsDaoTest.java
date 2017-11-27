@@ -1,7 +1,6 @@
 package com.ticketSolder.model.dao.mysql;
 
 import com.ticketSolder.model.utils.GeneratorUtils;
-import org.apache.ibatis.annotations.Param;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by ss on 2017/11/22.
@@ -48,6 +45,6 @@ public class TicketsDaoTest {
 
         System.out.println(date);
 
-        ticketsDao.updateTickets(trainName, segments, date);
+        ticketsDao.purchaseTickets(trainName, segments, date);
     }
 }

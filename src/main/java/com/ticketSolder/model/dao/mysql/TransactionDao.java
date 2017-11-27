@@ -1,7 +1,7 @@
 package com.ticketSolder.model.dao.mysql;
 
 import com.ticketSolder.model.domain.mysql.SegmentInsertionUnit;
-import com.ticketSolder.model.domain.mysql.SegmentStationInfo;
+import com.ticketSolder.model.domain.mysql.SegmentTicketInfo;
 import com.ticketSolder.model.domain.mysql.TransactionTableUnit;
 import com.ticketSolder.model.domain.mysql.TransactionUnit;
 import org.apache.ibatis.annotations.Param;
@@ -15,7 +15,7 @@ public interface TransactionDao {
 
     List<TransactionUnit> searchTransactionsByName(@Param("userName") String userName);
 
-    List<SegmentStationInfo> searchTransactionStations(@Param("transactionId") long transactionId);
+    List<SegmentTicketInfo> searchTransactionTicketsInfo(@Param("transactionId") long transactionId);
 
     int deleteTransaction(@Param("transactionId") long transactionId);
 

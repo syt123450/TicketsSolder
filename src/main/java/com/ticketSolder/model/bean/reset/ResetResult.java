@@ -1,4 +1,4 @@
-package com.ticketSolder.model.bean.Reset;
+package com.ticketSolder.model.bean.reset;
 
 import lombok.Data;
 

@@ -3,14 +3,18 @@ package com.ticketSolder.model.service.rest.helper;
 import com.ticketSolder.model.bean.transaction.BasicTransactionInfo;
 import com.ticketSolder.model.bean.transaction.CreateTransactionRequest;
 import com.ticketSolder.model.bean.transaction.DeleteTransactionRequest;
+import com.ticketSolder.model.dao.mysql.TicketsDao;
 import com.ticketSolder.model.dao.mysql.TransactionDao;
 import com.ticketSolder.model.domain.mysql.*;
 import com.ticketSolder.model.utils.GeneratorUtils;
+import com.ticketSolder.model.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +30,9 @@ public class TransactionHelper {
 
     @Autowired
     private TransactionDao transactionDao;
+    @Autowired
+    private TicketsDao ticketsDao;
+
 
     public List<BasicTransactionInfo> searchHelper(UserInfo userInfo) throws Exception {
 
@@ -58,11 +65,13 @@ public class TransactionHelper {
             throw new Exception("Failed to create basic transaction.");
         }
 
-        List<SegmentInsertionUnit> segments = new ArrayList<>();
+        List<SegmentInsertionUnit> segmentsInsertionInfo = new ArrayList<>();
         int segmentNumber = 0;
 
+        //insert transaction log into database
+
         for (int i = 0; i < createTransactionRequest.getGoSegments().size(); i++) {
-            segments.add(GeneratorUtils.generateSegmentUnit(transactionTableUnit,
+            segmentsInsertionInfo.add(GeneratorUtils.generateSegmentUnit(transactionTableUnit,
                     createTransactionRequest.getGoSegments().get(i),
                     segmentNumber));
             segmentNumber++;
@@ -70,16 +79,48 @@ public class TransactionHelper {
 
         if (createTransactionRequest.isRound()) {
             for (int i = 0; i < createTransactionRequest.getBackSegments().size(); i++) {
-                segments.add(GeneratorUtils.generateSegmentUnit(transactionTableUnit,
+                segmentsInsertionInfo.add(GeneratorUtils.generateSegmentUnit(transactionTableUnit,
                         createTransactionRequest.getBackSegments().get(i),
                         segmentNumber));
                 segmentNumber++;
             }
         }
 
-        transactionDao.createDetailedTransactions(segments);
+        transactionDao.createDetailedTransactions(segmentsInsertionInfo);
 
-        //need to update in memory data here
+        //update the tickets table
+
+        for (int i = 0; i < createTransactionRequest.getGoSegments().size(); i++) {
+            ticketsDao.purchaseTickets(
+                    createTransactionRequest.getGoSegments().get(i).getTrainName(),
+                    GeneratorUtils.generateSegments(
+                            createTransactionRequest.getGoSegments().get(i).getStartStation(),
+                            createTransactionRequest.getGoSegments().get(i).getEndStation()
+                    ),
+                    TimeUtils.getSQLDate(
+                            createTransactionRequest.getGoSegments().get(i).getYear(),
+                            createTransactionRequest.getGoSegments().get(i).getMonth(),
+                            createTransactionRequest.getGoSegments().get(i).getDay()
+                    )
+            );
+        }
+
+        if (createTransactionRequest.isRound()) {
+            for (int i = 0; i < createTransactionRequest.getBackSegments().size(); i++) {
+                ticketsDao.purchaseTickets(
+                        createTransactionRequest.getBackSegments().get(i).getTrainName(),
+                        GeneratorUtils.generateSegments(
+                                createTransactionRequest.getBackSegments().get(i).getStartStation(),
+                                createTransactionRequest.getBackSegments().get(i).getEndStation()
+                        ),
+                        TimeUtils.getSQLDate(
+                                createTransactionRequest.getBackSegments().get(i).getYear(),
+                                createTransactionRequest.getBackSegments().get(i).getMonth(),
+                                createTransactionRequest.getBackSegments().get(i).getDay()
+                        )
+                );
+            }
+        }
     }
 
     @Transactional
@@ -87,11 +128,24 @@ public class TransactionHelper {
                              DeleteTransactionRequest deleteTransactionRequest)
             throws Exception {
 
-        List<SegmentStationInfo> stationPairs =
-                transactionDao.searchTransactionStations(deleteTransactionRequest.getTransactionId());
+        //delete transaction log
 
         transactionDao.deleteTransaction(deleteTransactionRequest.getTransactionId());
 
-        //need to update in memory data here
+        //"return" tickets to tickets table
+
+        List<SegmentTicketInfo> ticketsInfo =
+                transactionDao.searchTransactionTicketsInfo(deleteTransactionRequest.getTransactionId());
+
+        for (SegmentTicketInfo ticketInfo: ticketsInfo) {
+            ticketsDao.returnTickets(
+                    ticketInfo.getTrainName(),
+                    GeneratorUtils.generateSegments(
+                            ticketInfo.getStartStation(),
+                            ticketInfo.getEndStation()
+                    ),
+                    ticketInfo.getDay()
+            );
+        }
     }
 }

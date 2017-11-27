@@ -1,6 +1,6 @@
 package com.ticketSolder.model.service.rest.impl;
 
-import com.ticketSolder.model.bean.Reset.ResetResult;
+import com.ticketSolder.model.bean.reset.ResetResult;
 import com.ticketSolder.model.service.rest.ResetHandler;
 import com.ticketSolder.model.service.rest.helper.ResetHelper;
 import org.springframework.beans.factory.annotation.Autowired;

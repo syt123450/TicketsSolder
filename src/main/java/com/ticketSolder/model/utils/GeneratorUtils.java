@@ -1,8 +1,8 @@
 package com.ticketSolder.model.utils;
 
 import com.ticketSolder.model.bean.transaction.BasicTransactionInfo;
+import com.ticketSolder.model.bean.transaction.TransactionOutputSegmentInfo;
 import com.ticketSolder.model.bean.trip.InputSegmentInfo;
-import com.ticketSolder.model.bean.trip.OutputSegmentInfo;
 import com.ticketSolder.model.domain.mysql.SegmentInsertionUnit;
 import com.ticketSolder.model.domain.mysql.TransactionTableUnit;
 import com.ticketSolder.model.domain.mysql.TransactionUnit;
@@ -47,7 +47,8 @@ public class GeneratorUtils {
                 inputSegmentInfo.getPrice(),
                 inputSegmentInfo.getStartStation(),
                 inputSegmentInfo.getEndStation(),
-                segmentNumber
+                segmentNumber,
+                inputSegmentInfo.getStartStation() - inputSegmentInfo.getEndStation() < 0
         );
     }
 
@@ -61,8 +62,8 @@ public class GeneratorUtils {
         basicTransactionInfo.setGoSegments(new ArrayList<>());
         basicTransactionInfo.setBackSegments(new ArrayList<>());
 
-//        for (int i = 0; i < transactionUnits.size(); i++) {
-//            OutputSegmentInfo outputSegmentInfo = new OutputSegmentInfo(
+        for (int i = 0; i < transactionUnits.size(); i++) {
+            TransactionOutputSegmentInfo outputSegmentInfo = new TransactionOutputSegmentInfo(
 //                    transactionUnits.get(i).getTrainName(),
 //                    transactionUnits.get(i).isFast(),
 //                    transactionUnits.get(i).getDay(),
@@ -71,14 +72,14 @@ public class GeneratorUtils {
 //                    transactionUnits.get(i).getStartStation(),
 //                    transactionUnits.get(i).getEndStation(),
 //                    transactionUnits.get(i).getPrice()
-//            );
-//
-//            if (transactionUnits.get(i).isGo()) {
-//                basicTransactionInfo.getGoSegments().add(outputSegmentInfo);
-//            } else {
-//                basicTransactionInfo.getBackSegments().add(outputSegmentInfo);
-//            }
-//        }
+            );
+
+            if (transactionUnits.get(i).isGo()) {
+                basicTransactionInfo.getGoSegments().add(outputSegmentInfo);
+            } else {
+                basicTransactionInfo.getBackSegments().add(outputSegmentInfo);
+            }
+        }
 
         return basicTransactionInfo;
     }

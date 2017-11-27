@@ -16,7 +16,11 @@ public interface TicketsDao {
 
     void insertNewTickets(@Param("lines") List<TicketsLine> lines);
 
-    void updateTickets(@Param("trainName") String trainName,
+    void purchaseTickets(@Param("trainName") String trainName,
+                         @Param("segments") List<String> segments,
+                         @Param("date") Date date);
+
+    void returnTickets(@Param("trainName") String trainName,
                        @Param("segments") List<String> segments,
                        @Param("date") Date date);
 }

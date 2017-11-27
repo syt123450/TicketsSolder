@@ -1,19 +1,13 @@
-package com.ticketSolder.model.bean.trip;
+package com.ticketSolder.model.bean.transaction;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.sql.Time;
 
 /**
- * Created by ss on 2017/11/17.
+ * Created by ss on 2017/11/24.
  */
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class OutputSegmentInfo {
+public class TransactionOutputSegmentInfo {
 
     private String trainName;
     private boolean fast;

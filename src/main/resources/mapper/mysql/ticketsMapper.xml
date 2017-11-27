@@ -71,12 +71,24 @@
         ;
     </insert>
 
-    <update id="updateTickets">
+    <update id="purchaseTickets">
         UPDATE ticketamount as TA
         JOIN traininfo as TI on TI.trainID = TA.trainID
         SET
         <foreach collection="segments" item="segment" index="index" separator=",">
             TA.${segment} = TA.${segment} - 1
+        </foreach>
+        WHERE TI.trainName = #{trainName}
+        AND TA.date = #{date}
+        ;
+    </update>
+
+    <update id="returnTickets">
+        UPDATE ticketamount as TA
+        JOIN traininfo as TI on TI.trainID = TA.trainID
+        SET
+        <foreach collection="segments" item="segment" index="index" separator=",">
+            TA.${segment} = TA.${segment} + 1
         </foreach>
         WHERE TI.trainName = #{trainName}
         AND TA.date = #{date}

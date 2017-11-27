@@ -107,6 +107,6 @@ public class MybatisTest {
     @Test
     @Ignore
     public void testSearchTransactionStations() {
-        transactionDao.searchTransactionStations(6).forEach(System.out::println);
+        transactionDao.searchTransactionTicketsInfo(6).forEach(System.out::println);
     }
 }

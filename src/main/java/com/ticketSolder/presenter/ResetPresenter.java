@@ -26,7 +26,7 @@ class ResetPresenter {
     private ResetHandler resetHandler;
 
     @RequestMapping("/reset/{initNumber}")
-    private String searchTrip(@PathVariable(value = "initNumber", required = true) int initNumber) {
+    private String searchTrip(@PathVariable(value = "initNumber") int initNumber) {
 
         logger.info("Reset system.");
 

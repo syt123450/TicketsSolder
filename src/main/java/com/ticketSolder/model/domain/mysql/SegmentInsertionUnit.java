@@ -26,4 +26,5 @@ public class SegmentInsertionUnit {
     private char startStation;
     private char endStation;
     private int segmentNumber;
+    private boolean direction;
 }
