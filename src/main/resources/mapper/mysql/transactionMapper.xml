@@ -51,6 +51,13 @@
         WHERE segment.transactionId = #{transactionId};
     </delete>
 
+    <delete id="deleteAllTransactions">
+        DELETE segment, transaction
+        FROM segment
+          LEFT JOIN transaction
+            ON segment.transactionId = transaction.transactionId
+    </delete>
+
     <select id="searchTransactionsByName" parameterType="string" resultType="TransactionUnit">
         SELECT
           t.transactionId                   AS transactionId,

@@ -19,6 +19,8 @@ public interface TransactionDao {
 
     int deleteTransaction(@Param("transactionId") long transactionId);
 
+    int deleteAllTransactions();
+
     int createTransactionAndGetId(TransactionTableUnit transactionTableUnit);
 
     int createDetailedTransactions(@Param("segmentInsertionUnits") List<SegmentInsertionUnit> segmentInsertionUnits);

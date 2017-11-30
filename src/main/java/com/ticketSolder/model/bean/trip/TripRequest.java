@@ -28,4 +28,6 @@ public class TripRequest {
     private int backMinute;
     private char backStartStation;
     private char backEndStation;
+
+    private int connections;
 }

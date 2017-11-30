@@ -22,4 +22,5 @@ public class SingleTripRequest {
     private int minute;
     private char startStation;
     private char endStation;
+    private int connections;
 }

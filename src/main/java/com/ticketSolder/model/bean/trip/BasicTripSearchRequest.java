@@ -20,4 +20,5 @@ public class BasicTripSearchRequest {
     private int minute;
     private char startStation;
     private char endStation;
+    private int connections;
 }
