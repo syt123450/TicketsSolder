@@ -8,6 +8,7 @@ import com.ticketSolder.model.bean.transaction.CreateTransactionRequest;
 import com.ticketSolder.model.bean.transaction.TransactionOutputSegmentInfo;
 import com.ticketSolder.model.bean.trip.*;
 import com.ticketSolder.model.domain.mysql.SegmentInsertionUnit;
+import com.ticketSolder.model.domain.mysql.TicketsLine;
 import com.ticketSolder.model.domain.mysql.TransactionTableUnit;
 import com.ticketSolder.model.domain.mysql.TransactionUnit;
 
@@ -143,6 +144,26 @@ public class GeneratorUtils {
         return segments;
     }
 
+    public static List<TicketsLine> generateTicketsLine(int initNumber) {
+
+        List<TicketsLine> ticketsLines = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+
+        for (int i = 0; i < 30; i++) {
+
+            for (int j = 1; j <= 122; j++) {
+
+                TicketsLine ticketsLine = new TicketsLine(j, new Date(calendar.getTimeInMillis()), initNumber);
+                ticketsLines.add(ticketsLine);
+            }
+
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        return ticketsLines;
+    }
+
     public static List<Long> generateTransactionIds(List<CanceledTransactionInfo> canceledTransactionInfoList) {
 
         List<Long> transactionIds = new ArrayList<>();
@@ -164,6 +185,7 @@ public class GeneratorUtils {
             RebookRequest rebookRequest = new RebookRequest(
                     canceledTransactionInfo.getUserName(),
                     canceledTransactionInfo.getPassword(),
+                    canceledTransactionInfo.getPassengers(),
                     generateTripRequestFromCancelInfo(canceledTransactionInfo)
             );
 
@@ -181,6 +203,7 @@ public class GeneratorUtils {
 
         createTransactionRequest.setUserName(rebookRequest.getUserName());
         createTransactionRequest.setPassword(rebookRequest.getPassword());
+        createTransactionRequest.setPassengers(rebookRequest.getPassengers());
         createTransactionRequest.setRound(tripSearchResult.isRound());
 
         boolean isFast = tripSearchResult.getGoTripInfoAggregation().isFast() ||

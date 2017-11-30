@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
  * Created by ss on 2017/11/16.
  */
 
-
 @Aspect
 @Component
 public class AuthenticationAspect {

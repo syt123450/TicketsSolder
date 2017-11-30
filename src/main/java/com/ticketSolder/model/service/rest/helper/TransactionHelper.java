@@ -55,7 +55,8 @@ public class TransactionHelper {
 
         TransactionTableUnit transactionTableUnit = new TransactionTableUnit(
                 userInfo.getUserName(),
-                createTransactionRequest.isRound()
+                createTransactionRequest.isRound(),
+                createTransactionRequest.getPassengers()
         );
 
         int transactionResult = transactionDao.createTransactionAndGetId(transactionTableUnit);

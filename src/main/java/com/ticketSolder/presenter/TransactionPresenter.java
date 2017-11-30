@@ -25,8 +25,8 @@ class TransactionPresenter {
     private Logger logger = Logger.getLogger(TransactionPresenter.class);
 
     @RequestMapping("/check/{userName}/{password}")
-    private String checkTransaction(@PathVariable(value = "userName", required = true) String userName,
-                                    @PathVariable(value = "password", required = true) String password) {
+    private String checkTransaction(@PathVariable(value = "userName") String userName,
+                                    @PathVariable(value = "password") String password) {
 
         logger.info("Check transaction for specific user.");
 
@@ -44,9 +44,9 @@ class TransactionPresenter {
     }
 
     @RequestMapping("/delete/{userName}/{password}/{transactionId}")
-    private String deleteTransaction(@PathVariable(value = "userName", required = true) String userName,
-                                     @PathVariable(value = "password", required = true) String password,
-                                     @PathVariable(value = "transactionId", required = true) long transactionId) {
+    private String deleteTransaction(@PathVariable(value = "userName") String userName,
+                                     @PathVariable(value = "password") String password,
+                                     @PathVariable(value = "transactionId") long transactionId) {
 
         logger.info("Delete transaction.");
 

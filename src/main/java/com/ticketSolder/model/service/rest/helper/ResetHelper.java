@@ -2,6 +2,7 @@ package com.ticketSolder.model.service.rest.helper;
 
 import com.ticketSolder.model.dao.mysql.TicketsDao;
 import com.ticketSolder.model.domain.mysql.TicketsLine;
+import com.ticketSolder.model.utils.GeneratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,26 +26,6 @@ public class ResetHelper {
     public void deleteAndInit(int initNumber) {
 
         ticketsDao.clearTicketsHistory();
-        ticketsDao.insertNewTickets(generateTicketsLine(initNumber));
-    }
-
-    private List<TicketsLine> generateTicketsLine(int initNumber) {
-
-        List<TicketsLine> ticketsLines = new ArrayList<>();
-
-        Calendar calendar = Calendar.getInstance();
-
-        for (int i = 0; i < 30; i++) {
-
-            for (int j = 1; j <= 122; j++) {
-
-                TicketsLine ticketsLine = new TicketsLine(j, new Date(calendar.getTimeInMillis()), initNumber);
-                ticketsLines.add(ticketsLine);
-            }
-
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-        }
-
-        return ticketsLines;
+        ticketsDao.insertNewTickets(GeneratorUtils.generateTicketsLine(initNumber));
     }
 }

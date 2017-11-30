@@ -16,10 +16,12 @@ public class TransactionTableUnit {
     private String userName;
     private long transactionId;
     private boolean round;
+    private int passengers;
 
-    public TransactionTableUnit(String userName, boolean round) {
+    public TransactionTableUnit(String userName, boolean round, int passengers) {
         this.userName = userName;
         this.round = round;
+        this.passengers = passengers;
         this.transactionId = 0;
     }
 }

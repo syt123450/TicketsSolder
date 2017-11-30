@@ -17,6 +17,7 @@ public class CreateTransactionRequest {
     private String password;
 
     private boolean round;
+    private int passengers;
 
     private List<InputSegmentInfo> goSegments;
     private List<InputSegmentInfo> backSegments;

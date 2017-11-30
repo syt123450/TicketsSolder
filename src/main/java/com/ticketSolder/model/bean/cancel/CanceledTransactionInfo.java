@@ -16,6 +16,7 @@ public class CanceledTransactionInfo {
     private String password;
 
     private boolean round;
+    private int passengers;
 
     private List<CanceledSegmentInfo> canceledSegmentInfoList;
 }

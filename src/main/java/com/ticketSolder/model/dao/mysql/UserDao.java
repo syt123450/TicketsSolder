@@ -12,7 +12,8 @@ public interface UserDao {
                    @Param("password") String password,
                    @Param("email") String email);
 
-    UserInfo searchUser(@Param("userName") String userName, @Param("password") String password);
+    UserInfo searchUser(@Param("userName") String userName,
+                        @Param("password") String password);
 
     UserInfo searchUserByName(@Param("userName") String userName);
 

@@ -33,18 +33,44 @@ public class TicketsDaoTest {
     @Ignore
     public void testUpdateTickets() {
 
+        ticketsDao.insertNewTickets(GeneratorUtils.generateTicketsLine(1000));
+    }
+
+    @Test
+    @Ignore
+    public void testPurchaseTickets() {
+
         String trainName = "SB0600";
         List<String> segments = GeneratorUtils.generateSegments('A', 'K');
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 2017);
         calendar.set(Calendar.MONTH, 10);
-        calendar.set(Calendar.DAY_OF_MONTH, 23);
+        calendar.set(Calendar.DAY_OF_MONTH, 30);
 
         Date date = new Date(calendar.getTimeInMillis());
 
         System.out.println(date);
 
         ticketsDao.purchaseTickets(trainName, segments, date);
+    }
+
+    @Test
+    @Ignore
+    public void testReturnTickets() {
+
+        String trainName = "SB0600";
+        List<String> segments = GeneratorUtils.generateSegments('A', 'K');
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2017);
+        calendar.set(Calendar.MONTH, 10);
+        calendar.set(Calendar.DAY_OF_MONTH, 30);
+
+        Date date = new Date(calendar.getTimeInMillis());
+
+        System.out.println(date);
+
+        ticketsDao.returnTickets(trainName, segments, date);
     }
 }

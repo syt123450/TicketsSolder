@@ -35,7 +35,7 @@ public class SearchDaoTest {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 2017);
         calendar.set(Calendar.MONTH, 10);
-        calendar.set(Calendar.DAY_OF_MONTH, 23);
+        calendar.set(Calendar.DAY_OF_MONTH, 30);
         calendar.set(Calendar.HOUR_OF_DAY, 8);
         calendar.set(Calendar.MINUTE, 10);
         calendar.set(Calendar.SECOND, 0);
@@ -48,6 +48,6 @@ public class SearchDaoTest {
         List<String> segments = GeneratorUtils.generateSegments(startStation, endStation);
         boolean direction = true;
 
-        System.out.println(searchDao.search(startDate, startTime, startStation, endStation, segments, direction));
+        searchDao.search(startDate, startTime, startStation, endStation, segments, direction).forEach(System.out::println);
     }
 }

@@ -1,6 +1,5 @@
 package com.ticketSolder.model.utils;
 
-import com.ticketSolder.model.service.rest.helper.SearchHelper;
 import org.junit.Ignore;
 import org.junit.Test;
 

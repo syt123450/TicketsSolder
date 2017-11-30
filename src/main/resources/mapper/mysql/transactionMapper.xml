@@ -4,8 +4,8 @@
 
     <insert id="createTransactionAndGetId" parameterType="TransactionTableUnit"
             useGeneratedKeys="true" keyProperty="transactionId">
-        insert into transaction (userId, round)
-          select userId, #{round}
+        insert into transaction (userId, round, passengers)
+          select userId, #{round}, #{passengers}
           from user
           where userName = #{userName};
     </insert>
@@ -22,7 +22,7 @@
             endStation,
             segmentNumber,
             fast,
-            direction,
+            direction
         )
         VALUES
         <foreach collection="segmentInsertionUnits" item="segment" index="index" separator=",">
@@ -74,10 +74,10 @@
         ORDER BY t.transactionId, s.segmentNumber
     </select>
 
-    <select id="searchTransactionTicketsInfo" parameterType="long" resultType="SegmentStationInfo">
+    <select id="searchTransactionTicketsInfo" parameterType="long" resultType="SegmentTicketInfo">
         select
           trainName          AS trainName,
-          day                AS day
+          day                AS day,
           startStation       AS startStation,
           endStation         AS endStation
         FROM segment

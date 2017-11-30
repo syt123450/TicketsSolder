@@ -1,8 +1,9 @@
-package com.ticketSolder;
+package com.ticketSolder.model.dao.mysql;
 
-import com.ticketSolder.model.dao.mysql.TransactionDao;
 import com.ticketSolder.model.domain.mysql.SegmentInsertionUnit;
+import com.ticketSolder.model.domain.mysql.SegmentTicketInfo;
 import com.ticketSolder.model.domain.mysql.TransactionTableUnit;
+import com.ticketSolder.model.domain.mysql.TransactionUnit;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,24 +11,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.sql.Date;
 
-
+import static org.junit.Assert.*;
 
 /**
- * Created by ss on 2017/11/16.
+ * Created by ss on 2017/11/29.
  */
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class MybatisTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class TransactionDaoTest {
 
     @Autowired
     private TransactionDao transactionDao;
+
+    @Test
+    @Ignore
+    public void testSearchTransactionsByName() {
+        List<TransactionUnit> transactionUnits = transactionDao.searchTransactionsByName("syt123450");
+        transactionUnits.forEach(System.out::println);
+    }
+
+    @Test
+    @Ignore
+    public void testSearchTransactionTicketsInfo() {
+        long transactionId = 8;
+        List<SegmentTicketInfo> segmentTicketInfoList = transactionDao.searchTransactionTicketsInfo(transactionId);
+        segmentTicketInfoList.forEach(System.out::println);
+    }
+
+    @Test
+    @Ignore
+    public void testDeleteTransaction() {
+        long transactionId = 8;
+        transactionDao.deleteTransaction(transactionId);
+    }
 
     @Test
     @Ignore
@@ -35,6 +58,7 @@ public class MybatisTest {
         TransactionTableUnit transactionTableUnit = new TransactionTableUnit();
         transactionTableUnit.setUserName("syt123450");
         transactionTableUnit.setRound(true);
+        transactionTableUnit.setPassengers(5);
         transactionDao.createTransactionAndGetId(transactionTableUnit);
         System.out.println(transactionTableUnit.getTransactionId());
     }
@@ -43,10 +67,6 @@ public class MybatisTest {
     @Ignore
     public void testCreateDetailedTransactions() {
 
-        SegmentInsertionUnit segmentInsertionUnit1 = new SegmentInsertionUnit();
-
-        segmentInsertionUnit1.setTransactionId(4);
-        segmentInsertionUnit1.setTrainName("kkk");
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2000);
         cal.set(Calendar.MONTH, 0);
@@ -55,19 +75,21 @@ public class MybatisTest {
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
-        segmentInsertionUnit1.setDay(new Date(cal.getTimeInMillis()));
-        segmentInsertionUnit1.setStartTime(new Time(cal.getTimeInMillis()));
-        segmentInsertionUnit1.setEndTime(new Time(cal.getTimeInMillis()));
-        segmentInsertionUnit1.setPrice(1);
-        segmentInsertionUnit1.setStartStation('B');
-        segmentInsertionUnit1.setEndStation('C');
-        segmentInsertionUnit1.setSegmentNumber(2);
-        segmentInsertionUnit1.setFast(true);
 
-        SegmentInsertionUnit segmentInsertionUnit2 = new SegmentInsertionUnit();
+        SegmentInsertionUnit segmentInsertionUnit1 = new SegmentInsertionUnit(
+                8,
+                "kkk",
+                new Date(cal.getTimeInMillis()),
+                new Time(cal.getTimeInMillis()),
+                new Time(cal.getTimeInMillis()),
+                20,
+                'B',
+                'C',
+                2,
+                true,
+                true
+        );
 
-        segmentInsertionUnit2.setTransactionId(4);
-        segmentInsertionUnit2.setTrainName("ttt");
         Calendar cal1 = Calendar.getInstance();
         cal1.set(Calendar.YEAR, 2000);
         cal1.set(Calendar.MONTH, 0);
@@ -76,37 +98,25 @@ public class MybatisTest {
         cal1.set(Calendar.MINUTE, 0);
         cal1.set(Calendar.SECOND, 0);
         cal1.set(Calendar.MILLISECOND, 0);
-        segmentInsertionUnit2.setDay(new Date(cal1.getTimeInMillis()));
-        segmentInsertionUnit2.setStartTime(new Time(cal1.getTimeInMillis()));
-        segmentInsertionUnit2.setEndTime(new Time(cal1.getTimeInMillis()));
-        segmentInsertionUnit2.setPrice(1);
-        segmentInsertionUnit2.setStartStation('A');
-        segmentInsertionUnit2.setEndStation('B');
-        segmentInsertionUnit2.setSegmentNumber(1);
-        segmentInsertionUnit2.setFast(false);
+
+        SegmentInsertionUnit segmentInsertionUnit2 = new SegmentInsertionUnit(
+                8,
+                "ttt",
+                new Date(cal1.getTimeInMillis()),
+                new Time(cal1.getTimeInMillis()),
+                new Time(cal1.getTimeInMillis()),
+                3,
+                'A',
+                'B',
+                1,
+                false,
+                true
+        );
 
         List<SegmentInsertionUnit> segmentInsertionUnits = new ArrayList<>();
         segmentInsertionUnits.add(segmentInsertionUnit1);
         segmentInsertionUnits.add(segmentInsertionUnit2);
 
         transactionDao.createDetailedTransactions(segmentInsertionUnits);
-    }
-
-    @Test
-    @Ignore
-    public void testDeleteTransaction() {
-        transactionDao.deleteTransaction(3);
-    }
-
-    @Test
-    @Ignore
-    public void testSearchTransactionsByName() {
-        transactionDao.searchTransactionsByName("syt123450").forEach(System.out::println);
-    }
-
-    @Test
-    @Ignore
-    public void testSearchTransactionStations() {
-        transactionDao.searchTransactionTicketsInfo(6).forEach(System.out::println);
     }
 }
