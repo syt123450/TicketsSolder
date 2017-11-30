@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UnbookedUser {
+public class CanceledUser {
 
     private String userName;
+    private String email;
 }

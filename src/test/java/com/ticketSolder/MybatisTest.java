@@ -58,7 +58,7 @@ public class MybatisTest {
         segmentInsertionUnit1.setDay(new Date(cal.getTimeInMillis()));
         segmentInsertionUnit1.setStartTime(new Time(cal.getTimeInMillis()));
         segmentInsertionUnit1.setEndTime(new Time(cal.getTimeInMillis()));
-        segmentInsertionUnit1.setPrice(1.0);
+        segmentInsertionUnit1.setPrice(1);
         segmentInsertionUnit1.setStartStation('B');
         segmentInsertionUnit1.setEndStation('C');
         segmentInsertionUnit1.setSegmentNumber(2);
@@ -79,7 +79,7 @@ public class MybatisTest {
         segmentInsertionUnit2.setDay(new Date(cal1.getTimeInMillis()));
         segmentInsertionUnit2.setStartTime(new Time(cal1.getTimeInMillis()));
         segmentInsertionUnit2.setEndTime(new Time(cal1.getTimeInMillis()));
-        segmentInsertionUnit2.setPrice(1.0);
+        segmentInsertionUnit2.setPrice(1);
         segmentInsertionUnit2.setStartStation('A');
         segmentInsertionUnit2.setEndStation('B');
         segmentInsertionUnit2.setSegmentNumber(1);

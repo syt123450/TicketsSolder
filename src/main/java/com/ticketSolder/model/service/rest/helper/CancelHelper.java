@@ -1,20 +1,20 @@
 package com.ticketSolder.model.service.rest.helper;
 
-import com.sun.tools.javac.jvm.Gen;
 import com.ticketSolder.model.bean.cancel.CancelRequest;
 import com.ticketSolder.model.bean.cancel.CanceledTransactionInfo;
 import com.ticketSolder.model.bean.cancel.RebookRequest;
-import com.ticketSolder.model.bean.cancel.UnbookedUser;
+import com.ticketSolder.model.bean.cancel.CanceledUser;
 import com.ticketSolder.model.bean.transaction.CreateTransactionRequest;
 import com.ticketSolder.model.bean.transaction.TransactionCreationResult;
-import com.ticketSolder.model.bean.trip.TripRequest;
 import com.ticketSolder.model.bean.trip.TripSearchResult;
 import com.ticketSolder.model.dao.mysql.CancelDao;
 import com.ticketSolder.model.service.rest.SearchHandler;
 import com.ticketSolder.model.service.rest.TransactionHandler;
+import com.ticketSolder.model.utils.EmailUtils;
 import com.ticketSolder.model.utils.GeneratorUtils;
 import com.ticketSolder.model.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.EmitUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,7 +47,7 @@ public class CancelHelper {
     private TransactionHandler transactionHandler;
 
     @Transactional
-    public List<UnbookedUser> cancel(CancelRequest cancelRequest) throws Exception {
+    public List<CanceledUser> cancel(CancelRequest cancelRequest) throws Exception {
 
         Date date = TimeUtils.getSQLDate(
                 cancelRequest.getYear(),
@@ -70,20 +70,24 @@ public class CancelHelper {
         cancelExistTickets(transactionIds);
 
         //create list to store the user whose transaction can not be created
-        List<UnbookedUser> unbookedUserList = new ArrayList<>();
+        List<CanceledUser> canceledUserList = new ArrayList<>();
+        List<CanceledUser> rebookUserList = new ArrayList<>();
 
         //prepare search requests for search
         List<RebookRequest> rebookRequests = GeneratorUtils.generateTripRequestList(canceledTransactionInfoList);
 
         //search the tickets, prepare transaction request list for create new transaction for user whose transaction been canceled
         List<CreateTransactionRequest> createTransactionRequestList =
-                searchForRebookTickets(rebookRequests, unbookedUserList);
+                searchForRebookTickets(rebookRequests, canceledUserList);
 
         //rebook tickets for users whose transaction been canceled due to cancel of the train
-        rebook(createTransactionRequestList, unbookedUserList);
+        rebook(createTransactionRequestList, canceledUserList, rebookUserList);
+
+        //send email to user to notify that the train has been canceled
+        sendMailToUser(canceledUserList, rebookUserList);
 
         //return the user list whose transaction can not be rebook
-        return unbookedUserList;
+        return canceledUserList;
     }
 
     private void validateTime(CancelRequest cancelRequest) throws Exception {
@@ -136,22 +140,22 @@ public class CancelHelper {
 
     private List<CreateTransactionRequest> searchForRebookTickets(
             List<RebookRequest> rebookRequests,
-            List<UnbookedUser> unbookedUserList) throws Exception {
+            List<CanceledUser> canceledUserList) throws Exception {
 
         List<CreateTransactionRequest> createTransactionRequestList = new ArrayList<>();
 
         try {
 
-            for (RebookRequest rebookRequest: rebookRequests) {
+            for (RebookRequest rebookRequest : rebookRequests) {
                 TripSearchResult tripSearchResult = searchHandler.searchTripInfo(rebookRequest.getTripRequest());
 
                 //if the go trip result size is 0 or request is round and back trip size is 0, define no ticket for this user
                 if (tripSearchResult.getGoTripInfoAggregation().getNormalTrainTrips().size() == 0 ||
                         (rebookRequest.getTripRequest().isRound()
-                        && tripSearchResult.getBackTripInfoAggregation().getNormalTrainTrips().size() == 0)) {
-                    unbookedUserList.add(new UnbookedUser(
-                            rebookRequest.getUserName()
-                    ));
+                                && tripSearchResult.getBackTripInfoAggregation().getNormalTrainTrips().size() == 0)) {
+                    CanceledUser canceledUser = new CanceledUser();
+                    canceledUser.setUserName(rebookRequest.getUserName());
+                    canceledUserList.add(canceledUser);
                 } else {
                     CreateTransactionRequest createTransactionRequest =
                             GeneratorUtils.generateCreationRequestFromSearch(tripSearchResult, rebookRequest);
@@ -168,18 +172,22 @@ public class CancelHelper {
 
     private void rebook(
             List<CreateTransactionRequest> createTransactionRequestList,
-            List<UnbookedUser> unbookedUserList) throws Exception {
+            List<CanceledUser> canceledUserList,
+            List<CanceledUser> rebookUserList) throws Exception {
 
         try {
 
-            for (CreateTransactionRequest createTransactionRequest: createTransactionRequestList) {
+            for (CreateTransactionRequest createTransactionRequest : createTransactionRequestList) {
                 TransactionCreationResult transactionCreationResult =
                         transactionHandler.createTransaction(createTransactionRequest);
+
+                CanceledUser canceledUser = new CanceledUser();
+                canceledUser.setUserName(createTransactionRequest.getUserName());
+
                 if (!transactionCreationResult.isResult()) {
-                    UnbookedUser unbookedUser = new UnbookedUser(
-                            createTransactionRequest.getUserName()
-                    );
-                    unbookedUserList.add(unbookedUser);
+                    canceledUserList.add(canceledUser);
+                } else {
+                    rebookUserList.add(canceledUser);
                 }
             }
 
@@ -187,5 +195,12 @@ public class CancelHelper {
             e.printStackTrace();
             throw new Exception(FAIL_REBOOK_MESSAGE);
         }
+    }
+
+    private void sendMailToUser(List<CanceledUser> canceledUserList,
+                                List<CanceledUser> rebookUserList) {
+
+        EmailUtils.sendFailedRebookEmail(canceledUserList);
+        EmailUtils.sendRebookEmail(rebookUserList);
     }
 }

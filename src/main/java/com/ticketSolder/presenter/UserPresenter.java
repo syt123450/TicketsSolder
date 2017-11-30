@@ -2,6 +2,7 @@ package com.ticketSolder.presenter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ticketSolder.model.bean.user.CreateUserRequest;
 import com.ticketSolder.model.bean.user.UserInfoRequest;
 import com.ticketSolder.model.service.rest.UserHandler;
 import org.apache.log4j.Logger;
@@ -41,8 +42,10 @@ class UserPresenter {
 
         logger.info("Register new user.");
 
-        UserInfoRequest userInfoRequest = gson.fromJson(body, UserInfoRequest.class);
+        CreateUserRequest createUserRequest = gson.fromJson(body, CreateUserRequest.class);
 
-        return gson.toJson(userHandler.createUser(userInfoRequest.getUserName(), userInfoRequest.getPassword()));
+        return gson.toJson(userHandler.createUser(createUserRequest.getUserName(),
+                        createUserRequest.getPassword(),
+                        createUserRequest.getEmail()));
     }
 }

@@ -28,8 +28,8 @@
     </select>
     
     <insert id="createUser" parameterType="string">
-        insert into user (userName, password)
-        values (#{userName}, #{password})
+        insert into user (userName, password, email)
+        values (#{userName}, #{password}, #{email})
     </insert>
 
 </mapper>

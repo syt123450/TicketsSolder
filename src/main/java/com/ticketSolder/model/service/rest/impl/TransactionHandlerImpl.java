@@ -1,9 +1,11 @@
 package com.ticketSolder.model.service.rest.impl;
 
 import com.ticketSolder.model.bean.transaction.*;
+import com.ticketSolder.model.dao.mysql.UserDao;
 import com.ticketSolder.model.domain.mysql.UserInfo;
 import com.ticketSolder.model.service.rest.TransactionHandler;
 import com.ticketSolder.model.service.rest.helper.TransactionHelper;
+import com.ticketSolder.model.utils.EmailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ public class TransactionHandlerImpl implements TransactionHandler {
 
     @Autowired
     private TransactionHelper transactionHelper;
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public TransactionAggregation searchTransaction(String userName, String password) {
@@ -51,6 +55,8 @@ public class TransactionHandlerImpl implements TransactionHandler {
         try {
             transactionHelper.creationHelper(userInfo, createTransactionRequest);
             transactionCreationResult.setResult(true);
+            String emailAddress = userDao.getEmailByName(userInfo.getUserName());
+            EmailUtils.sendSuccessEmail(emailAddress);
         } catch (Exception e) {
             e.printStackTrace();
             transactionCreationResult.setResult(false);
@@ -70,6 +76,8 @@ public class TransactionHandlerImpl implements TransactionHandler {
         try {
             transactionHelper.deleteHelper(userInfo, deleteTransactionRequest);
             transactionDeletionResult.setResult(true);
+            String emailAddress = userDao.getEmailByName(userInfo.getUserName());
+            EmailUtils.sendCancelEmail(emailAddress);
         } catch (Exception e) {
             e.printStackTrace();
             transactionDeletionResult.setResult(false);

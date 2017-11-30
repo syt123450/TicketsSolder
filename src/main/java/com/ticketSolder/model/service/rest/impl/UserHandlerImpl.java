@@ -21,7 +21,7 @@ public class UserHandlerImpl implements UserHandler {
     private UserDao userDao;
 
     @Override
-    public UserCreationResult createUser(String userName, String password) {
+    public UserCreationResult createUser(String userName, String password, String email) {
 
         UserCreationResult userCreationResult = new UserCreationResult();
 
@@ -32,7 +32,7 @@ public class UserHandlerImpl implements UserHandler {
             return userCreationResult;
         }
 
-        int result = userDao.createUser(userName, password);
+        int result = userDao.createUser(userName, password, email);
         userCreationResult.setResult(result == 1);
 
         return userCreationResult;

@@ -2,7 +2,6 @@ package com.ticketSolder.model.service.rest.impl;
 
 import com.ticketSolder.model.bean.cancel.CancelRequest;
 import com.ticketSolder.model.bean.cancel.CancelResult;
-import com.ticketSolder.model.dao.mysql.CancelDao;
 import com.ticketSolder.model.service.rest.CancelHandler;
 import com.ticketSolder.model.service.rest.helper.CancelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class CancelHandlerImpl implements CancelHandler {
         CancelResult cancelResult = new CancelResult();
 
         try {
-            cancelResult.setUnbookedUsers(cancelHelper.cancel(cancelRequest));
+            cancelResult.setCanceledUsers(cancelHelper.cancel(cancelRequest));
             cancelResult.setResult(true);
         } catch (Exception e) {
             e.printStackTrace();

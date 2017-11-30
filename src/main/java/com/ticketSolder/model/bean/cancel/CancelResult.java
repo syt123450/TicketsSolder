@@ -13,5 +13,5 @@ public class CancelResult {
 
     private boolean result;
     private String reason;
-    private List<UnbookedUser> unbookedUsers;
+    private List<CanceledUser> canceledUsers;
 }
