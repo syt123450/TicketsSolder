@@ -1,10 +1,12 @@
 package com.ticketSolder.model.utils;
 
+import com.ticketSolder.model.bean.cancel.CanceledSegmentInfo;
 import com.ticketSolder.model.bean.cancel.CanceledTransactionInfo;
+import com.ticketSolder.model.bean.cancel.RebookRequest;
 import com.ticketSolder.model.bean.transaction.BasicTransactionInfo;
 import com.ticketSolder.model.bean.transaction.CreateTransactionRequest;
 import com.ticketSolder.model.bean.transaction.TransactionOutputSegmentInfo;
-import com.ticketSolder.model.bean.trip.InputSegmentInfo;
+import com.ticketSolder.model.bean.trip.*;
 import com.ticketSolder.model.domain.mysql.SegmentInsertionUnit;
 import com.ticketSolder.model.domain.mysql.TransactionTableUnit;
 import com.ticketSolder.model.domain.mysql.TransactionUnit;
@@ -120,7 +122,6 @@ public class GeneratorUtils {
             lastDirection = transactionUnit.isGo();
         }
 
-
         return basicTransactionInfo;
     }
 
@@ -146,16 +147,178 @@ public class GeneratorUtils {
 
         List<Long> transactionIds = new ArrayList<>();
 
-        for (CanceledTransactionInfo canceledTransactionInfo: canceledTransactionInfoList) {
+        for (CanceledTransactionInfo canceledTransactionInfo : canceledTransactionInfoList) {
             transactionIds.add(canceledTransactionInfo.getTransactionId());
         }
 
         return transactionIds;
     }
 
-    public static List<CreateTransactionRequest> generateCreateTransactionRequestList(
+    public static List<RebookRequest> generateTripRequestList(
             List<CanceledTransactionInfo> canceledTransactionInfoList) {
 
-        return null;
+        List<RebookRequest> rebookRequests = new ArrayList<>();
+
+        for (CanceledTransactionInfo canceledTransactionInfo : canceledTransactionInfoList) {
+
+            RebookRequest rebookRequest = new RebookRequest(
+                    canceledTransactionInfo.getUserName(),
+                    canceledTransactionInfo.getPassword(),
+                    generateTripRequestFromCancelInfo(canceledTransactionInfo)
+            );
+
+            rebookRequests.add(rebookRequest);
+        }
+
+        return rebookRequests;
+    }
+
+    public static CreateTransactionRequest generateCreationRequestFromSearch(
+            TripSearchResult tripSearchResult,
+            RebookRequest rebookRequest) {
+
+        CreateTransactionRequest createTransactionRequest = new CreateTransactionRequest();
+
+        createTransactionRequest.setUserName(rebookRequest.getUserName());
+        createTransactionRequest.setPassword(rebookRequest.getPassword());
+        createTransactionRequest.setRound(tripSearchResult.isRound());
+
+        boolean isFast = tripSearchResult.getGoTripInfoAggregation().isFast() ||
+                tripSearchResult.getBackTripInfoAggregation().isFast();
+
+        List<InputSegmentInfo> goSegments = generateInputSegmentInfoListFromTripInfo(
+                isFast ? tripSearchResult.getGoTripInfoAggregation().getFastTrainTrips().get(0) :
+                        tripSearchResult.getGoTripInfoAggregation().getNormalTrainTrips().get(0)
+        );
+        createTransactionRequest.setGoSegments(goSegments);
+
+        if (tripSearchResult.isRound()) {
+            List<InputSegmentInfo> backSegments = generateInputSegmentInfoListFromTripInfo(
+                    isFast ? tripSearchResult.getBackTripInfoAggregation().getFastTrainTrips().get(0) :
+                            tripSearchResult.getBackTripInfoAggregation().getNormalTrainTrips().get(0)
+            );
+            createTransactionRequest.setBackSegments(backSegments);
+        }
+
+        return createTransactionRequest;
+    }
+
+    private static TripRequest generateTripRequestFromCancelInfo(
+            CanceledTransactionInfo canceledTransactionInfo) {
+
+        TripRequest tripRequest = new TripRequest();
+
+        tripRequest.setRound(canceledTransactionInfo.isRound());
+
+        boolean isFast = false;
+
+        CanceledSegmentInfo firstSegment = canceledTransactionInfo.getCanceledSegmentInfoList().get(0);
+        boolean direction = firstSegment.getStartStation() - firstSegment.getEndStation() < 0;
+        boolean directionChanged = false;
+
+        Calendar startCalendar = TimeUtils.getCalendarFromSQLTimer(
+                firstSegment.getStartDate(),
+                firstSegment.getStartTime()
+        );
+
+        tripRequest.setGoYear(startCalendar.get(Calendar.YEAR));
+        tripRequest.setGoMonth(startCalendar.get(Calendar.MONTH) + 1);
+        tripRequest.setGoDay(startCalendar.get(Calendar.DAY_OF_MONTH));
+        tripRequest.setGoHour(startCalendar.get(Calendar.HOUR_OF_DAY));
+        tripRequest.setGoMinute(startCalendar.get(Calendar.MINUTE));
+
+        char startStation = firstSegment.getStartStation();
+        char endStation = firstSegment.getEndStation();
+
+        tripRequest.setGoStartStation(startStation);
+
+        for (int i = 1; i < canceledTransactionInfo.getCanceledSegmentInfoList().size(); i++) {
+
+            CanceledSegmentInfo canceledSegmentInfo = canceledTransactionInfo.getCanceledSegmentInfoList().get(i);
+
+            if (canceledSegmentInfo.isFast()) {
+                isFast = true;
+            }
+
+            boolean tempDirection =
+                    canceledSegmentInfo.getStartStation() - canceledSegmentInfo.getEndStation() < 0;
+
+            if (tempDirection != direction) {
+
+                directionChanged = true;
+                tripRequest.setGoEndStation(endStation);
+                Calendar backStartCalendar = TimeUtils.getCalendarFromSQLTimer(
+                        canceledSegmentInfo.getStartDate(),
+                        canceledSegmentInfo.getStartTime()
+                );
+                tripRequest.setBackYear(backStartCalendar.get(Calendar.YEAR));
+                tripRequest.setBackMonth(backStartCalendar.get(Calendar.MONTH) + 1);
+                tripRequest.setBackDay(backStartCalendar.get(Calendar.DAY_OF_MONTH));
+                tripRequest.setBackHour(backStartCalendar.get(Calendar.HOUR_OF_DAY));
+                tripRequest.setBackMinute(backStartCalendar.get(Calendar.MINUTE));
+                tripRequest.setBackStartStation(canceledSegmentInfo.getStartStation());
+            }
+
+            endStation = canceledSegmentInfo.getEndStation();
+        }
+
+        if (isFast) {
+            tripRequest.setFast(true);
+            tripRequest.setNormal(false);
+        } else {
+            tripRequest.setFast(false);
+            tripRequest.setNormal(true);
+        }
+
+        if (!directionChanged) {
+            tripRequest.setGoEndStation(endStation);
+        } else {
+            tripRequest.setBackEndStation(endStation);
+        }
+
+        return tripRequest;
+    }
+
+    private static List<InputSegmentInfo> generateInputSegmentInfoListFromTripInfo(
+            TripInfo tripInfo) {
+
+        List<InputSegmentInfo> inputSegmentInfoList = new ArrayList<>();
+
+        for (SearchOutputSegmentInfo searchOutputSegmentInfo : tripInfo.getSegments()) {
+            inputSegmentInfoList.add(generateInputSegmentInfoFromSearchOutput(
+                    searchOutputSegmentInfo
+            ));
+        }
+
+        return inputSegmentInfoList;
+    }
+
+    private static InputSegmentInfo generateInputSegmentInfoFromSearchOutput(
+            SearchOutputSegmentInfo searchOutputSegmentInfo) {
+
+        Calendar startCalendar = TimeUtils.getCalendarFromString(
+                searchOutputSegmentInfo.getStartDay(),
+                searchOutputSegmentInfo.getStartTime()
+        );
+
+        Calendar endCalendar = TimeUtils.getCalendarFromString(
+                searchOutputSegmentInfo.getEndDay(),
+                searchOutputSegmentInfo.getEndTime()
+        );
+
+        return new InputSegmentInfo(
+                searchOutputSegmentInfo.getTrainName(),
+                searchOutputSegmentInfo.isFast(),
+                startCalendar.get(Calendar.YEAR),
+                startCalendar.get(Calendar.MONTH) + 1,
+                startCalendar.get(Calendar.DAY_OF_MONTH),
+                startCalendar.get(Calendar.HOUR_OF_DAY),
+                startCalendar.get(Calendar.MINUTE),
+                endCalendar.get(Calendar.HOUR_OF_DAY),
+                endCalendar.get(Calendar.MINUTE),
+                searchOutputSegmentInfo.getStartStation(),
+                searchOutputSegmentInfo.getEndStation(),
+                searchOutputSegmentInfo.getPrice()
+        );
     }
 }

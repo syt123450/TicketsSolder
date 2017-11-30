@@ -4,12 +4,16 @@ import com.ticketSolder.model.bean.trip.BasicTripSearchRequest;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
  * Created by ss on 2017/11/27.
  */
 public class TimeUtils {
+
+    private static final String DATE_FORMAT = "yyyy-MM-DD";
+    private static final String TIME_FORMAT = "HH:mm";
 
     public static Date getSQLDate(int year, int month, int day) {
 
@@ -47,5 +51,31 @@ public class TimeUtils {
         startCalendar.set(Calendar.MILLISECOND, 0);
 
         return startCalendar;
+    }
+
+    public static Calendar getCalendarFromSQLTimer(Date date, Time time) {
+
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(date);
+        calendar.setTime(time);
+
+        return calendar;
+    }
+
+    public static Calendar getCalendarFromString(String dateString, String timeString) {
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Calendar calendar = Calendar.getInstance();
+
+        try {
+            calendar.setTime(
+                    simpleDateFormat.parse(dateString + " " + timeString)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return calendar;
     }
 }

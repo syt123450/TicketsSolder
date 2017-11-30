@@ -21,7 +21,7 @@ public class SegmentInsertionUnit {
     private Date day;
     private Time startTime;
     private Time endTime;
-    private double price;
+    private int price;
     private char startStation;
     private char endStation;
     private int segmentNumber;
