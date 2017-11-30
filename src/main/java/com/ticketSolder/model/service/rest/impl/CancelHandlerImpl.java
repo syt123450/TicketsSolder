@@ -5,6 +5,7 @@ import com.ticketSolder.model.bean.cancel.CancelResult;
 import com.ticketSolder.model.service.rest.CancelHandler;
 import com.ticketSolder.model.service.rest.helper.CancelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
+@Profile("dev")
 public class CancelHandlerImpl implements CancelHandler {
 
     @Autowired

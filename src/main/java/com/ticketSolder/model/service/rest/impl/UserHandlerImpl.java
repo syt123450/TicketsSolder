@@ -6,6 +6,7 @@ import com.ticketSolder.model.bean.user.UserCreationResult;
 import com.ticketSolder.model.domain.mysql.UserInfo;
 import com.ticketSolder.model.service.rest.UserHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
+@Profile("dev")
 public class UserHandlerImpl implements UserHandler {
 
     private static final String FAIL_MESSAGE = "User already existed.";

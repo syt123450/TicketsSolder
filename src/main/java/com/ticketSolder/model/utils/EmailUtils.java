@@ -72,7 +72,7 @@ public class EmailUtils {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("syt123450@gmail.com"));
+            message.setFrom(new InternetAddress(senderName));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(address));
             message.setSubject(subject);

@@ -7,6 +7,7 @@ import com.ticketSolder.model.service.rest.TransactionHandler;
 import com.ticketSolder.model.service.rest.helper.TransactionHelper;
 import com.ticketSolder.model.utils.EmailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 
 @Service
+@Profile("dev")
 public class TransactionHandlerImpl implements TransactionHandler {
 
     private static final String FAIL_REASON = "Transaction failed.";

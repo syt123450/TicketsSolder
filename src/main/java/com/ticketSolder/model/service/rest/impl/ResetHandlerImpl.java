@@ -4,6 +4,7 @@ import com.ticketSolder.model.bean.reset.ResetResult;
 import com.ticketSolder.model.service.rest.ResetHandler;
 import com.ticketSolder.model.service.rest.helper.ResetHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
+@Profile("dev")
 public class ResetHandlerImpl implements ResetHandler {
 
     @Autowired

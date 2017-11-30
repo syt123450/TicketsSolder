@@ -4,6 +4,7 @@ import com.ticketSolder.model.bean.trip.*;
 import com.ticketSolder.model.service.rest.SearchHandler;
 import com.ticketSolder.model.service.rest.helper.SearchHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
+@Profile("dev")
 public class SearchHandlerImpl implements SearchHandler {
 
     @Autowired
