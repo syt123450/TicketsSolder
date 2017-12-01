@@ -8,6 +8,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by ss on 2017/11/29.
@@ -19,7 +21,7 @@ public class EmailUtils {
 
     private static final String SUCCESS_SUBJECT = "Successfully Booking";
     private static final String SUCCESS_MESSAGE = "Hello, you successfully book the ticket right now.";
-    private static final String CANCEL_SUBJECT  = "Cancel Notification";
+    private static final String CANCEL_SUBJECT = "Cancel Notification";
     private static final String CANCEL_MESSAGE = "You successfully canceled your ticket right now.";
     private static final String REBOOK_SUBJECT = "Rebook Notification";
     private static final String REBOOK_MESSAGE = "Sorry to rebook your ticket as train canceled.";
@@ -28,6 +30,8 @@ public class EmailUtils {
 
     private static Session session;
     private static Logger logger = Logger.getLogger(EmailUtils.class);
+
+    private static ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     static {
         Properties props = new Properties();
@@ -46,7 +50,12 @@ public class EmailUtils {
 
     public static void sendSuccessEmail(String emailAddress) {
 
-        send(emailAddress, SUCCESS_SUBJECT, SUCCESS_MESSAGE);
+//        send(emailAddress, SUCCESS_SUBJECT, SUCCESS_MESSAGE);
+
+        executorService.execute(
+                new SendTask(emailAddress, SUCCESS_SUBJECT, SUCCESS_MESSAGE)
+        );
+
     }
 
     public static void sendCancelEmail(String emailAddress) {
@@ -54,36 +63,74 @@ public class EmailUtils {
         send(emailAddress, CANCEL_SUBJECT, CANCEL_MESSAGE);
     }
 
-    public static void sendRebookEmail(List<CanceledUser> rebookUsers)  {
+    public static void sendRebookEmail(List<CanceledUser> rebookUsers) {
 
-        for (CanceledUser rebookUser: rebookUsers) {
+        for (CanceledUser rebookUser : rebookUsers) {
             send(rebookUser.getEmail(), REBOOK_SUBJECT, REBOOK_MESSAGE);
         }
     }
 
     public static void sendFailedRebookEmail(List<CanceledUser> canceledUsers) {
 
-        for (CanceledUser canceledUser: canceledUsers) {
+        for (CanceledUser canceledUser : canceledUsers) {
             send(canceledUser.getEmail(), FAILED_REBOOK_SUBJECT, FAILED_REBOOK_MESSAGE);
         }
     }
 
     private static void send(String address, String subject, String text) {
-        try {
 
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(senderName));
-            message.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(address));
-            message.setSubject(subject);
-            message.setText(text);
+    }
 
-            Transport.send(message);
+//    private static void send(String address, String subject, String text) {
+//        try {
+//
+//            Message message = new MimeMessage(session);
+//            message.setFrom(new InternetAddress(senderName));
+//            message.setRecipients(Message.RecipientType.TO,
+//                    InternetAddress.parse(address));
+//            message.setSubject(subject);
+//            message.setText(text);
+//
+//            Transport.send(message);
+//
+//            logger.info("Send message to " + address);
+//
+//        } catch (MessagingException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
-            logger.info("Send message to " + address);
+    private static class SendTask implements Runnable {
 
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
+        private String address;
+        private String subject;
+        private String text;
+
+        public SendTask(String address, String subject, String text) {
+
+            this.address = address;
+            this.subject = subject;
+            this.text = text;
+        }
+
+        @Override
+        public void run() {
+            try {
+
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(senderName));
+                message.setRecipients(Message.RecipientType.TO,
+                        InternetAddress.parse(address));
+                message.setSubject(subject);
+                message.setText(text);
+
+                Transport.send(message);
+
+                logger.info("Send message to " + address);
+
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

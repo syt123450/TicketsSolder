@@ -40,7 +40,8 @@ public class SearchHandlerImpl implements SearchHandler {
                 tripRequest.getGoMinute(),
                 tripRequest.getGoStartStation(),
                 tripRequest.getGoEndStation(),
-                tripRequest.getConnections()
+                tripRequest.getConnections(),
+                tripRequest.isExactly()
         );
 
         TripSearchResult tripSearchResult = new TripSearchResult();
@@ -62,7 +63,8 @@ public class SearchHandlerImpl implements SearchHandler {
                 tripRequest.getGoMinute(),
                 tripRequest.getGoStartStation(),
                 tripRequest.getGoEndStation(),
-                tripRequest.getConnections()
+                tripRequest.getConnections(),
+                tripRequest.isExactly()
         );
 
         SingleTripRequest backTripRequest = new SingleTripRequest(
@@ -75,7 +77,8 @@ public class SearchHandlerImpl implements SearchHandler {
                 tripRequest.getBackMinute(),
                 tripRequest.getBackStartStation(),
                 tripRequest.getBackEndStation(),
-                tripRequest.getConnections()
+                tripRequest.getConnections(),
+                tripRequest.isExactly()
         );
 
         TripSearchResult tripSearchResult = new TripSearchResult();
@@ -96,7 +99,8 @@ public class SearchHandlerImpl implements SearchHandler {
                 singleTripRequest.getMinute(),
                 singleTripRequest.getStartStation(),
                 singleTripRequest.getEndStation(),
-                singleTripRequest.getConnections()
+                singleTripRequest.getConnections(),
+                singleTripRequest.isExactly()
         );
 
         TripInfoAggregation tripInfoAggregation = new TripInfoAggregation();

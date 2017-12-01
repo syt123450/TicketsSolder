@@ -23,4 +23,5 @@ public class SingleTripRequest {
     private char startStation;
     private char endStation;
     private int connections;
+    private boolean exactly;
 }

@@ -33,6 +33,7 @@ public class ResetHelperTest {
     }
 
     @Test
+    @Ignore
     public void testDeleteAndInit() {
         resetHelper.deleteAndInit(1000);
     }

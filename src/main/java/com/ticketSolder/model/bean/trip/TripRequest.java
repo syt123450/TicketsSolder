@@ -30,4 +30,5 @@ public class TripRequest {
     private char backEndStation;
 
     private int connections;
+    private boolean exactly;
 }
