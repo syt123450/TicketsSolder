@@ -22,4 +22,16 @@
         where A = #{time};
     </select>
 
+    <select id="testIf" resultType="string">
+        select
+        <if test="fast == true">
+            userName
+        </if>
+        <if test="fast == false">
+            password
+        </if>
+        from user
+        WHERE userName = "syt123450";
+    </select>
+
 </mapper>

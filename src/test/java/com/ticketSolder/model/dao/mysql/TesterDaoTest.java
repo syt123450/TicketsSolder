@@ -41,6 +41,7 @@ public class TesterDaoTest {
     }
 
     @Test
+    @Ignore
     public void testTestDate() {
 
         Calendar calendar = Calendar.getInstance();
@@ -54,5 +55,11 @@ public class TesterDaoTest {
         System.out.println(date);
 
         System.out.println(testerDao.testTime(date));
+    }
+
+    @Test
+    @Ignore
+    public void testTestIf() {
+        System.out.println(testerDao.testIf(false));
     }
 }

@@ -77,7 +77,7 @@ public class TransactionDaoTest {
         cal.set(Calendar.MILLISECOND, 0);
 
         SegmentInsertionUnit segmentInsertionUnit1 = new SegmentInsertionUnit(
-                8,
+                9,
                 "kkk",
                 new Date(cal.getTimeInMillis()),
                 new Time(cal.getTimeInMillis()),
@@ -100,7 +100,7 @@ public class TransactionDaoTest {
         cal1.set(Calendar.MILLISECOND, 0);
 
         SegmentInsertionUnit segmentInsertionUnit2 = new SegmentInsertionUnit(
-                8,
+                9,
                 "ttt",
                 new Date(cal1.getTimeInMillis()),
                 new Time(cal1.getTimeInMillis()),
@@ -118,5 +118,11 @@ public class TransactionDaoTest {
         segmentInsertionUnits.add(segmentInsertionUnit2);
 
         transactionDao.createDetailedTransactions(segmentInsertionUnits);
+    }
+
+    @Test
+    @Ignore
+    public void testDeleteAllTransactions() {
+        transactionDao.deleteAllTransactions();
     }
 }

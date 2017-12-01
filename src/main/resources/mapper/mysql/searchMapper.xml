@@ -17,6 +17,7 @@
         WHERE TI.trainID = TA.trainID
         AND TI.trainID = S.trainID
         AND TI.isFast = FALSE
+        AND TA.canceled = FALSE
         AND TI.direction = #{direction}
         AND S.${startStation} > #{startTime}
         AND TA.date = #{startDate}

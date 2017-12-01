@@ -33,6 +33,7 @@ public class CancelHelper {
     private static final String TIME_LATE_MESSAGE = "Failed to cancel the train " +
             "as cancel must happen no later than 3 three hours before the original train Starts.";
     private static final String FAIL_CANCEL_TRAIN_MESSAGE = "Failed to cancel the original train.";
+    private static final String ALREADY_CANCELED_MESSAGE = "The train you want to cancel has already be canceled.";
     private static final String FAIL_FIND_RELEVANT_TRANSACTION_MESSAGE = "Failed to find relevant transactions.";
     private static final String FAIL_CANCEL_TICKETS_MESSAGE = "Failed to cancel the exists tickets";
     private static final String FAIL_FIND_TICKETS_MESSAGE = "Failed to find ticket for user.";
@@ -96,7 +97,9 @@ public class CancelHelper {
         trainStartCalendar.set(Calendar.YEAR, cancelRequest.getYear());
         trainStartCalendar.set(Calendar.MONTH, cancelRequest.getMonth() - 1);
         trainStartCalendar.set(Calendar.DAY_OF_MONTH, cancelRequest.getDay());
-        Time startTime = cancelDao.getStartTime(cancelRequest.getTrainName());
+        Time startTime = cancelDao.getStartTime(cancelRequest.getTrainName(),
+                GeneratorUtils.generateDirection(cancelRequest.getTrainName()),
+                GeneratorUtils.generateFast(cancelRequest.getTrainName()));
         trainStartCalendar.setTime(startTime);
 
         long differenceHour = (trainStartCalendar.getTimeInMillis() - timeNow.getTimeInMillis()) / 1000 / 60 / 60;
@@ -109,7 +112,10 @@ public class CancelHelper {
     private void cancelTrain(String trainName, Date date) throws Exception {
 
         try {
-            cancelDao.cancelTrain(trainName, date);
+            int canceledTrainNumber = cancelDao.cancelTrain(trainName, date);
+            if (canceledTrainNumber != 1) {
+                throw new Exception(ALREADY_CANCELED_MESSAGE);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception(FAIL_CANCEL_TRAIN_MESSAGE);

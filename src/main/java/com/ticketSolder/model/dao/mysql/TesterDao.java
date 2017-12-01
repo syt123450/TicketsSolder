@@ -17,4 +17,6 @@ public interface TesterDao {
     List<String> hello(@Param("name")String name);
 
     List<String> testTime(@Param("time")Time time);
+
+    String testIf(@Param("fast") boolean fast);
 }

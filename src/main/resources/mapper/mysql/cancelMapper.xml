@@ -2,12 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ticketSolder.model.dao.mysql.CancelDao">
 
-    <select id="getStartTime">
-
+    <select id="getStartTime" resultType="java.sql.Time">
+        SELECT
+        <if test="direction == true">
+            S.A
+        </if>
+        <if test="direction == false">
+            S.Z
+        </if>
+        FROM traininfo as TI,
+        <if test="fast == true">
+            fastschedule as S
+        </if>
+        <if test="fast == false">
+            slowschedule as S
+        </if>
+        WHERE TI.trainID = S.trainID
+        AND TI.trainName = #{trainName}
     </select>
 
     <update id="cancelTrain">
-
+        UPDATE ticketamount as TA
+        JOIN traininfo as TI on TI.trainID = TA.trainID
+        SET TA.canceled = TRUE
+        WHERE TI.trainName = #{trainName}
+        AND TA.date = #{date}
+        AND TA.canceled = FALSE;
     </update>
 
     <select id="findTransactions">
@@ -15,7 +35,14 @@
     </select>
 
     <update id="cancelTickets">
-
+        UPDATE transaction
+        SET canceled = TRUE
+        WHERE transactionId
+        IN (
+        <foreach collection="transactionIds" item="transactionId" index="index" separator=",">
+            #{transactionId}
+        </foreach>
+        );
     </update>
 
 </mapper>

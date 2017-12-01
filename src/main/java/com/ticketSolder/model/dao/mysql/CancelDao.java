@@ -12,13 +12,15 @@ import java.util.List;
  */
 public interface CancelDao {
 
-    Time getStartTime(@Param("trainName") String trainName);
+    Time getStartTime(@Param("trainName") String trainName,
+                      @Param("direction") boolean direction,
+                      @Param("fast") boolean fast);
 
-    void cancelTrain(@Param("trainName") String trainName,
+    int cancelTrain(@Param("trainName") String trainName,
                      @Param("date") Date date);
 
     List<CanceledTransactionInfo> findTransactions(@Param("trainName") String trainName,
                                                    @Param("date") Date date);
 
-    void cancelTickets(@Param("transactionIds") List<Long> transactionIds);
+    int cancelTickets(@Param("transactionIds") List<Long> transactionIds);
 }

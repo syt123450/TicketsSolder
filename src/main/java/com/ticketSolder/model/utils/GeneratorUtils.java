@@ -344,4 +344,17 @@ public class GeneratorUtils {
                 searchOutputSegmentInfo.getPrice()
         );
     }
+
+    public static boolean generateDirection(String trainName) {
+
+        char direction = trainName.charAt(0);
+
+        return direction == 'S';
+    }
+
+    public static boolean generateFast(String trainName) {
+
+        return trainName.charAt(trainName.length() - 1) == '0' &&
+                trainName.charAt(trainName.length() - 2) == '0';
+    }
 }
