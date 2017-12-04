@@ -31,9 +31,10 @@ public class TransactionDaoTest {
     private TransactionDao transactionDao;
 
     @Test
-    @Ignore
+//    @Ignore
     public void testSearchTransactionsByName() {
         List<TransactionUnit> transactionUnits = transactionDao.searchTransactionsByName("syt123450");
+        System.out.println(transactionUnits.size());
         transactionUnits.forEach(System.out::println);
     }
 

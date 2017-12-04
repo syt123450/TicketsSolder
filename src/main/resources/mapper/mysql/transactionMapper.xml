@@ -73,7 +73,8 @@
           s.endStation                      AS endStation,
           s.price                           AS price,
           s.segmentNumber                   AS segmentNumber,
-          s.direction                       AS go
+          s.direction                       AS go,
+          t.passengers                      AS passengers
         FROM user AS u, segment AS s, transaction AS t
         WHERE u.userID = t.userId
         AND t.transactionId = s.transactionId

@@ -107,7 +107,8 @@ public class GeneratorUtils {
                     timeFormatter.format(endCalendar),
                     transactionUnit.getStartStation(),
                     transactionUnit.getEndStation(),
-                    transactionUnit.getPrice()
+                    transactionUnit.getPrice(),
+                    transactionUnit.getPassengers()
             );
 
             //judge whether have back in this transaction, if exist, add to back list

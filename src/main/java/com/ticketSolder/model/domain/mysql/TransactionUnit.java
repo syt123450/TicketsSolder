@@ -29,4 +29,5 @@ public class TransactionUnit {
     private char startStation;
     private char endStation;
     private int price;
+    private int passengers;
 }
