@@ -50,12 +50,7 @@ public class EmailUtils {
 
     public static void sendSuccessEmail(String emailAddress) {
 
-//        send(emailAddress, SUCCESS_SUBJECT, SUCCESS_MESSAGE);
-
-        executorService.execute(
-                new SendTask(emailAddress, SUCCESS_SUBJECT, SUCCESS_MESSAGE)
-        );
-
+        send(emailAddress, SUCCESS_SUBJECT, SUCCESS_MESSAGE);
     }
 
     public static void sendCancelEmail(String emailAddress) {
@@ -78,27 +73,10 @@ public class EmailUtils {
     }
 
     private static void send(String address, String subject, String text) {
-
+        executorService.execute(
+                new SendTask(address, subject, text)
+        );
     }
-
-//    private static void send(String address, String subject, String text) {
-//        try {
-//
-//            Message message = new MimeMessage(session);
-//            message.setFrom(new InternetAddress(senderName));
-//            message.setRecipients(Message.RecipientType.TO,
-//                    InternetAddress.parse(address));
-//            message.setSubject(subject);
-//            message.setText(text);
-//
-//            Transport.send(message);
-//
-//            logger.info("Send message to " + address);
-//
-//        } catch (MessagingException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
     private static class SendTask implements Runnable {
 
