@@ -3,11 +3,73 @@
 <mapper namespace="com.ticketSolder.model.dao.mysql.ReportDao">
 
     <select id="getTrainReports" resultType="TrainDayReport">
-
+      SELECT
+        TI.trainName                       AS trainName,
+        DATE_FORMAT(TA.date, '%Y-%m-%d')   AS date,
+        TA.canceled                        AS canceled,
+        TA.AB                              AS AB,
+        TA.BC                              AS BC,
+        TA.CD                              AS CD,
+        TA.DE                              AS DE,
+        TA.EF                              AS EF,
+        TA.FG                              AS FG,
+        TA.GH                              AS GH,
+        TA.HI                              AS HI,
+        TA.IJ                              AS IJ,
+        TA.JK                              AS JK,
+        TA.KL                              AS KL,
+        TA.LM                              AS LM,
+        TA.MN                              AS MN,
+        TA.NO                              AS NO,
+        TA.OP                              AS OP,
+        TA.PQ                              AS PQ,
+        TA.QR                              AS QR,
+        TA.RS                              AS RS,
+        TA.ST                              AS ST,
+        TA.TU                              AS TU,
+        TA.UV                              AS UV,
+        TA.VW                              AS VW,
+        TA.WX                              AS WX,
+        TA.XY                              AS XY,
+        TA.YZ                              AS YZ
+      FROM ticketamount AS TA, traininfo as TI
+      WHERE TA.trainID = TI.trainID
+        AND trainName = #{trainName}
     </select>
 
     <select id="getTrainTotalReports" resultType="TrainTotalReport">
-
+      SELECT
+        TI.trainName AS trainName,
+        count(TI.trainName) AS leftDays
+      FROM traininfo AS TI, ticketamount AS TA
+      WHERE TA.trainID = TI.trainID
+        AND TA.date >= CURDATE()
+        AND TA.AB > 0
+        AND TA.BC > 0
+        AND TA.CD > 0
+        AND TA.DE > 0
+        AND TA.EF > 0
+        AND TA.FG > 0
+        AND TA.GH > 0
+        AND TA.HI > 0
+        AND TA.IJ > 0
+        AND TA.JK > 0
+        AND TA.KL > 0
+        AND TA.LM > 0
+        AND TA.MN > 0
+        AND TA.NO > 0
+        AND TA.OP > 0
+        AND TA.PQ > 0
+        AND TA.QR > 0
+        AND TA.RS > 0
+        AND TA.ST > 0
+        AND TA.TU > 0
+        AND TA.UV > 0
+        AND TA.VW > 0
+        AND TA.WX > 0
+        AND TA.XY > 0
+        AND TA.YZ > 0
+      GROUP BY TI.trainName
     </select>
 
 </mapper>

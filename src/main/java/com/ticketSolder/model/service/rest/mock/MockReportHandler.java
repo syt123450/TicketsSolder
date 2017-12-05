@@ -25,6 +25,7 @@ public class MockReportHandler implements ReportHandler {
         TrainDayReport trainDayReport1 = new TrainDayReport(
                 "SB0600",
                 "2017-11-30",
+                false,
                 100,
                 100,
                 100,
@@ -55,6 +56,7 @@ public class MockReportHandler implements ReportHandler {
         TrainDayReport trainDayReport2 = new TrainDayReport(
                 "SB0600",
                 "2017-11-31",
+                false,
                 100,
                 100,
                 100,

@@ -15,6 +15,7 @@ public class TrainDayReport {
 
     private String trainName;
     private String date;
+    private boolean canceled;
     private int AB;
     private int BC;
     private int CD;
