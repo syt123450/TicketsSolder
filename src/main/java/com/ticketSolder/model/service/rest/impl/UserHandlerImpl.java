@@ -50,4 +50,18 @@ public class UserHandlerImpl implements UserHandler {
 
         return authenticationResult;
     }
+
+    @Override
+    public AuthenticationResult googleAuthenticate(String userName, String password, String email) {
+
+        AuthenticationResult authenticationResult = new AuthenticationResult();
+
+        if (userDao.searchUser(userName, password) == null) {
+            userDao.createUser(userName, password, email);
+        }
+
+        authenticationResult.setResult(true);
+
+        return authenticationResult;
+    }
 }

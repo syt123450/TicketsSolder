@@ -1,7 +1,7 @@
 package com.ticketSolder.model.service.rest.impl;
 
-import com.ticketSolder.model.bean.report.TrainDayReport;
-import com.ticketSolder.model.bean.report.TrainTotalReport;
+import com.ticketSolder.model.domain.mysql.TrainDayReport;
+import com.ticketSolder.model.domain.mysql.TrainTotalReport;
 import com.ticketSolder.model.dao.mysql.ReportDao;
 import com.ticketSolder.model.service.rest.ReportHandler;
 import org.springframework.beans.factory.annotation.Autowired;

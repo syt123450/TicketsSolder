@@ -1,7 +1,7 @@
 package com.ticketSolder.model.service.rest.mock;
 
-import com.ticketSolder.model.bean.report.TrainDayReport;
-import com.ticketSolder.model.bean.report.TrainTotalReport;
+import com.ticketSolder.model.domain.mysql.TrainDayReport;
+import com.ticketSolder.model.domain.mysql.TrainTotalReport;
 import com.ticketSolder.model.service.rest.ReportHandler;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;

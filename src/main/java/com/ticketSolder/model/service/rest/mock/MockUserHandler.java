@@ -34,4 +34,14 @@ public class MockUserHandler implements UserHandler {
 
         return authenticationResult;
     }
+
+    @Override
+    public AuthenticationResult googleAuthenticate(String userName, String password, String email) {
+
+        AuthenticationResult authenticationResult = new AuthenticationResult();
+
+        authenticationResult.setResult(true);
+
+        return authenticationResult;
+    }
 }

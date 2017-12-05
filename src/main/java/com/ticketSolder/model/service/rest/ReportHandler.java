@@ -1,7 +1,7 @@
 package com.ticketSolder.model.service.rest;
 
-import com.ticketSolder.model.bean.report.TrainDayReport;
-import com.ticketSolder.model.bean.report.TrainTotalReport;
+import com.ticketSolder.model.domain.mysql.TrainDayReport;
+import com.ticketSolder.model.domain.mysql.TrainTotalReport;
 
 import java.util.List;
 

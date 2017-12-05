@@ -1,7 +1,8 @@
 package com.ticketSolder.model.dao.mysql;
 
-import com.ticketSolder.model.bean.report.TrainDayReport;
-import com.ticketSolder.model.bean.report.TrainTotalReport;
+import com.ticketSolder.model.domain.mysql.TrainDayReport;
+import com.ticketSolder.model.domain.mysql.TrainTotalReport;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface ReportDao {
 
-    List<TrainDayReport> getTrainReports(String trainName);
+    List<TrainDayReport> getTrainReports(@Param("trainName") String trainName);
 
     List<TrainTotalReport> getTrainTotalReports();
 }
