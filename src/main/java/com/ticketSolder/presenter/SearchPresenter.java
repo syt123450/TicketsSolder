@@ -6,10 +6,7 @@ import com.ticketSolder.model.bean.trip.TripRequest;
 import com.ticketSolder.model.service.rest.SearchHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import org.apache.log4j.Logger;
 
@@ -17,6 +14,7 @@ import org.apache.log4j.Logger;
  * Created by ss on 2017/11/16.
  */
 
+@CrossOrigin
 @EnableAutoConfiguration
 @RestController
 @RequestMapping("/api/search")
