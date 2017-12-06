@@ -9,7 +9,7 @@ import java.util.*;
  */
 public class SliceUtils {
 
-    private static final Set<Character> fastStations = new HashSet<Character>() {{
+    private static final List<Character> fastStations = new ArrayList<Character>() {{
         add('A'); add('F'); add('K'); add('P'); add('U'); add('Z');
     }};
 
@@ -34,6 +34,7 @@ public class SliceUtils {
         }
 
         char fastStart;
+        char fastEnd;
 
         if (fastStations.contains(startStation)) {
             fastStart = startStation;
@@ -44,9 +45,14 @@ public class SliceUtils {
         }
 
         if (fastStations.contains(endStation)) {
-
+            SlicedSegment slicedSegment = new SlicedSegment(fastStart, endStation, true);
+            slicedSegments.add(slicedSegment);
         } else {
-
+            fastEnd = getNearestPreviousFastStation(endStation);
+            SlicedSegment slicedSegmentFast = new SlicedSegment(fastStart, fastEnd, true);
+            slicedSegments.add(slicedSegmentFast);
+            SlicedSegment slicedSegmentSlow = new SlicedSegment(fastEnd, endStation, false);
+            slicedSegments.add(slicedSegmentSlow);
         }
 
         if (!direction) {
@@ -67,6 +73,23 @@ public class SliceUtils {
     }
 
     private static char getNearestLastFastStation(char station) {
+
+        for (int i = 0; i < fastStations.size(); i++) {
+            if (fastStations.get(i) - station > 0) {
+                return fastStations.get(i);
+            }
+        }
+
+        return 'Z';
+    }
+
+    private static char getNearestPreviousFastStation(char station) {
+
+        for (int i = fastStations.size() - 1; i >= 0; i--) {
+            if (fastStations.get(i) - station < 0) {
+                return fastStations.get(i);
+            }
+        }
 
         return 'A';
     }

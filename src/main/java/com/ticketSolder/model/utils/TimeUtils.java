@@ -28,9 +28,9 @@ public class TimeUtils {
         return new Date(calendar.getTimeInMillis());
     }
 
-    public static Calendar getEndCalendar(Date startDay, Time endTime, Calendar startCalendar, Calendar endCalendar) {
+    public static Calendar getEndCalendar(Date startDay, Time endTime, Calendar startCalendar) {
 
-        endCalendar = getCalendarFromSQLTimer(startDay, endTime);
+        Calendar endCalendar = getCalendarFromSQLTimer(startDay, endTime);
         endCalendar.add(Calendar.MINUTE, -3);
 
         if (startCalendar.getTimeInMillis() > endCalendar.getTimeInMillis()) {

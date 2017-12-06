@@ -46,19 +46,19 @@ public class SearchHandlerImplTest {
 //    private boolean exactly;
 
     @Test
-    @Ignore
+//    @Ignore
     public void testSearchTripInfo() {
         TripRequest tripRequest = new TripRequest(
                false,
-                false,
                 true,
+                false,
                 2017,
                 12,
                 3,
                 7,
                 30,
                 'A',
-                'B',
+                'F',
                 0,
                 0,
                 0,
@@ -67,13 +67,13 @@ public class SearchHandlerImplTest {
                 'A',
                 'B',
                 2,
-                true
+                false
         );
 
         TripSearchResult tripSearchResult = searchHandler.searchTripInfo(tripRequest);
 
         System.out.println(tripSearchResult);
 
-        tripSearchResult.getGoTripInfoAggregation().getNormalTrainTrips().forEach(System.out::println);
+        tripSearchResult.getGoTripInfoAggregation().getFastTrainTrips().forEach(System.out::println);
     }
 }

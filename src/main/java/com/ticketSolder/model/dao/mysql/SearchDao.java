@@ -18,5 +18,6 @@ public interface SearchDao {
                                   @Param("endStation") char endStation,
                                   @Param("segments") List<String> segments,
                                   @Param("direction") boolean direction,
-                                  @Param("exactly") boolean exactly);
+                                  @Param("exactly") boolean exactly,
+                                  @Param("fast") boolean fast);
 }
