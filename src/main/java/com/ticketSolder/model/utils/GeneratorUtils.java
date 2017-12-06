@@ -8,6 +8,7 @@ import com.ticketSolder.model.bean.transaction.CreateTransactionRequest;
 import com.ticketSolder.model.bean.transaction.TransactionOutputSegmentInfo;
 import com.ticketSolder.model.bean.trip.*;
 import com.ticketSolder.model.domain.mysql.*;
+import org.apache.log4j.Logger;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -21,7 +22,9 @@ import java.util.List;
  */
 public class GeneratorUtils {
 
-    private static final String DATE_FORMAT = "yyyy-MM-DD";
+    private static Logger logger = Logger.getLogger(GeneratorUtils.class);
+
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
     private static final String TIME_FORMAT = "HH:mm";
 
     public static SearchOutputSegmentInfo generateSearchOutputSegmentInfo(BasicTripSearchRequest basicTripSearchRequest,
@@ -29,26 +32,29 @@ public class GeneratorUtils {
                                                            Calendar startCalendar,
                                                            Date startDate) {
 
+        logger.info(searchResultUnit);
+
         SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT);
         SimpleDateFormat timeFormatter = new SimpleDateFormat(TIME_FORMAT);
+
+        logger.info("Start calendar for generate search output is: " + startCalendar.getTime());
 
         Calendar trainStart = Calendar.getInstance();
         Calendar trainEnd = Calendar.getInstance();
 
-        trainStart.setTime(startDate);
-
         Time trainStartTime = searchResultUnit.getStartTime();
         Time trainEndTime = searchResultUnit.getEndTime();
-        trainStart.setTime(trainStartTime);
+
+        trainStart = TimeUtils.getCalendarFromSQLTimer(startDate, trainStartTime);
         trainEnd = TimeUtils.getEndCalendar(startDate, trainEndTime, trainStart, trainEnd);
 
         return new SearchOutputSegmentInfo(
                 searchResultUnit.getTrainName(),
                 searchResultUnit.isFast(),
-                dateFormatter.format(startCalendar),
-                timeFormatter.format(startCalendar),
-                dateFormatter.format(trainEnd),
-                timeFormatter.format(trainEnd),
+                dateFormatter.format(trainStart.getTime()),
+                timeFormatter.format(trainStart.getTime()),
+                dateFormatter.format(trainEnd.getTime()),
+                timeFormatter.format(trainEnd.getTime()),
                 basicTripSearchRequest.getStartStation(),
                 basicTripSearchRequest.getEndStation(),
                 PriceUtils.getPrice(false,

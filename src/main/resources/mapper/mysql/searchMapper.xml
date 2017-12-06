@@ -12,14 +12,19 @@
         <foreach collection="segments" item="segment" index="index" separator=",">
             TA.${segment}
         </foreach>
-        )                     as ticketsLeft
+        , 1001)               as ticketsLeft
         FROM traininfo as TI, ticketamount as TA, slowschedule as S
         WHERE TI.trainID = TA.trainID
         AND TI.trainID = S.trainID
         AND TI.isFast = FALSE
         AND TA.canceled = FALSE
         AND TI.direction = #{direction}
-        AND S.${startStation} > #{startTime}
+        <if test="exactly == true">
+            AND S.${startStation} = #{startTime}
+        </if>
+        <if test="exactly == false">
+            AND S.${startStation} > #{startTime}
+        </if>
         AND TA.date = #{startDate}
         <foreach collection="segments" item="segment" index="index" separator=" ">
             AND TA.${segment} > 0

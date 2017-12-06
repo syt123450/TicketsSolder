@@ -9,12 +9,12 @@ import com.ticketSolder.model.utils.ComparatorUtils;
 import com.ticketSolder.model.utils.GeneratorUtils;
 import com.ticketSolder.model.utils.PriceUtils;
 import com.ticketSolder.model.utils.TimeUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -26,14 +26,20 @@ import java.util.List;
 @Component
 public class SearchHelper {
 
+    private Logger logger = Logger.getLogger(SearchHelper.class);
+
     @Autowired
     private SearchDao searchDao;
 
     public List<TripInfo> searchNormalTrainTrip(BasicTripSearchRequest basicTripSearchRequest) {
 
+        logger.info("Search for normal trip.");
+
         //prepare for the parameter for search
 
         Calendar startCalendar = TimeUtils.getStartCalendarForSearch(basicTripSearchRequest);
+
+        logger.info("Start calendar is: " + startCalendar.getTime());
 
         Date startDate = new Date(startCalendar.getTimeInMillis());
         Time startTime = new Time(startCalendar.getTimeInMillis());
@@ -52,8 +58,10 @@ public class SearchHelper {
                 basicTripSearchRequest.getStartStation(),
                 basicTripSearchRequest.getEndStation(),
                 segments,
-                direction);
+                direction,
+                basicTripSearchRequest.isExactly());
 
+        logger.info("Search result from mybatis is: " + searchResultUnits);
 
         //limit the result to 5
         List<SearchResultUnit> curtailedUnits = curtailNormalTrips(searchResultUnits, startDate);
@@ -85,6 +93,10 @@ public class SearchHelper {
 
     public List<TripInfo> searchFastTrainTrip(BasicTripSearchRequest basicTripSearchRequest) {
 
+        logger.info("Search for fast trip.");
+
+
+
         return null;
     }
 
@@ -98,6 +110,10 @@ public class SearchHelper {
 
         searchResultUnits.sort(ComparatorUtils.getSearchResultUnitComparator(startDate));
 
-        return searchResultUnits.subList(0, 5);
+        if (searchResultUnits.size() < 5) {
+            return searchResultUnits;
+        } else {
+            return searchResultUnits.subList(0, 5);
+        }
     }
 }

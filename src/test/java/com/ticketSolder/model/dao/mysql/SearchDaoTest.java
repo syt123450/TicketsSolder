@@ -48,6 +48,6 @@ public class SearchDaoTest {
         List<String> segments = GeneratorUtils.generateSegments(startStation, endStation);
         boolean direction = true;
 
-        searchDao.search(startDate, startTime, startStation, endStation, segments, direction).forEach(System.out::println);
+        searchDao.search(startDate, startTime, startStation, endStation, segments, direction, false).forEach(System.out::println);
     }
 }
