@@ -6,6 +6,7 @@ import com.ticketSolder.model.service.rest.ReportHandler;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by ss on 2017/11/29.
  */
 
+@CrossOrigin
 @EnableAutoConfiguration
 @RestController
 @RequestMapping("/api")
