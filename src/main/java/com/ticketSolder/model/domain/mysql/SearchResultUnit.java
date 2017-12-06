@@ -1,6 +1,10 @@
 package com.ticketSolder.model.domain.mysql;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.sql.Time;
 
 /**
@@ -8,6 +12,8 @@ import java.sql.Time;
  */
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SearchResultUnit {
 
     private String trainName;

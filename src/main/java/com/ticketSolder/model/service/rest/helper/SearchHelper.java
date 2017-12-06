@@ -5,6 +5,7 @@ import com.ticketSolder.model.bean.trip.SearchOutputSegmentInfo;
 import com.ticketSolder.model.bean.trip.TripInfo;
 import com.ticketSolder.model.dao.mysql.SearchDao;
 import com.ticketSolder.model.domain.mysql.SearchResultUnit;
+import com.ticketSolder.model.utils.ComparatorUtils;
 import com.ticketSolder.model.utils.GeneratorUtils;
 import com.ticketSolder.model.utils.PriceUtils;
 import com.ticketSolder.model.utils.TimeUtils;
@@ -24,9 +25,6 @@ import java.util.List;
 
 @Component
 public class SearchHelper {
-
-    private static final String DATE_FORMAT = "yyyy-MM-DD";
-    private static final String TIME_FORMAT = "HH:mm";
 
     @Autowired
     private SearchDao searchDao;
@@ -56,41 +54,24 @@ public class SearchHelper {
                 segments,
                 direction);
 
+
+        //limit the result to 5
+        List<SearchResultUnit> curtailedUnits = curtailNormalTrips(searchResultUnits, startDate);
+
         //format the result
 
         List<TripInfo> tripInfoList = new ArrayList<>();
 
-        SimpleDateFormat dateFormatter=new SimpleDateFormat(DATE_FORMAT);
-        SimpleDateFormat timeFormatter = new SimpleDateFormat(TIME_FORMAT);
-
-        Calendar trainStart = Calendar.getInstance();
-        Calendar trainEnd = Calendar.getInstance();
-
-        for (SearchResultUnit searchResultUnit: searchResultUnits) {
+        for (SearchResultUnit searchResultUnit : curtailedUnits) {
 
             TripInfo tripInfo = new TripInfo();
             List<SearchOutputSegmentInfo> searchOutputSegmentInfoList = new ArrayList<>();
 
-            trainStart.setTime(startDate);
-
-            Time trainStartTime = searchResultUnit.getStartTime();
-            Time trainEndTime = searchResultUnit.getEndTime();
-            trainStart.setTime(trainStartTime);
-            trainEnd = TimeUtils.getEndCalendar(startDate, trainEndTime, trainStart, trainEnd);
-
-            SearchOutputSegmentInfo searchOutputSegmentInfo = new SearchOutputSegmentInfo(
-                    searchResultUnit.getTrainName(),
-                    searchResultUnit.isFast(),
-                    dateFormatter.format(startCalendar),
-                    timeFormatter.format(startCalendar),
-                    dateFormatter.format(trainEnd),
-                    timeFormatter.format(trainEnd),
-                    basicTripSearchRequest.getStartStation(),
-                    basicTripSearchRequest.getEndStation(),
-                    PriceUtils.getPrice(false,
-                            basicTripSearchRequest.getStartStation(),
-                            basicTripSearchRequest.getEndStation()),
-                    searchResultUnit.getTicketsLeft()
+            SearchOutputSegmentInfo searchOutputSegmentInfo = GeneratorUtils.generateSearchOutputSegmentInfo(
+                    basicTripSearchRequest,
+                    searchResultUnit,
+                    startCalendar,
+                    startDate
             );
 
             searchOutputSegmentInfoList.add(searchOutputSegmentInfo);
@@ -105,5 +86,18 @@ public class SearchHelper {
     public List<TripInfo> searchFastTrainTrip(BasicTripSearchRequest basicTripSearchRequest) {
 
         return null;
+    }
+
+    public List<TripInfo> searchBothTrainTrip(BasicTripSearchRequest basicTripSearchRequest) {
+
+
+        return null;
+    }
+
+    private List<SearchResultUnit> curtailNormalTrips(List<SearchResultUnit> searchResultUnits, Date startDate) {
+
+        searchResultUnits.sort(ComparatorUtils.getSearchResultUnitComparator(startDate));
+
+        return searchResultUnits.subList(0, 5);
     }
 }

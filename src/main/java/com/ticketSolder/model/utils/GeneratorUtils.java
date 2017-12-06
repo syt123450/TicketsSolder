@@ -7,10 +7,7 @@ import com.ticketSolder.model.bean.transaction.BasicTransactionInfo;
 import com.ticketSolder.model.bean.transaction.CreateTransactionRequest;
 import com.ticketSolder.model.bean.transaction.TransactionOutputSegmentInfo;
 import com.ticketSolder.model.bean.trip.*;
-import com.ticketSolder.model.domain.mysql.SegmentInsertionUnit;
-import com.ticketSolder.model.domain.mysql.TicketsLine;
-import com.ticketSolder.model.domain.mysql.TransactionTableUnit;
-import com.ticketSolder.model.domain.mysql.TransactionUnit;
+import com.ticketSolder.model.domain.mysql.*;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -26,6 +23,40 @@ public class GeneratorUtils {
 
     private static final String DATE_FORMAT = "yyyy-MM-DD";
     private static final String TIME_FORMAT = "HH:mm";
+
+    public static SearchOutputSegmentInfo generateSearchOutputSegmentInfo(BasicTripSearchRequest basicTripSearchRequest,
+                                                           SearchResultUnit searchResultUnit,
+                                                           Calendar startCalendar,
+                                                           Date startDate) {
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT);
+        SimpleDateFormat timeFormatter = new SimpleDateFormat(TIME_FORMAT);
+
+        Calendar trainStart = Calendar.getInstance();
+        Calendar trainEnd = Calendar.getInstance();
+
+        trainStart.setTime(startDate);
+
+        Time trainStartTime = searchResultUnit.getStartTime();
+        Time trainEndTime = searchResultUnit.getEndTime();
+        trainStart.setTime(trainStartTime);
+        trainEnd = TimeUtils.getEndCalendar(startDate, trainEndTime, trainStart, trainEnd);
+
+        return new SearchOutputSegmentInfo(
+                searchResultUnit.getTrainName(),
+                searchResultUnit.isFast(),
+                dateFormatter.format(startCalendar),
+                timeFormatter.format(startCalendar),
+                dateFormatter.format(trainEnd),
+                timeFormatter.format(trainEnd),
+                basicTripSearchRequest.getStartStation(),
+                basicTripSearchRequest.getEndStation(),
+                PriceUtils.getPrice(false,
+                        basicTripSearchRequest.getStartStation(),
+                        basicTripSearchRequest.getEndStation()),
+                searchResultUnit.getTicketsLeft()
+        );
+    }
 
     public static SegmentInsertionUnit generateSegmentUnit(TransactionTableUnit transactionTableUnit,
                                                            InputSegmentInfo inputSegmentInfo,
