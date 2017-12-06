@@ -32,7 +32,7 @@ public class GeneratorUtils {
              SearchResultUnit searchResultUnit,
              Calendar startCalendar) {
 
-        logger.info("Generate search output for sliced segment.");
+        logger.debug("Generate search output for sliced segment.");
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT);
         SimpleDateFormat timeFormatter = new SimpleDateFormat(TIME_FORMAT);

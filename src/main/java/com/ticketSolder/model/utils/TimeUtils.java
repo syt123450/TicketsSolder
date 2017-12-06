@@ -15,9 +15,6 @@ public class TimeUtils {
 
     private static Logger logger = Logger.getLogger(TimeUtils.class);
 
-    private static final String DATE_FORMAT = "yyyy-MM-DD";
-    private static final String TIME_FORMAT = "HH:mm";
-
     public static Date getSQLDate(int year, int month, int day) {
 
         Calendar calendar = Calendar.getInstance();
@@ -57,7 +54,7 @@ public class TimeUtils {
 
     public static Calendar getCalendarFromSQLTimer(Date date, Time time) {
 
-        logger.info("format date: " + date + ", format date: " + time);
+        logger.debug("format date: " + date + ", format date: " + time);
 
         Calendar calendar = Calendar.getInstance();
 
@@ -76,7 +73,7 @@ public class TimeUtils {
         calendar.set(Calendar.SECOND, helperCalendar.get(Calendar.SECOND));
         calendar.set(Calendar.MILLISECOND, helperCalendar.get(Calendar.MILLISECOND));
 
-        logger.info("Format to calendar " + calendar.getTime());
+        logger.debug("Format to calendar " + calendar.getTime());
 
         return calendar;
     }

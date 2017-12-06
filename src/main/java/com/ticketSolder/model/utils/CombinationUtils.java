@@ -35,11 +35,11 @@ public class CombinationUtils {
         List<List<SearchResultUnit>> intermediateList = new ArrayList<>();
 
         if (previousList.size() == 0) {
-            List<SearchResultUnit> newList = new ArrayList<>();
             for (SearchResultUnit searchResultUnit: nowUnits) {
+                List<SearchResultUnit> newList = new ArrayList<>();
                 newList.add(searchResultUnit);
+                intermediateList.add(newList);
             }
-            intermediateList.add(newList);
 
             return intermediateList;
         }

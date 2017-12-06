@@ -31,8 +31,12 @@ public class SearchHelper {
 
     public List<TripInfo> searchBothTrainTrip(BasicTripSearchRequest basicTripSearchRequest) {
 
+        List<TripInfo> tripInfoList1 = searchNormalTrainTrip(basicTripSearchRequest);
+        List<TripInfo> tripInfoList2 = searchFastTrainTrip(basicTripSearchRequest);
 
-        return null;
+        tripInfoList1.addAll(tripInfoList2);
+
+        return TailorUtils.curtailBothTrips(tripInfoList1);
     }
 
     public List<TripInfo> searchNormalTrainTrip(BasicTripSearchRequest basicTripSearchRequest) {
@@ -132,8 +136,8 @@ public class SearchHelper {
 
             List<SearchResultUnit> searchResultUnits = searchDao.search(startDate,
                     startTime,
-                    basicTripSearchRequest.getStartStation(),
-                    basicTripSearchRequest.getEndStation(),
+                    slicedSegments.get(i).getStartStation(),
+                    slicedSegments.get(i).getEndStation(),
                     GeneratorUtils.generateSegments(
                             slicedSegments.get(i).getStartStation(),
                             slicedSegments.get(i).getEndStation()

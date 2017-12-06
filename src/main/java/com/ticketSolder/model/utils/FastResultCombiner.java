@@ -82,6 +82,7 @@ public class FastResultCombiner {
         List<TripInfo> tripInfoList = new ArrayList<>();
 
         for (List<SearchResultUnit> trip: curtailedTrips) {
+
             TripInfo tripInfo = new TripInfo();
 
             List<SearchOutputSegmentInfo> segments = new ArrayList<>();

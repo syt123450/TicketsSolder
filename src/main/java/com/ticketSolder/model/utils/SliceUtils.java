@@ -49,6 +49,16 @@ public class SliceUtils {
             slicedSegments.add(slicedSegment);
         } else {
             fastEnd = getNearestPreviousFastStation(endStation);
+
+            if (fastEnd == fastStart) {
+
+                slicedSegments.remove(0);
+                SlicedSegment slicedSegment = new SlicedSegment(startStation, endStation, false);
+                slicedSegments.add(slicedSegment);
+
+                return slicedSegments;
+            }
+
             SlicedSegment slicedSegmentFast = new SlicedSegment(fastStart, fastEnd, true);
             slicedSegments.add(slicedSegmentFast);
             SlicedSegment slicedSegmentSlow = new SlicedSegment(fastEnd, endStation, false);
