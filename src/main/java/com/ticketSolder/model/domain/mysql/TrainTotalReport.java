@@ -1,4 +1,4 @@
-package com.ticketSolder.model.bean.report;
+package com.ticketSolder.model.domain.mysql;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

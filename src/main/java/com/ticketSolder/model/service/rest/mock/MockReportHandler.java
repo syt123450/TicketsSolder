@@ -1,7 +1,7 @@
 package com.ticketSolder.model.service.rest.mock;
 
-import com.ticketSolder.model.bean.report.TrainDayReport;
-import com.ticketSolder.model.bean.report.TrainTotalReport;
+import com.ticketSolder.model.domain.mysql.TrainDayReport;
+import com.ticketSolder.model.domain.mysql.TrainTotalReport;
 import com.ticketSolder.model.service.rest.ReportHandler;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -25,6 +25,7 @@ public class MockReportHandler implements ReportHandler {
         TrainDayReport trainDayReport1 = new TrainDayReport(
                 "SB0600",
                 "2017-11-30",
+                false,
                 100,
                 100,
                 100,
@@ -55,6 +56,7 @@ public class MockReportHandler implements ReportHandler {
         TrainDayReport trainDayReport2 = new TrainDayReport(
                 "SB0600",
                 "2017-11-31",
+                false,
                 100,
                 100,
                 100,

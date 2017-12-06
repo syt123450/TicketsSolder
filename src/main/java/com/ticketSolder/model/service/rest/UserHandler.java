@@ -11,4 +11,6 @@ public interface UserHandler {
     UserCreationResult createUser(String userName, String password, String email);
 
     AuthenticationResult authenticate(String userName, String password);
+
+    AuthenticationResult googleAuthenticate(String userName, String password, String email);
 }

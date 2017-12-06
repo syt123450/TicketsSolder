@@ -1,4 +1,4 @@
-package com.ticketSolder.model.bean.report;
+package com.ticketSolder.model.domain.mysql;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +15,7 @@ public class TrainDayReport {
 
     private String trainName;
     private String date;
+    private boolean canceled;
     private int AB;
     private int BC;
     private int CD;

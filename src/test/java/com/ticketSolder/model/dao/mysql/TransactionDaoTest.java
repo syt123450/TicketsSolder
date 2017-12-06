@@ -31,7 +31,7 @@ public class TransactionDaoTest {
     private TransactionDao transactionDao;
 
     @Test
-//    @Ignore
+    @Ignore
     public void testSearchTransactionsByName() {
         List<TransactionUnit> transactionUnits = transactionDao.searchTransactionsByName("syt123450");
         System.out.println(transactionUnits.size());
@@ -78,7 +78,7 @@ public class TransactionDaoTest {
         cal.set(Calendar.MILLISECOND, 0);
 
         SegmentInsertionUnit segmentInsertionUnit1 = new SegmentInsertionUnit(
-                9,
+                11,
                 "kkk",
                 new Date(cal.getTimeInMillis()),
                 new Time(cal.getTimeInMillis()),
@@ -101,7 +101,7 @@ public class TransactionDaoTest {
         cal1.set(Calendar.MILLISECOND, 0);
 
         SegmentInsertionUnit segmentInsertionUnit2 = new SegmentInsertionUnit(
-                9,
+                11,
                 "ttt",
                 new Date(cal1.getTimeInMillis()),
                 new Time(cal1.getTimeInMillis()),

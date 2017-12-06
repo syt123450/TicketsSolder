@@ -105,14 +105,18 @@ public class SearchHandlerImpl implements SearchHandler {
 
         TripInfoAggregation tripInfoAggregation = new TripInfoAggregation();
 
-        if (singleTripRequest.isNormal()) {
+        if (singleTripRequest.isNormal() && !singleTripRequest.isFast()) {
             tripInfoAggregation.setNormal(true);
+            tripInfoAggregation.setFast(false);
             tripInfoAggregation.setNormalTrainTrips(searchHelper.searchNormalTrainTrip(basicTripSearchRequest));
-        }
-
-        if (singleTripRequest.isFast()) {
-            tripInfoAggregation.setNormal(true);
+        } else if (!singleTripRequest.isNormal() && singleTripRequest.isFast()) {
+            tripInfoAggregation.setNormal(false);
+            tripInfoAggregation.setFast(true);
             tripInfoAggregation.setFastTrainTrips(searchHelper.searchFastTrainTrip(basicTripSearchRequest));
+        } else {
+            tripInfoAggregation.setNormal(true);
+            tripInfoAggregation.setFast(true);
+            tripInfoAggregation.setFastTrainTrips(searchHelper.searchBothTrainTrip(basicTripSearchRequest));
         }
 
         return tripInfoAggregation;

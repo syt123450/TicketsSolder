@@ -3,6 +3,7 @@ package com.ticketSolder.presenter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ticketSolder.model.bean.user.CreateUserRequest;
+import com.ticketSolder.model.bean.user.GoogleAuthenticateRequest;
 import com.ticketSolder.model.bean.user.UserInfoRequest;
 import com.ticketSolder.model.service.rest.UserHandler;
 import org.apache.log4j.Logger;
@@ -44,5 +45,19 @@ class UserPresenter {
         return gson.toJson(userHandler.createUser(createUserRequest.getUserName(),
                         createUserRequest.getPassword(),
                         createUserRequest.getEmail()));
+    }
+
+    @RequestMapping(value = "/google", method = RequestMethod.POST)
+    private String loginByGoogle(@RequestBody String body) {
+
+        logger.info("Handle google login.");
+
+        GoogleAuthenticateRequest googleAuthenticateRequest = gson.fromJson(body, GoogleAuthenticateRequest.class);
+
+        return gson.toJson(userHandler.googleAuthenticate(
+                googleAuthenticateRequest.getUserName(),
+                googleAuthenticateRequest.getPassword(),
+                googleAuthenticateRequest.getEmail()
+        ));
     }
 }
