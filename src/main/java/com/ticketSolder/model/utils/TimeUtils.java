@@ -1,6 +1,7 @@
 package com.ticketSolder.model.utils;
 
 import com.ticketSolder.model.bean.trip.BasicTripSearchRequest;
+import org.apache.log4j.Logger;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -11,6 +12,8 @@ import java.util.Calendar;
  * Created by ss on 2017/11/27.
  */
 public class TimeUtils {
+
+    private static Logger logger = Logger.getLogger(TimeUtils.class);
 
     private static final String DATE_FORMAT = "yyyy-MM-DD";
     private static final String TIME_FORMAT = "HH:mm";
@@ -25,10 +28,9 @@ public class TimeUtils {
         return new Date(calendar.getTimeInMillis());
     }
 
-    public static Calendar getEndCalendar(Date startDay, Time endTime, Calendar startCalendar, Calendar endCalendar) {
+    public static Calendar getEndCalendar(Date startDay, Time endTime, Calendar startCalendar) {
 
-        endCalendar.setTime(startDay);
-        endCalendar.setTime(endTime);
+        Calendar endCalendar = getCalendarFromSQLTimer(startDay, endTime);
         endCalendar.add(Calendar.MINUTE, -3);
 
         if (startCalendar.getTimeInMillis() > endCalendar.getTimeInMillis()) {
@@ -43,7 +45,7 @@ public class TimeUtils {
         Calendar startCalendar = Calendar.getInstance();
 
         startCalendar.set(Calendar.YEAR, basicTripSearchRequest.getYear());
-        startCalendar.set(Calendar.MONTH, basicTripSearchRequest.getMonth());
+        startCalendar.set(Calendar.MONTH, basicTripSearchRequest.getMonth() - 1);
         startCalendar.set(Calendar.DAY_OF_MONTH, basicTripSearchRequest.getDay());
         startCalendar.set(Calendar.HOUR_OF_DAY, basicTripSearchRequest.getHour());
         startCalendar.set(Calendar.MINUTE, basicTripSearchRequest.getMinute());
@@ -55,10 +57,26 @@ public class TimeUtils {
 
     public static Calendar getCalendarFromSQLTimer(Date date, Time time) {
 
+        logger.info("format date: " + date + ", format date: " + time);
+
         Calendar calendar = Calendar.getInstance();
 
-        calendar.setTime(date);
-        calendar.setTime(time);
+        Calendar helperCalendar = Calendar.getInstance();
+        helperCalendar.setTime(date);
+
+        calendar.set(Calendar.YEAR, helperCalendar.get(Calendar.YEAR));
+        calendar.set(Calendar.MONTH, helperCalendar.get(Calendar.MONTH));
+
+        calendar.set(Calendar.DAY_OF_MONTH, helperCalendar.get(Calendar.DAY_OF_MONTH));
+
+        helperCalendar.setTime(time);
+
+        calendar.set(Calendar.HOUR_OF_DAY, helperCalendar.get(Calendar.HOUR_OF_DAY));
+        calendar.set(Calendar.MINUTE, helperCalendar.get(Calendar.MINUTE));
+        calendar.set(Calendar.SECOND, helperCalendar.get(Calendar.SECOND));
+        calendar.set(Calendar.MILLISECOND, helperCalendar.get(Calendar.MILLISECOND));
+
+        logger.info("Format to calendar " + calendar.getTime());
 
         return calendar;
     }

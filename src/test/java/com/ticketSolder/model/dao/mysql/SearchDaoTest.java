@@ -48,6 +48,31 @@ public class SearchDaoTest {
         List<String> segments = GeneratorUtils.generateSegments(startStation, endStation);
         boolean direction = true;
 
-        searchDao.search(startDate, startTime, startStation, endStation, segments, direction).forEach(System.out::println);
+        searchDao.search(startDate, startTime, startStation, endStation, segments, direction, false, false).forEach(System.out::println);
+    }
+
+    @Test
+    @Ignore
+    public void testFast() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2017);
+        calendar.set(Calendar.MONTH, 11);
+        calendar.set(Calendar.DAY_OF_MONTH, 3);
+        calendar.set(Calendar.HOUR_OF_DAY, 7);
+        calendar.set(Calendar.MINUTE, 30);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        List<SearchResultUnit> result = searchDao.search(new Date(calendar.getTimeInMillis()),
+                new Time(calendar.getTimeInMillis()),
+                'A',
+                'F',
+                GeneratorUtils.generateSegments('A', 'F'),
+                true,
+                false,
+                true);
+
+        result.forEach(System.out::println);
     }
 }

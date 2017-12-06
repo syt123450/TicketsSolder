@@ -83,7 +83,7 @@ public class MockTransactionHandler implements TransactionHandler {
         );
         transactionOutputSegmentInfoList2.add(transactionOutputSegmentInfo2);
         transactionOutputSegmentInfoList2.add(transactionOutputSegmentInfo3);
-        basicTransactionInfo1.setGoSegments(transactionOutputSegmentInfoList2);
+        basicTransactionInfo2.setGoSegments(transactionOutputSegmentInfoList2);
 
 
 

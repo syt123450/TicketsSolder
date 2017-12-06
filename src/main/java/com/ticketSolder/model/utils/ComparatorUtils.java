@@ -5,6 +5,7 @@ import com.ticketSolder.model.domain.mysql.SearchResultUnit;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by ss on 2017/12/5.
@@ -19,12 +20,20 @@ public class ComparatorUtils {
             this.startDate = startDate;
         }
 
+
+//        private String trainName;
+//        private boolean fast;
+//        private Time startTime;
+//        private Time endTime;
+//        private int ticketsLeft;
+
         @Override
         public int compare(SearchResultUnit searchResultUnit1,
                            SearchResultUnit searchResultUnit2) {
 
             Calendar calendar1 = Calendar.getInstance();
             Calendar calendar2 = Calendar.getInstance();
+
 
             calendar1.setTime(startDate);
             calendar1.setTime(searchResultUnit1.getEndTime());
@@ -45,8 +54,34 @@ public class ComparatorUtils {
         }
     }
 
+    private static class FastTripSegmentsComparator implements Comparator<List<SearchResultUnit>> {
+
+        private Date startDate;
+
+        public FastTripSegmentsComparator(Date startDate) {
+            this.startDate = startDate;
+        }
+
+        @Override
+        public int compare(List<SearchResultUnit> SearchResultUnitList1,
+                           List<SearchResultUnit> SearchResultUnitList2) {
+
+            Calendar calendar1 = Calendar.getInstance();
+            Calendar calendar2 = Calendar.getInstance();
+
+
+
+            return 0;
+        }
+    }
+
     public static Comparator<SearchResultUnit> getSearchResultUnitComparator(Date startDate) {
 
         return new SearchResultUnitComparator(startDate);
+    }
+
+    public static Comparator<List<SearchResultUnit>> getFastTripSegmentsComparator(Date startDate) {
+
+        return new FastTripSegmentsComparator(startDate);
     }
 }
