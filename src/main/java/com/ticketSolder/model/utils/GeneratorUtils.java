@@ -1,7 +1,7 @@
 package com.ticketSolder.model.utils;
 
-import com.ticketSolder.model.bean.cancel.CanceledSegmentInfo;
-import com.ticketSolder.model.bean.cancel.CanceledTransactionInfo;
+import com.ticketSolder.model.domain.mysql.CanceledSegmentInfo;
+import com.ticketSolder.model.domain.mysql.CanceledTransactionInfo;
 import com.ticketSolder.model.bean.cancel.RebookRequest;
 import com.ticketSolder.model.bean.transaction.BasicTransactionInfo;
 import com.ticketSolder.model.bean.transaction.CreateTransactionRequest;

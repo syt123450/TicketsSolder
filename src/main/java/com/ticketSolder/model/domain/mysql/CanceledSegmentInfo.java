@@ -1,4 +1,4 @@
-package com.ticketSolder.model.bean.cancel;
+package com.ticketSolder.model.domain.mysql;
 
 import lombok.Data;
 

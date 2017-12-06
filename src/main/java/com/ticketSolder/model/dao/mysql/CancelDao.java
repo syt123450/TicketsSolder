@@ -1,6 +1,6 @@
 package com.ticketSolder.model.dao.mysql;
 
-import com.ticketSolder.model.bean.cancel.CanceledTransactionInfo;
+import com.ticketSolder.model.domain.mysql.CanceledTransactionInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.sql.Date;
