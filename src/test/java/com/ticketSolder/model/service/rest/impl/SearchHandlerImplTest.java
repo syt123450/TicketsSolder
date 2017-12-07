@@ -23,7 +23,7 @@ public class SearchHandlerImplTest {
     private SearchHandlerImpl searchHandler;
 
     @Test
-    @Ignore
+//    @Ignore
     public void testSearchTripInfo() {
         TripRequest tripRequest = new TripRequest(
                false,
@@ -31,7 +31,7 @@ public class SearchHandlerImplTest {
                 false,
                 2017,
                 12,
-                3,
+                10,
                 7,
                 30,
                 'B',

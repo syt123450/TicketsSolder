@@ -126,7 +126,7 @@ public class ComparatorUtils {
 
             if (difference > 0) {
                 a = 1;
-            } else if (difference < 1){
+            } else if (difference < 0){
                 a = -1;
             } else {
                 Calendar start1 = TimeUtils.getCalendarFromString(

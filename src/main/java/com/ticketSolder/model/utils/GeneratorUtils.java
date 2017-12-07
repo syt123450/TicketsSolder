@@ -157,13 +157,13 @@ public class GeneratorUtils {
 
         //add detailed information
 
-        Calendar startCalendar = Calendar.getInstance();
-        Calendar endCalendar = Calendar.getInstance();
+        Calendar startCalendar;
+        Calendar endCalendar;
 
         for (TransactionUnit transactionUnit : transactionUnits) {
 
-            startCalendar.setTime(transactionUnit.getDay());
-            startCalendar.setTime(transactionUnit.getStartTime());
+            startCalendar = TimeUtils.getCalendarFromSQLTimer(transactionUnit.getDay(),
+                    transactionUnit.getStartTime());
 
             endCalendar = TimeUtils.getEndCalendar(
                     transactionUnit.getDay(),
@@ -174,10 +174,10 @@ public class GeneratorUtils {
             TransactionOutputSegmentInfo outputSegmentInfo = new TransactionOutputSegmentInfo(
                     transactionUnit.getTrainName(),
                     transactionUnit.isFast(),
-                    dateFormatter.format(startCalendar),
-                    timeFormatter.format(startCalendar),
-                    dateFormatter.format(endCalendar),
-                    timeFormatter.format(endCalendar),
+                    dateFormatter.format(startCalendar.getTime()),
+                    timeFormatter.format(startCalendar.getTime()),
+                    dateFormatter.format(endCalendar.getTime()),
+                    timeFormatter.format(endCalendar.getTime()),
                     transactionUnit.getStartStation(),
                     transactionUnit.getEndStation(),
                     transactionUnit.getPrice(),

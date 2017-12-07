@@ -70,6 +70,8 @@ public class FastResultCombiner {
                                                     List<SlicedSegment> slicedSegments,
                                                     List<List<SearchResultUnit>> resultLists) {
 
+        System.out.println(resultLists);
+
         logger.info("Combine fast several segments.");
 
         Calendar startCalendar = TimeUtils.getStartCalendarForSearch(basicTripSearchRequest);
@@ -98,6 +100,8 @@ public class FastResultCombiner {
             tripInfo.setSegments(segments);
             tripInfoList.add(tripInfo);
         }
+
+        System.out.println(tripInfoList);
 
         return tripInfoList;
     }
