@@ -6,6 +6,7 @@ import com.ticketSolder.model.domain.mysql.UserInfo;
 import com.ticketSolder.model.service.rest.TransactionHandler;
 import com.ticketSolder.model.service.rest.helper.TransactionHelper;
 import com.ticketSolder.model.utils.EmailUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,8 @@ public class TransactionHandlerImpl implements TransactionHandler {
     private static final String FAIL_REASON = "Transaction failed.";
     private static final String SEARCH_FAIL_REASON = "Failed to search transactions.";
 
+    private Logger logger = Logger.getLogger(TransactionHandlerImpl.class);
+
     @Autowired
     private TransactionHelper transactionHelper;
     @Autowired
@@ -39,9 +42,9 @@ public class TransactionHandlerImpl implements TransactionHandler {
             aggregation.setResult(true);
             aggregation.setTransactions(basicTransactionInfos);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.info("Failed to search transaction because: " + e.getMessage());
             aggregation.setResult(false);
-            aggregation.setReason(SEARCH_FAIL_REASON);
+            aggregation.setReason(e.getMessage());
         }
 
         return aggregation;
@@ -60,9 +63,9 @@ public class TransactionHandlerImpl implements TransactionHandler {
             String emailAddress = userDao.getEmailByName(userInfo.getUserName());
             EmailUtils.sendSuccessEmail(emailAddress);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.info("Failed to create transaction because: " + e.getMessage());
             transactionCreationResult.setResult(false);
-            transactionCreationResult.setReason(FAIL_REASON);
+            transactionCreationResult.setReason(e.getMessage());
         }
 
         return transactionCreationResult;
@@ -81,9 +84,9 @@ public class TransactionHandlerImpl implements TransactionHandler {
             String emailAddress = userDao.getEmailByName(userInfo.getUserName());
             EmailUtils.sendCancelEmail(emailAddress);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.info("Failed to cancel transaction because: " + e.getMessage());
             transactionDeletionResult.setResult(false);
-            transactionDeletionResult.setReason(FAIL_REASON);
+            transactionDeletionResult.setReason(e.getMessage());
         }
 
         return transactionDeletionResult;

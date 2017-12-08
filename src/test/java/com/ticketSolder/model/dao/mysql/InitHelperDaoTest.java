@@ -1,5 +1,6 @@
 package com.ticketSolder.model.dao.mysql;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class InitHelperDaoTest {
     private InitHelperDao initHelperDao;
 
     @Test
+    @Ignore
     public void testExtractTicketsData() {
         initHelperDao.extractTicketsData().forEach(System.out::println);
     }

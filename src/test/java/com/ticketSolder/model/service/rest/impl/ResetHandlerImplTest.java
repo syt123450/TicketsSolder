@@ -22,7 +22,7 @@ public class ResetHandlerImplTest {
     private ResetHandler resetHandler;
 
     @Test
-//    @Ignore
+    @Ignore
     public void testReset() {
         resetHandler.reset(99);
     }

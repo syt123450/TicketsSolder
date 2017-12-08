@@ -1,5 +1,6 @@
 package com.ticketSolder.model.dao.mysql;
 
+import afu.org.checkerframework.checker.igj.qual.I;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,7 @@ public class ReportDaoTest {
     }
 
     @Test
+    @Ignore
     public void testGetTrainTotalReports() {
         reportDao.getTrainTotalReports().forEach(System.out::println);
     }

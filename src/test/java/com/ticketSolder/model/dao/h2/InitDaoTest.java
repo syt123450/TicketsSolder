@@ -26,7 +26,6 @@ public class InitDaoTest {
     @Test
     @Ignore
     public void testInitTickets() {
-//        initHelperDao.extractTicketsData().forEach(System.out::println);
         initDao.initTickets(initHelperDao.extractTicketsData());
     }
 }
