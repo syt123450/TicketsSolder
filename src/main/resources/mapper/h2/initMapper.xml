@@ -6,8 +6,9 @@
         INSERT INTO ticketamount
         (trainID, date, canceled, trainRun,
         AB, BC, CD, DE, EF, FG, GH, HI, IJ, JK, KL, LM, MN, NO, OP, PQ, QR, RS, ST, TU, UV, VW, WX, XY, YZ)
-        VALUES (
+        VALUES
         <foreach collection="ticketInfoUnits" item="ticketInfoUnit" index="index" separator=",">
+            (
             #{ticketInfoUnit.trainID},
             #{ticketInfoUnit.date},
             #{ticketInfoUnit.canceled},
@@ -37,8 +38,9 @@
             #{ticketInfoUnit.WX},
             #{ticketInfoUnit.XY},
             #{ticketInfoUnit.YZ}
+            )
         </foreach>
-        );
+        ;
     </insert>
 
 </mapper>

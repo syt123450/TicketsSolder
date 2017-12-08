@@ -57,6 +57,7 @@ public class H2Config {
         dataSource.setUrl(url);
         dataSource.setUsername(user);
         dataSource.setPassword(password);
+        dataSource.setTestWhileIdle(false);
         try {
             URL url = Resources.getResource(initSqlSource);
             String text = Resources.toString(url, Charsets.UTF_8);

@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS `ticketamount`;
+
 CREATE TABLE ticketamount (
   trainRun INT     NOT NULL AUTO_INCREMENT,
   trainID  INT     NOT NULL,
@@ -30,6 +32,8 @@ CREATE TABLE ticketamount (
   YZ       INT     NOT NULL,
   PRIMARY KEY (trainRun)
 );
+
+DROP TABLE IF EXISTS `traininfo`;
 
 CREATE TABLE traininfo (
   trainID   INT(11)     NOT NULL AUTO_INCREMENT,
@@ -65,6 +69,8 @@ VALUES (1, 'SB0600', 1, 1), (2, 'SB0615', 1, 0), (3, 'SB0630', 1, 0), (4, 'SB064
   (111, 'NB1815', 0, 0), (112, 'NB1830', 0, 0), (113, 'NB1845', 0, 0), (114, 'NB1900', 0, 1), (115, 'NB1915', 0, 0),
   (116, 'NB1930', 0, 0), (117, 'NB1945', 0, 0), (118, 'NB2000', 0, 1), (119, 'NB2015', 0, 0), (120, 'NB2030', 0, 0),
   (121, 'NB2045', 0, 0), (122, 'NB2100', 0, 1);
+
+DROP TABLE IF EXISTS `slowschedule`;
 
 CREATE TABLE slowschedule (
   trainID INT(11) NOT NULL,
@@ -208,6 +214,8 @@ INSERT INTO slowschedule VALUES
   (121, '00:05:00', '23:57:00', '23:49:00', '23:41:00', '23:33:00', '23:25:00', '23:17:00', '23:09:00', '23:01:00',
         '22:53:00', '22:45:00', '22:37:00', '22:29:00', '22:21:00', '22:13:00', '22:05:00', '21:57:00', '21:49:00',
                     '21:41:00', '21:33:00', '21:25:00', '21:17:00', '21:09:00', '21:01:00', '20:53:00', '20:45:00');
+
+DROP TABLE IF EXISTS `fastschedule`;
 
 CREATE TABLE fastschedule (
   trainID INT(11) NOT NULL,
