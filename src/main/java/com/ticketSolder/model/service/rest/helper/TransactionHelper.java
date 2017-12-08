@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -130,7 +128,7 @@ public class TransactionHelper {
 
         //delete transaction log
 
-        transactionDao.deleteTransaction(deleteTransactionRequest.getTransactionId());
+        transactionDao.cancelTransaction(deleteTransactionRequest.getTransactionId());
 
         //"return" tickets to tickets table
 

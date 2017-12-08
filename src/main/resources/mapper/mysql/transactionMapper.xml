@@ -43,7 +43,7 @@
         ;
     </insert>
 
-    <delete id="deleteTransaction" parameterType="long">
+    <delete id="cancelTransaction" parameterType="long">
         UPDATE transaction
         SET canceled = TRUE
         WHERE transactionId = #{transactionId};

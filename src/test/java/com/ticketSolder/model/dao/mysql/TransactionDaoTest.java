@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by ss on 2017/11/29.
  */
@@ -50,7 +48,7 @@ public class TransactionDaoTest {
     @Ignore
     public void testDeleteTransaction() {
         long transactionId = 8;
-        transactionDao.deleteTransaction(transactionId);
+        transactionDao.cancelTransaction(transactionId);
     }
 
     @Test

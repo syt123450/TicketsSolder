@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ticketSolder.model.dao.h2.InitDao">
+
+    <insert id="initTickets">
+        INSERT INTO ticketamount
+        (trainID, date, canceled, trainRun,
+        AB, BC, CD, DE, EF, FG, GH, HI, IJ, JK, KL, LM, MN, NO, OP, PQ, QR, RS, ST, TU, UV, VW, WX, XY, YZ)
+        VALUES (
+        <foreach collection="ticketInfoUnits" item="ticketInfoUnit" index="index" separator=",">
+            #{ticketInfoUnit.trainID},
+            #{ticketInfoUnit.date},
+            #{ticketInfoUnit.canceled},
+            #{ticketInfoUnit.trainRun},
+            #{ticketInfoUnit.AB},
+            #{ticketInfoUnit.BC},
+            #{ticketInfoUnit.CD},
+            #{ticketInfoUnit.DE},
+            #{ticketInfoUnit.EF},
+            #{ticketInfoUnit.FG},
+            #{ticketInfoUnit.GH},
+            #{ticketInfoUnit.HI},
+            #{ticketInfoUnit.IJ},
+            #{ticketInfoUnit.JK},
+            #{ticketInfoUnit.KL},
+            #{ticketInfoUnit.LM},
+            #{ticketInfoUnit.MN},
+            #{ticketInfoUnit.NO},
+            #{ticketInfoUnit.OP},
+            #{ticketInfoUnit.PQ},
+            #{ticketInfoUnit.QR},
+            #{ticketInfoUnit.RS},
+            #{ticketInfoUnit.ST},
+            #{ticketInfoUnit.TU},
+            #{ticketInfoUnit.UV},
+            #{ticketInfoUnit.VW},
+            #{ticketInfoUnit.WX},
+            #{ticketInfoUnit.XY},
+            #{ticketInfoUnit.YZ}
+        </foreach>
+        );
+    </insert>
+
+</mapper>
