@@ -44,11 +44,9 @@
     </insert>
 
     <delete id="deleteTransaction" parameterType="long">
-        DELETE segment, transaction
-        FROM segment
-          LEFT JOIN transaction
-            ON segment.transactionId = transaction.transactionId
-        WHERE segment.transactionId = #{transactionId};
+        UPDATE transaction
+        SET canceled = TRUE
+        WHERE transactionId = #{transactionId};
     </delete>
 
     <delete id="deleteAllTransactions">

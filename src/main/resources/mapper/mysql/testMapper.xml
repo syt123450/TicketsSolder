@@ -34,4 +34,23 @@
         WHERE userName = "syt123450";
     </select>
 
+    <resultMap type="NewUser" id="customerTest">
+        <id property="userId" column="id" />
+        <result property="name" column="name" />
+        <collection property="orders" ofType="Order">
+            <result property="orderId" column="o_id" />
+            <result property="orderName" column="o_name" />
+        </collection>
+    </resultMap>
+
+    <select id="testOneToMany" resultMap="customerTest">
+        SELECT
+          N.userId    as id,
+          N.userName  as name,
+          O.orderId   as o_id,
+          O.orderName as o_name
+        FROM newuser as N, orderlist as O
+        WHERE N.userId = O.userId
+    </select>
+
 </mapper>

@@ -29,6 +29,6 @@ public class SliceUtilsTest {
     @Test
     @Ignore
     public void testSliceTrip() {
-        SliceUtils.sliceTrip('B', 'K').forEach(System.out::println);
+        SliceUtils.sliceTrip('L', 'B').forEach(System.out::println);
     }
 }

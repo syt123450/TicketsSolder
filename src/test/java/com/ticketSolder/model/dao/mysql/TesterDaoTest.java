@@ -1,5 +1,6 @@
 package com.ticketSolder.model.dao.mysql;
 
+import com.ticketSolder.model.domain.mysql.NewUser;
 import com.ticketSolder.model.domain.mysql.TestBean;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -61,5 +62,13 @@ public class TesterDaoTest {
     @Ignore
     public void testTestIf() {
         System.out.println(testerDao.testIf(false));
+    }
+
+    @Test
+    @Ignore
+    public void testTestOneToMany() {
+        NewUser newUser = testerDao.testOneToMany();
+        System.out.println(newUser);
+        System.out.println(newUser.getOrders());
     }
 }

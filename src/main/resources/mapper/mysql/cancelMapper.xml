@@ -2,6 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ticketSolder.model.dao.mysql.CancelDao">
 
+    <resultMap type="CanceledTransactionInfo" id="canceledTransactionMap">
+        <id property="transactionId" column="transactionId"/>
+        <result property="userName" column="userName"/>
+        <result property="password" column="password"/>
+        <result property="round" column="round"/>
+        <result property="passengers" column="passengers"/>
+        <collection property="canceledSegmentInfoList" ofType="CanceledSegmentInfo">
+            <result property="startDate" column="startDate"/>
+            <result property="startTime" column="startTime"/>
+            <result property="startStation" column="startStation"/>
+            <result property="endStation" column="endStation"/>
+            <result property="segmentNumber" column="segmentNumber"/>
+            <result property="fast" column="fast"/>
+        </collection>
+    </resultMap>
+
     <select id="getStartTime" resultType="java.sql.Time">
         SELECT
         <if test="direction == true">
@@ -30,8 +46,27 @@
         AND TA.canceled = FALSE;
     </update>
 
-    <select id="findTransactions">
-
+    <select id="findTransactions" resultMap="canceledTransactionMap">
+        SELECT
+          T.transactionId       AS transaction,
+          U.userName            AS userName,
+          U.password            AS password,
+          T.round               AS round,
+          T.passengers          AS passengers,
+          S.DAY                 AS startDate,
+          S.startTime           AS startTime,
+          S.startStation        AS startStation,
+          S.endStation          AS endStation,
+          S.segmentNumber       AS segmentNumber,
+          S.fast                AS fast
+        FROM transaction as T, segment as S, user as U
+        WHERE T.transactionId = S.transactionId
+        AND T.userId = U.userId
+        AND T.transactionId IN
+        SELECT DISTINCT transactionId
+        FROM segment
+        WHERE trainName = #{trainName}
+        AND day = #{date}
     </select>
 
     <update id="cancelTickets">

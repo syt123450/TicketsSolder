@@ -22,29 +22,6 @@ public class SearchHandlerImplTest {
     @Autowired
     private SearchHandlerImpl searchHandler;
 
-//    private boolean round;
-//    private boolean fast;
-//    private boolean normal;
-//
-//    private int goYear;
-//    private int goMonth;
-//    private int goDay;
-//    private int goHour;
-//    private int goMinute;
-//    private char goStartStation;
-//    private char goEndStation;
-//
-//    private int backYear;
-//    private int backMonth;
-//    private int backDay;
-//    private int backHour;
-//    private int backMinute;
-//    private char backStartStation;
-//    private char backEndStation;
-//
-//    private int connections;
-//    private boolean exactly;
-
     @Test
 //    @Ignore
     public void testSearchTripInfo() {
@@ -54,11 +31,11 @@ public class SearchHandlerImplTest {
                 false,
                 2017,
                 12,
-                3,
+                10,
                 7,
                 30,
-                'A',
-                'F',
+                'B',
+                'S',
                 0,
                 0,
                 0,
@@ -66,7 +43,7 @@ public class SearchHandlerImplTest {
                 0,
                 'A',
                 'B',
-                2,
+                3,
                 false
         );
 

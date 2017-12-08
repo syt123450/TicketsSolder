@@ -1,5 +1,6 @@
 package com.ticketSolder.model.dao.mysql;
 
+import com.ticketSolder.model.domain.mysql.NewUser;
 import com.ticketSolder.model.domain.mysql.TestBean;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,4 +20,6 @@ public interface TesterDao {
     List<String> testTime(@Param("time")Time time);
 
     String testIf(@Param("fast") boolean fast);
+
+    NewUser testOneToMany();
 }

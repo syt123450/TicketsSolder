@@ -31,8 +31,12 @@ public class SearchHelper {
 
     public List<TripInfo> searchBothTrainTrip(BasicTripSearchRequest basicTripSearchRequest) {
 
+        List<TripInfo> tripInfoList1 = searchNormalTrainTrip(basicTripSearchRequest);
+        List<TripInfo> tripInfoList2 = searchFastTrainTrip(basicTripSearchRequest);
 
-        return null;
+        tripInfoList1.addAll(tripInfoList2);
+
+        return TailorUtils.curtailBothTrips(tripInfoList1);
     }
 
     public List<TripInfo> searchNormalTrainTrip(BasicTripSearchRequest basicTripSearchRequest) {
@@ -100,14 +104,14 @@ public class SearchHelper {
 
         logger.info("Search for fast trip.");
 
-        List<SlicedSegment> slicedSegments = SliceUtils.sliceTrip(
+        List<List<SlicedSegment>> slicedSegmentLists = SliceUtils.sliceTrip(
                 basicTripSearchRequest.getStartStation(),
                 basicTripSearchRequest.getEndStation()
         );
 
-        logger.info("At least has " + slicedSegments.size() + " segments.");
+        logger.info("At least has " + slicedSegmentLists.size() + " segments.");
 
-        if (slicedSegments.size() > basicTripSearchRequest.getConnections()) {
+        if (slicedSegmentLists.get(0).size() > basicTripSearchRequest.getConnections()) {
             logger.info("Do not exist fast combination that has segments less than given connections.");
             return new ArrayList<>();
         }
@@ -117,34 +121,43 @@ public class SearchHelper {
 
         Date startDate = new Date(startCalendar.getTimeInMillis());
         Time startTime = new Time(startCalendar.getTimeInMillis());
-        boolean direction = basicTripSearchRequest.getEndStation() - basicTripSearchRequest.getStartStation() > 0;
 
-        List<List<SearchResultUnit>> resultLists = new ArrayList<>();
+        List<TripInfo> tripInfoList = new ArrayList<>();
 
-        for (int i = 0; i < slicedSegments.size(); i++) {
+        for (List<SlicedSegment> slicedSegmentList: slicedSegmentLists) {
 
-            boolean exactly;
-            if (i == 0) {
-                exactly = basicTripSearchRequest.isExactly();
-            } else {
-                exactly = false;
+            List<List<SearchResultUnit>> resultLists = new ArrayList<>();
+
+            for (int i = 0; i < slicedSegmentList.size(); i++) {
+
+                boolean exactly;
+                if (i == 0) {
+                    exactly = basicTripSearchRequest.isExactly();
+                } else {
+                    exactly = false;
+                }
+
+                List<SearchResultUnit> searchResultUnits = searchDao.search(startDate,
+                        startTime,
+                        slicedSegmentList.get(i).getStartStation(),
+                        slicedSegmentList.get(i).getEndStation(),
+                        GeneratorUtils.generateSegments(
+                                slicedSegmentList.get(i).getStartStation(),
+                                slicedSegmentList.get(i).getEndStation()
+                        ),
+                        slicedSegmentList.get(i).getEndStation() - slicedSegmentList.get(i).getStartStation() > 0,
+                        exactly,
+                        slicedSegmentList.get(i).isFast());
+
+                System.out.println(searchResultUnits);
+
+                resultLists.add(searchResultUnits);
             }
 
-            List<SearchResultUnit> searchResultUnits = searchDao.search(startDate,
-                    startTime,
-                    basicTripSearchRequest.getStartStation(),
-                    basicTripSearchRequest.getEndStation(),
-                    GeneratorUtils.generateSegments(
-                            slicedSegments.get(i).getStartStation(),
-                            slicedSegments.get(i).getEndStation()
-                    ),
-                    direction,
-                    exactly,
-                    slicedSegments.get(i).isFast());
-
-            resultLists.add(searchResultUnits);
+            List<TripInfo> tempTripInfoList = FastResultCombiner.combine(basicTripSearchRequest, slicedSegmentList, resultLists);
+            tripInfoList.addAll(tempTripInfoList);
         }
 
-        return FastResultCombiner.combine(basicTripSearchRequest, slicedSegments, resultLists);
+        return TailorUtils.curtailBothTrips(tripInfoList);
     }
 }
