@@ -8,13 +8,12 @@ import com.ticketSolder.model.dao.mysql.TransactionDao;
 import com.ticketSolder.model.domain.mysql.*;
 import com.ticketSolder.model.utils.GeneratorUtils;
 import com.ticketSolder.model.utils.TimeUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +26,8 @@ import static java.util.stream.Collectors.toList;
 
 @Component
 public class TransactionHelper {
+
+    private Logger logger = Logger.getLogger(TransactionHelper.class);
 
     @Autowired
     private TransactionDao transactionDao;
@@ -128,9 +129,11 @@ public class TransactionHelper {
                              DeleteTransactionRequest deleteTransactionRequest)
             throws Exception {
 
+        logger.info("Cancel transaction by TransactionHelper.");
+
         //delete transaction log
 
-        transactionDao.deleteTransaction(deleteTransactionRequest.getTransactionId());
+        transactionDao.cancelTransaction(deleteTransactionRequest.getTransactionId());
 
         //"return" tickets to tickets table
 

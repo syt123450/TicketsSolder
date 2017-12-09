@@ -28,7 +28,7 @@ public class AuthenticationAspect {
 
     @Before("Transaction()")
     public void authenticate(JoinPoint joinPoint) throws Exception {
-        System.out.println(joinPoint.getArgs()[0]);
+
         UserInfo userInfo = (UserInfo) joinPoint.getArgs()[0];
         AuthenticationResult authenticationResult = userHandler.authenticate(
                 userInfo.getUserName(),

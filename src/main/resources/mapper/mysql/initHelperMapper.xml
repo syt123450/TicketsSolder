@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ticketSolder.model.dao.mysql.InitHelperDao">
+
+    <select id="extractTicketsData" resultType="TicketInfoUnit">
+      SELECT
+        trainID     AS trainID,
+        date        AS date,
+        canceled    AS canceled,
+        trainRun    AS trainRun,
+        AB          AS AB,
+        BC          AS BC,
+        CD          AS CD,
+        DE          AS DE,
+        EF          AS EF,
+        FG          AS FG,
+        GH          AS GH,
+        HI          AS HI,
+        IJ          AS IJ,
+        JK          AS JK,
+        KL          AS KL,
+        LM          AS LM,
+        MN          AS MN,
+        NO          AS NO,
+        OP          AS OP,
+        PQ          AS PQ,
+        QR          AS QR,
+        RS          AS RS,
+        ST          AS ST,
+        TU          AS TU,
+        UV          AS UV,
+        VW          AS VW,
+        WX          AS WX,
+        XY          AS XY,
+        YZ          AS YZ
+      FROM ticketamount
+      WHERE date >= Date(NOW());
+    </select>
+
+</mapper>

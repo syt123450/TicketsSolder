@@ -26,4 +26,10 @@ public class TestDaoTest {
         testDao.insert();
         System.out.println(testDao.select());
     }
+
+    @Test
+    @Ignore
+    public void testInit() {
+        System.out.println(testDao.testInit());
+    }
 }

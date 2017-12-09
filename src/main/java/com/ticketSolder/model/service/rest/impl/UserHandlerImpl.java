@@ -5,6 +5,7 @@ import com.ticketSolder.model.dao.mysql.UserDao;
 import com.ticketSolder.model.bean.user.UserCreationResult;
 import com.ticketSolder.model.domain.mysql.UserInfo;
 import com.ticketSolder.model.service.rest.UserHandler;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 public class UserHandlerImpl implements UserHandler {
 
     private static final String FAIL_MESSAGE = "User already existed.";
+
+    private Logger logger = Logger.getLogger(UserHandlerImpl.class);
 
     @Autowired
     private UserDao userDao;

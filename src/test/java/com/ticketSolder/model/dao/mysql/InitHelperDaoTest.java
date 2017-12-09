@@ -1,6 +1,5 @@
 package com.ticketSolder.model.dao.mysql;
 
-import afu.org.checkerframework.checker.igj.qual.I;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,25 +10,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
 
 /**
- * Created by ss on 2017/12/4.
+ * Created by ss on 2017/12/7.
  */
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ReportDaoTest {
+public class InitHelperDaoTest {
 
     @Autowired
-    private ReportDao reportDao;
+    private InitHelperDao initHelperDao;
 
     @Test
     @Ignore
-    public void testGetTrainReports() {
-        reportDao.getTrainReports("SB0600").forEach(System.out::println);
-    }
-
-    @Test
-    @Ignore
-    public void testGetTrainTotalReports() {
-        reportDao.getTrainTotalReports().forEach(System.out::println);
+    public void testExtractTicketsData() {
+        initHelperDao.extractTicketsData().forEach(System.out::println);
     }
 }

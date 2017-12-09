@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by ss on 2017/11/29.
  */
@@ -49,8 +47,8 @@ public class TransactionDaoTest {
     @Test
     @Ignore
     public void testDeleteTransaction() {
-        long transactionId = 8;
-        transactionDao.deleteTransaction(transactionId);
+        long transactionId = 23;
+        transactionDao.cancelTransaction(transactionId);
     }
 
     @Test
@@ -78,7 +76,7 @@ public class TransactionDaoTest {
         cal.set(Calendar.MILLISECOND, 0);
 
         SegmentInsertionUnit segmentInsertionUnit1 = new SegmentInsertionUnit(
-                14,
+                23,
                 "kkk",
                 new Date(cal.getTimeInMillis()),
                 new Time(cal.getTimeInMillis()),
@@ -101,7 +99,7 @@ public class TransactionDaoTest {
         cal1.set(Calendar.MILLISECOND, 0);
 
         SegmentInsertionUnit segmentInsertionUnit2 = new SegmentInsertionUnit(
-                14,
+                23,
                 "ttt",
                 new Date(cal1.getTimeInMillis()),
                 new Time(cal1.getTimeInMillis()),

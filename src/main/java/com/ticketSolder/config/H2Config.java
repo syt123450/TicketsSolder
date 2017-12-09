@@ -2,6 +2,8 @@ package com.ticketSolder.config;
 
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -9,12 +11,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.init.ScriptUtils;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +47,8 @@ public class H2Config {
     @Value("${h2.mybatis.typeAliasesPackage}")
     private String typeAliasesPackage;
 
-    private List<String> sqls = new ArrayList<>();
+    @Value("${h2.initSql.source}")
+    private String initSqlSource;
 
     @Bean(name = "h2DataSource")
     public DataSource h2DataSource() {
@@ -52,8 +57,17 @@ public class H2Config {
         dataSource.setUrl(url);
         dataSource.setUsername(user);
         dataSource.setPassword(password);
-        sqls.add("CREATE table test ( name varchar(40) not null, password varchar(40) not null );");
-        dataSource.setConnectionInitSqls(sqls);
+        dataSource.setTestWhileIdle(false);
+        try {
+            URL url = Resources.getResource(initSqlSource);
+            String text = Resources.toString(url, Charsets.UTF_8);
+            List<String> initSql = new ArrayList<>();
+            ScriptUtils.splitSqlScript(text, ";", initSql);
+            dataSource.setConnectionInitSqls(initSql);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return dataSource;
     }
 

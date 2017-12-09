@@ -49,6 +49,7 @@ public class MysqlConfig {
         dataSource.setUrl(url);
         dataSource.setUsername(user);
         dataSource.setPassword(password);
+        dataSource.setTestWhileIdle(false);
         return dataSource;
     }
 

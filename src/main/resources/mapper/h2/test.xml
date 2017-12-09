@@ -10,4 +10,8 @@
         select name from test where password = '333';
     </select>
 
+    <select id="testInit" resultType="string">
+        select trainName from traininfo;
+    </select>
+
 </mapper>

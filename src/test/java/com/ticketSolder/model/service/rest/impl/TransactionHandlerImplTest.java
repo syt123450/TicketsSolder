@@ -34,7 +34,7 @@ public class TransactionHandlerImplTest {
         DeleteTransactionRequest deleteTransactionRequest = new DeleteTransactionRequest();
         deleteTransactionRequest.setUserName("syt123450");
         deleteTransactionRequest.setPassword("123456");
-        deleteTransactionRequest.setTransactionId(14);
+        deleteTransactionRequest.setTransactionId(16);
         System.out.println(transactionHandler.deleteTransaction(deleteTransactionRequest));
     }
 

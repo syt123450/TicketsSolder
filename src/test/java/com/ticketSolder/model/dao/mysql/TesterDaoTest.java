@@ -1,6 +1,5 @@
 package com.ticketSolder.model.dao.mysql;
 
-import com.ticketSolder.model.domain.mysql.NewUser;
 import com.ticketSolder.model.domain.mysql.TestBean;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.util.Calendar;
 
@@ -64,11 +62,4 @@ public class TesterDaoTest {
         System.out.println(testerDao.testIf(false));
     }
 
-    @Test
-    @Ignore
-    public void testTestOneToMany() {
-        NewUser newUser = testerDao.testOneToMany();
-        System.out.println(newUser);
-        System.out.println(newUser.getOrders());
-    }
 }

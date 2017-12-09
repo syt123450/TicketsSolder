@@ -1,5 +1,7 @@
 package com.ticketSolder.initiator;
 
+import com.ticketSolder.model.dao.mysql.CancelDao;
+import com.ticketSolder.model.service.rest.ResetHandler;
 import com.ticketSolder.model.service.virtual.DataDumper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -15,9 +17,12 @@ public class DumperInitiator implements ApplicationListener<ContextRefreshedEven
 
     @Autowired
     private DataDumper dataDumper;
+    @Autowired
+    private ResetHandler resetHandler;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        resetHandler.reset(100);
         dataDumper.initDumper();
     }
 }

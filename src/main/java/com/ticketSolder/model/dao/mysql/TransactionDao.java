@@ -17,7 +17,7 @@ public interface TransactionDao {
 
     List<SegmentTicketInfo> searchTransactionTicketsInfo(@Param("transactionId") long transactionId);
 
-    int deleteTransaction(@Param("transactionId") long transactionId);
+    int cancelTransaction(@Param("transactionId") long transactionId);
 
     int deleteAllTransactions();
 

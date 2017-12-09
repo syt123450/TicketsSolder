@@ -1,10 +1,8 @@
 package com.ticketSolder.model.dao.mysql;
 
-import com.ticketSolder.model.domain.mysql.NewUser;
 import com.ticketSolder.model.domain.mysql.TestBean;
 import org.apache.ibatis.annotations.Param;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
@@ -21,5 +19,4 @@ public interface TesterDao {
 
     String testIf(@Param("fast") boolean fast);
 
-    NewUser testOneToMany();
 }
