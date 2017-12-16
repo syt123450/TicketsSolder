@@ -107,7 +107,7 @@ public class GeneratorUtils {
 
         Calendar dayCalendar = Calendar.getInstance();
         dayCalendar.set(Calendar.YEAR, inputSegmentInfo.getYear());
-        dayCalendar.set(Calendar.MONTH, inputSegmentInfo.getMonth());
+        dayCalendar.set(Calendar.MONTH, inputSegmentInfo.getMonth() - 1);
         dayCalendar.set(Calendar.DAY_OF_MONTH, inputSegmentInfo.getDay());
         Calendar startCalendar = Calendar.getInstance();
         startCalendar.set(Calendar.HOUR_OF_DAY, inputSegmentInfo.getStartHour());
@@ -281,7 +281,7 @@ public class GeneratorUtils {
         createTransactionRequest.setRound(tripSearchResult.isRound());
 
         boolean isFast = tripSearchResult.getGoTripInfoAggregation().isFast() ||
-                tripSearchResult.getBackTripInfoAggregation().isFast();
+                (tripSearchResult.getBackTripInfoAggregation() != null && tripSearchResult.getBackTripInfoAggregation().isFast());
 
         List<InputSegmentInfo> goSegments = generateInputSegmentInfoListFromTripInfo(
                 isFast ? tripSearchResult.getGoTripInfoAggregation().getFastTrainTrips().get(0) :

@@ -47,6 +47,11 @@ public class CancelDaoTest {
     @Ignore
     public void testFindTransactions() {
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 10);
+        Date date = new Date(calendar.getTimeInMillis());
+
+        cancelDao.findTransactions("SB0615", date).forEach(System.out::println);
     }
 
     @Test

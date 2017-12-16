@@ -46,7 +46,8 @@
     <update id="cancelTransaction" parameterType="long">
         UPDATE transaction
         SET canceled = TRUE
-        WHERE transactionId = #{transactionId};
+        WHERE transactionId = #{transactionId}
+        AND canceled = FALSE;
     </update>
 
     <delete id="deleteAllTransactions">

@@ -43,6 +43,8 @@ public class SearchHelper {
 
         logger.info("Search for normal trip.");
 
+        logger.info(basicTripSearchRequest);
+
         //prepare for the parameter for search
 
         Calendar startCalendar = TimeUtils.getStartCalendarForSearch(basicTripSearchRequest);

@@ -48,7 +48,7 @@ public class TransactionDaoTest {
     @Ignore
     public void testDeleteTransaction() {
         long transactionId = 23;
-        transactionDao.cancelTransaction(transactionId);
+        System.out.println(transactionDao.cancelTransaction(transactionId));
     }
 
     @Test

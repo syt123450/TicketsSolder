@@ -17,12 +17,9 @@ public class DumperInitiator implements ApplicationListener<ContextRefreshedEven
 
     @Autowired
     private DataDumper dataDumper;
-    @Autowired
-    private ResetHandler resetHandler;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        resetHandler.reset(100);
         dataDumper.initDumper();
     }
 }

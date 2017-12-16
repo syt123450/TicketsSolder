@@ -93,14 +93,17 @@ public class CancelHelper {
     private void validateTime(CancelRequest cancelRequest) throws Exception {
 
         Calendar timeNow = Calendar.getInstance();
+
         Calendar trainStartCalendar = Calendar.getInstance();
-        trainStartCalendar.set(Calendar.YEAR, cancelRequest.getYear());
-        trainStartCalendar.set(Calendar.MONTH, cancelRequest.getMonth() - 1);
-        trainStartCalendar.set(Calendar.DAY_OF_MONTH, cancelRequest.getDay());
+
         Time startTime = cancelDao.getStartTime(cancelRequest.getTrainName(),
                 GeneratorUtils.generateDirection(cancelRequest.getTrainName()),
                 GeneratorUtils.generateFast(cancelRequest.getTrainName()));
         trainStartCalendar.setTime(startTime);
+
+        trainStartCalendar.set(Calendar.YEAR, cancelRequest.getYear());
+        trainStartCalendar.set(Calendar.MONTH, cancelRequest.getMonth() - 1);
+        trainStartCalendar.set(Calendar.DAY_OF_MONTH, cancelRequest.getDay());
 
         long differenceHour = (trainStartCalendar.getTimeInMillis() - timeNow.getTimeInMillis()) / 1000 / 60 / 60;
 

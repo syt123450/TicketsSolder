@@ -102,9 +102,11 @@ public class EmailUtils {
                 message.setSubject(subject);
                 message.setText(text);
 
+                logger.info("sending email to " + address);
+
                 Transport.send(message);
 
-                logger.info("Send message to " + address);
+                logger.info("Successfully Send email to " + address);
 
             } catch (MessagingException e) {
                 throw new RuntimeException(e);

@@ -48,7 +48,7 @@
 
     <select id="findTransactions" resultMap="canceledTransactionMap">
         SELECT
-          T.transactionId       AS transaction,
+          T.transactionId       AS transactionId,
           U.userName            AS userName,
           U.password            AS password,
           T.round               AS round,
@@ -63,10 +63,10 @@
         WHERE T.transactionId = S.transactionId
         AND T.userId = U.userId
         AND T.transactionId IN
-        SELECT DISTINCT transactionId
+        (SELECT DISTINCT transactionId
         FROM segment
         WHERE trainName = #{trainName}
-        AND day = #{date}
+        AND day = #{date})
     </select>
 
     <update id="cancelTickets">

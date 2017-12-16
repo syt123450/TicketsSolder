@@ -27,6 +27,8 @@ import static java.util.stream.Collectors.toList;
 @Component
 public class TransactionHelper {
 
+    private static final String ALREADY_CANCELED_ERROR_MESSAGE = "The transaction has already been canceled.";
+
     private Logger logger = Logger.getLogger(TransactionHelper.class);
 
     @Autowired
@@ -133,7 +135,11 @@ public class TransactionHelper {
 
         //delete transaction log
 
-        transactionDao.cancelTransaction(deleteTransactionRequest.getTransactionId());
+        int result = transactionDao.cancelTransaction(deleteTransactionRequest.getTransactionId());
+
+        if (result == 0) {
+            throw new Exception(ALREADY_CANCELED_ERROR_MESSAGE);
+        }
 
         //"return" tickets to tickets table
 

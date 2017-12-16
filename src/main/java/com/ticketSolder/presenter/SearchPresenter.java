@@ -34,6 +34,8 @@ class SearchPresenter {
 
         TripRequest tripRequest = gson.fromJson(body, TripRequest.class);
 
+        logger.info(tripRequest);
+
         return gson.toJson(searchHandler.searchTripInfo(tripRequest));
     }
 }
