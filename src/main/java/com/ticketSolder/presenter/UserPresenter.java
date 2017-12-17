@@ -9,15 +9,13 @@ import com.ticketSolder.model.service.rest.UserHandler;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by ss on 2017/11/16.
  */
 
+@CrossOrigin
 @EnableAutoConfiguration
 @RestController
 @RequestMapping("/api/user")
