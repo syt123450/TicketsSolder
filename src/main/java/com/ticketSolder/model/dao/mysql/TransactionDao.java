@@ -21,4 +21,6 @@ public interface TransactionDao {
     int createTransactionAndGetId(TransactionTableUnit transactionTableUnit);
 
     int createDetailedTransactions(@Param("segmentInsertionUnits") List<SegmentInsertionUnit> segmentInsertionUnits);
+
+    DepartureTime getTransactionDepartureTime(@Param("transactionId") long transactionId);
 }

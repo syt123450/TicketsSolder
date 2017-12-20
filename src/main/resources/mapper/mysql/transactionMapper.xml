@@ -93,4 +93,14 @@
         AND S.transactionId = #{transactionId}
     </select>
 
+    <select id="getTransactionDepartureTime" resultType="com.ticketSolder.model.domain.mysql.DepartureTime">
+        SELECT
+          S.day                AS startDate,
+          S.startTime          AS startTime
+        FROM transaction AS T, segment AS S
+        WHERE T.transactionId = S.transactionId
+        AND S.segmentNumber = 0
+        AND T.transactionId = #{transactionId}
+    </select>
+
 </mapper>

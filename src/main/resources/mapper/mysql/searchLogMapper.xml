@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ticketSolder.model.dao.mysql.SearchLogDao">
+
+    <delete id="clearSearchLog">
+        DELETE FROM searchLog;
+    </delete>
+
+    <insert id="insertOrUpdateSearchLog">
+        INSERT INTO searchlog
+          (date, searchTimes, connection0, connection1, connection2, average0, average1, average2)
+        VALUES
+          (curdate(), 1, 0, 0, 0, 0, 0, 0)
+        ON DUPLICATE KEY UPDATE
+          searchTimes = searchTimes + 1;
+    </insert>
+
+    <update id="updateConnectionLog">
+        UPDATE searchlog
+        SET ${averageColumn} = (${averageColumn} * ${connectionColumn} + #{latency}) / (${connectionColumn} + 1),
+            ${connectionColumn} = ${connectionColumn} + 1
+        WHERE date = curdate();
+    </update>
+
+</mapper>

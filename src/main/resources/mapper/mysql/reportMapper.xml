@@ -72,4 +72,40 @@
       GROUP BY TI.trainName
     </select>
 
+    <select id="getPerTrainReservationRate" resultType="double">
+      SELECT 1 - (TA.AB + TA.BC + TA.CD + TA.DE + TA.EF + TA.FG + TA.GH + TA.HI + TA.IJ + TA.JK + TA.KL + TA.LM + TA.MN
+                  + TA.NO + TA.OP + TA.PQ + TA.QR + TA.RS + TA.ST + TA.TU + TA.UV + TA.VW + TA.WX + TA.XY + TA.YZ)
+                  / (25 * SI.totalTicketPerLine)
+      FROM traininfo AS TI, ticketamount AS TA, systeminfo as SI
+      WHERE TI.trainId = TA.trainId
+      AND TI.trainName = #{trainName}
+      AND TA.date = #{date}
+    </select>
+
+    <select id="getSystemReservationRate" resultType="double">
+      SELECT SUM (
+              1 - (TA.AB + TA.BC + TA.CD + TA.DE + TA.EF + TA.FG + TA.GH + TA.HI + TA.IJ + TA.JK + TA.KL + TA.LM + TA.MN
+                  + TA.NO + TA.OP + TA.PQ + TA.QR + TA.RS + TA.ST + TA.TU + TA.UV + TA.VW + TA.WX + TA.XY + TA.YZ)
+                  / (25 * SI.totalTicketPerLine)
+      ) / COUNT (*)
+
+      FROM traininfo AS TI, ticketamount AS TA, systeminfo as SI
+      WHERE TI.trainId = TA.trainId
+      AND TA.date = #{date}
+    </select>
+
+    <select id="getSearchState" resultType="com.ticketSolder.model.domain.mysql.SearchLogInfo">
+        SELECT
+          date          AS date,
+          searchTimes   AS searchTimes,
+          connection0   AS connection0,
+          connection1   AS connection1,
+          connection2   AS connection2,
+          average0      AS average0,
+          average1      AS average1,
+          average2      AS average2
+        FROM searchlog
+        WHERE date = #{date}
+    </select>
+
 </mapper>

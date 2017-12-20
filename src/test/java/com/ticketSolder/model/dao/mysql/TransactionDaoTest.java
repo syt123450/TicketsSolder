@@ -124,4 +124,10 @@ public class TransactionDaoTest {
     public void testDeleteAllTransactions() {
         transactionDao.deleteAllTransactions();
     }
+
+    @Test
+    @Ignore
+    public void testGetTransactionDepartureTime() {
+        System.out.println(transactionDao.getTransactionDepartureTime(41));
+    }
 }

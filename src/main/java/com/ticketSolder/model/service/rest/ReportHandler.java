@@ -1,5 +1,6 @@
 package com.ticketSolder.model.service.rest;
 
+import com.ticketSolder.model.bean.report.*;
 import com.ticketSolder.model.domain.mysql.TrainDayReport;
 import com.ticketSolder.model.domain.mysql.TrainTotalReport;
 
@@ -14,4 +15,9 @@ public interface ReportHandler {
 
     List<TrainTotalReport> getSystemReport();
 
+    RateResult getPerTrainRate(PerTrainRequestBean perTrainRequestBean);
+
+    RateResult getWholeTrainRate(WholeTrainRequestBean wholeTrainRequestBean);
+
+    SystemSearchState getSystemSearchState(SearchStateRequestBean searchStateRequestBean);
 }

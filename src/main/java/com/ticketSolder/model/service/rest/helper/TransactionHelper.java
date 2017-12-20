@@ -28,6 +28,7 @@ import static java.util.stream.Collectors.toList;
 public class TransactionHelper {
 
     private static final String ALREADY_CANCELED_ERROR_MESSAGE = "The transaction has already been canceled.";
+    private static final String TOO_LATE_TO_CANCEL = "Sorry, ticket cancel must be one hour before departure.";
 
     private Logger logger = Logger.getLogger(TransactionHelper.class);
 
@@ -134,6 +135,14 @@ public class TransactionHelper {
             throws Exception {
 
         logger.info("Cancel transaction by TransactionHelper.");
+
+        //validate the departure time
+
+        DepartureTime departureTime =
+                transactionDao.getTransactionDepartureTime(deleteTransactionRequest.getTransactionId());
+        if (!TimeUtils.validateTransactionCancelTime(departureTime)) {
+            throw new Exception(TOO_LATE_TO_CANCEL);
+        }
 
         //delete transaction log
 

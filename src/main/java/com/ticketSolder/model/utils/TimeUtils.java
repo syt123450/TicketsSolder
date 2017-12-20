@@ -1,6 +1,7 @@
 package com.ticketSolder.model.utils;
 
 import com.ticketSolder.model.bean.trip.BasicTripSearchRequest;
+import com.ticketSolder.model.domain.mysql.DepartureTime;
 import org.apache.log4j.Logger;
 
 import java.sql.Date;
@@ -92,5 +93,28 @@ public class TimeUtils {
         }
 
         return calendar;
+    }
+
+    public static boolean validateTransactionCancelTime(DepartureTime departureTime) {
+
+        long timeNow = Calendar.getInstance().getTimeInMillis();
+
+        Calendar departureCalendar = Calendar.getInstance();
+        Calendar helperCalendar = Calendar.getInstance();
+
+        departureCalendar.setTime(departureTime.getStartTime());
+        helperCalendar.setTime(departureTime.getStartDate());
+
+        departureCalendar.set(Calendar.YEAR, helperCalendar.get(Calendar.YEAR));
+        departureCalendar.set(Calendar.MONTH, helperCalendar.get(Calendar.MONTH));
+        departureCalendar.set(Calendar.DAY_OF_MONTH, helperCalendar.get(Calendar.DAY_OF_MONTH));
+
+        long departureTimeInMillis = departureCalendar.getTimeInMillis();
+
+        long differenceHours = (departureTimeInMillis - timeNow) / 1000 / 60 / 60;
+
+        logger.info("The departure time are " + differenceHours + " hours later.");
+
+        return differenceHours > 1;
     }
 }

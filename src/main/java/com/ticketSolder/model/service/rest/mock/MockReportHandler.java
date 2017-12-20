@@ -1,5 +1,6 @@
 package com.ticketSolder.model.service.rest.mock;
 
+import com.ticketSolder.model.bean.report.*;
 import com.ticketSolder.model.domain.mysql.TrainDayReport;
 import com.ticketSolder.model.domain.mysql.TrainTotalReport;
 import com.ticketSolder.model.service.rest.ReportHandler;
@@ -109,5 +110,41 @@ public class MockReportHandler implements ReportHandler {
         systemReport.add(trainTotalReport2);
 
         return systemReport;
+    }
+
+    @Override
+    public RateResult getPerTrainRate(PerTrainRequestBean perTrainRequestBean) {
+
+        RateResult rateResult = new RateResult();
+        rateResult.setRate("0.08%");
+
+        return rateResult;
+    }
+
+    @Override
+    public RateResult getWholeTrainRate(WholeTrainRequestBean wholeTrainRequestBean) {
+        RateResult rateResult = new RateResult();
+        rateResult.setRate("0.08%");
+
+        return rateResult;
+    }
+
+    @Override
+    public SystemSearchState getSystemSearchState(SearchStateRequestBean searchStateRequestBean) {
+
+        SystemSearchState systemSearchState = new SystemSearchState(
+              100,
+                30,
+                30,
+                40,
+                "30%",
+                "30%",
+                "40%",
+                "100 Millisecond/Request",
+                "200 Millisecond/Request",
+                "300 Millisecond/Request"
+        );
+
+        return systemSearchState;
     }
 }

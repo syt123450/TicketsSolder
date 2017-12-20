@@ -1,8 +1,6 @@
 package com.ticketSolder.model.service.rest.helper;
 
-import com.ticketSolder.model.dao.mysql.TicketsDao;
-import com.ticketSolder.model.dao.mysql.TransactionDao;
-import com.ticketSolder.model.dao.mysql.UserDao;
+import com.ticketSolder.model.dao.mysql.*;
 import com.ticketSolder.model.domain.mysql.TicketsLine;
 import com.ticketSolder.model.utils.GeneratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +25,19 @@ public class ResetHelper {
     private TransactionDao transactionDao;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private SystemInfoDao systemInfoDao;
+    @Autowired
+    private SearchLogDao searchLogDao;
 
     @Transactional
     public void deleteAndInit(int initNumber) {
 
         ticketsDao.clearTicketsHistory();
         transactionDao.deleteAllTransactions();
+        searchLogDao.clearSearchLog();
         userDao.deleteAllUsers();
+        systemInfoDao.initSystemInfo(initNumber);
         ticketsDao.insertNewTickets(GeneratorUtils.generateTicketsLine(initNumber));
     }
 }

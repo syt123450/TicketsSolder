@@ -32,4 +32,10 @@ public class ReportHandlerImplTest {
     public void testGetSystemReport() {
         reportHandler.getSystemReport().forEach(System.out::println);
     }
+
+    @Test
+    @Ignore
+    public void test() {
+        System.out.println(String.format("%.2f" , 100 * 0.0008) + "%");
+    }
 }

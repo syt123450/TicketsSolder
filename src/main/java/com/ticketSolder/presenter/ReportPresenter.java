@@ -2,14 +2,14 @@ package com.ticketSolder.presenter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ticketSolder.model.bean.report.PerTrainRequestBean;
+import com.ticketSolder.model.bean.report.SearchStateRequestBean;
+import com.ticketSolder.model.bean.report.WholeTrainRequestBean;
 import com.ticketSolder.model.service.rest.ReportHandler;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by ss on 2017/11/29.
@@ -40,5 +40,35 @@ class ReportPresenter {
         logger.info("Get system report.");
 
         return gson.toJson(reportHandler.getSystemReport());
+    }
+
+    @RequestMapping("/report/perTrain")
+    private String getPerTrainRate(@RequestBody String body) {
+
+        logger.info("Get per train rate.");
+
+        PerTrainRequestBean perTrainRequestBean = gson.fromJson(body, PerTrainRequestBean.class);
+
+        return gson.toJson(reportHandler.getPerTrainRate(perTrainRequestBean));
+    }
+
+    @RequestMapping("/report/whole")
+    private String getWholeTrainRate(@RequestBody String body) {
+
+        logger.info("Get whole day rate.");
+
+        WholeTrainRequestBean wholeTrainRequestBean = gson.fromJson(body, WholeTrainRequestBean.class);
+
+        return gson.toJson(reportHandler.getWholeTrainRate(wholeTrainRequestBean));
+    }
+
+    @RequestMapping("/report/state")
+    private String getSystemSearchState(@RequestBody String body) {
+
+        logger.info("Get system search state info.");
+
+        SearchStateRequestBean searchStateRequestBean = gson.fromJson(body, SearchStateRequestBean.class);
+
+        return gson.toJson(reportHandler.getSystemSearchState(searchStateRequestBean));
     }
 }

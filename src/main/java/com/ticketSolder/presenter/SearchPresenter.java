@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 @EnableAutoConfiguration
 @RestController
 @RequestMapping("/api/search")
-class SearchPresenter {
+public class SearchPresenter {
 
     @Autowired
     private SearchHandler searchHandler;
@@ -25,7 +25,7 @@ class SearchPresenter {
     private Logger logger = Logger.getLogger(SearchPresenter.class);
 
     @RequestMapping(value = "/Trip", method = RequestMethod.POST)
-    private String searchTrip(@RequestBody String body) {
+    public String searchTrip(@RequestBody String body) {
 
         logger.info("Search for trips.");
 
