@@ -18,9 +18,11 @@ public interface TicketsDao {
 
     void purchaseTickets(@Param("trainName") String trainName,
                          @Param("segments") List<String> segments,
-                         @Param("date") Date date);
+                         @Param("date") Date date,
+                         @Param("passengers") int passengers);
 
     void returnTickets(@Param("trainName") String trainName,
                        @Param("segments") List<String> segments,
-                       @Param("date") Date date);
+                       @Param("date") Date date,
+                       @Param("tickets") int tickets);
 }

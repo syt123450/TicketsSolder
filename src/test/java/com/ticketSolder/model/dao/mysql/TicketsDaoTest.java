@@ -45,14 +45,14 @@ public class TicketsDaoTest {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 2017);
-        calendar.set(Calendar.MONTH, 10);
-        calendar.set(Calendar.DAY_OF_MONTH, 30);
+        calendar.set(Calendar.MONTH, 11);
+        calendar.set(Calendar.DAY_OF_MONTH, 19);
 
         Date date = new Date(calendar.getTimeInMillis());
 
         System.out.println(date);
 
-        ticketsDao.purchaseTickets(trainName, segments, date);
+        ticketsDao.purchaseTickets(trainName, segments, date, 4);
     }
 
     @Test
@@ -64,13 +64,13 @@ public class TicketsDaoTest {
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 2017);
-        calendar.set(Calendar.MONTH, 10);
-        calendar.set(Calendar.DAY_OF_MONTH, 30);
+        calendar.set(Calendar.MONTH, 11);
+        calendar.set(Calendar.DAY_OF_MONTH, 19);
 
         Date date = new Date(calendar.getTimeInMillis());
 
         System.out.println(date);
 
-        ticketsDao.returnTickets(trainName, segments, date);
+        ticketsDao.returnTickets(trainName, segments, date, 4);
     }
 }

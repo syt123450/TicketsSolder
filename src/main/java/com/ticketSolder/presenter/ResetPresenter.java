@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by ss on 2017/11/20.
  */
 
-@CrossOrigin
 @EnableAutoConfiguration
 @RestController
 @RequestMapping("/api")

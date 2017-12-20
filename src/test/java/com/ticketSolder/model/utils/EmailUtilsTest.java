@@ -19,7 +19,7 @@ public class EmailUtilsTest {
     @Test
     @Ignore
     public void testSendSuccessEmail() {
-        EmailUtils.sendSuccessEmail("syt123450@gmail.com");
+
         try {
             Thread.sleep(30000);
         } catch (InterruptedException e) {

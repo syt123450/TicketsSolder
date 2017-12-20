@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ticketSolder.model.dao.mysql.TransactionDao">
 
-    <insert id="createTransactionAndGetId" parameterType="TransactionTableUnit"
+    <insert id="createTransactionAndGetId" parameterType="com.ticketSolder.model.domain.mysql.TransactionTableUnit"
             useGeneratedKeys="true" keyProperty="transactionId">
         insert into transaction (userId, round, passengers)
           select userId, #{round}, #{passengers}
@@ -57,7 +57,7 @@
             ON segment.transactionId = transaction.transactionId
     </delete>
 
-    <select id="searchTransactionsByName" parameterType="string" resultType="TransactionUnit">
+    <select id="searchTransactionsByName" parameterType="string" resultType="com.ticketSolder.model.domain.mysql.TransactionUnit">
         SELECT
           t.transactionId                   AS transactionId,
           t.canceled                        AS canceled,
@@ -81,14 +81,16 @@
         ORDER BY t.transactionId, s.segmentNumber
     </select>
 
-    <select id="searchTransactionTicketsInfo" parameterType="long" resultType="SegmentTicketInfo">
+    <select id="searchTransactionTicketsInfo" parameterType="long" resultType="com.ticketSolder.model.domain.mysql.SegmentTicketInfo">
         select
-          trainName          AS trainName,
-          day                AS day,
-          startStation       AS startStation,
-          endStation         AS endStation
-        FROM segment
-        WHERE segment.transactionId = #{transactionId}
+          S.trainName          AS trainName,
+          S.day                AS day,
+          S.startStation       AS startStation,
+          S.endStation         AS endStation,
+          T.passengers         AS tickets
+        FROM segment AS S, transaction AS T
+        WHERE S.transactionId = T.transactionId
+        AND S.transactionId = #{transactionId}
     </select>
 
 </mapper>

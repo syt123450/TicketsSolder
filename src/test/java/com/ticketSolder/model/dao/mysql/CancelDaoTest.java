@@ -28,7 +28,7 @@ public class CancelDaoTest {
     @Test
     @Ignore
     public void testGetStartTime() {
-        System.out.println(cancelDao.getStartTime("NB0600", false, true));
+        System.out.println(cancelDao.getStartTime("NB0615", false, false));
     }
 
     @Test

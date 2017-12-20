@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ticketSolder.model.dao.mysql.SearchDao">
 
-    <select id="search" resultType="SearchResultUnit">
+    <select id="search" resultType="com.ticketSolder.model.domain.mysql.SearchResultUnit">
         SELECT
         TI.trainName          as trainName,
         TI.isFast             as fast,

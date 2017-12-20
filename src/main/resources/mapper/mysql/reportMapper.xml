@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ticketSolder.model.dao.mysql.ReportDao">
 
-    <select id="getTrainReports" resultType="TrainDayReport">
+    <select id="getTrainReports" resultType="com.ticketSolder.model.domain.mysql.TrainDayReport">
       SELECT
         TI.trainName                       AS trainName,
         DATE_FORMAT(TA.date, '%Y-%m-%d')   AS date,
@@ -37,7 +37,7 @@
         AND trainName = #{trainName}
     </select>
 
-    <select id="getTrainTotalReports" resultType="TrainTotalReport">
+    <select id="getTrainTotalReports" resultType="com.ticketSolder.model.domain.mysql.TrainTotalReport">
       SELECT
         TI.trainName AS trainName,
         count(TI.trainName) AS leftDays

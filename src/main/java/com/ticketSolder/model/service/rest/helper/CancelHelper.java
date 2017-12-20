@@ -13,6 +13,7 @@ import com.ticketSolder.model.service.rest.TransactionHandler;
 import com.ticketSolder.model.utils.EmailUtils;
 import com.ticketSolder.model.utils.GeneratorUtils;
 import com.ticketSolder.model.utils.TimeUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +47,9 @@ public class CancelHelper {
     @Autowired
     private TransactionHandler transactionHandler;
 
-    @Transactional
+    private Logger logger = Logger.getLogger(CancelHelper.class);
+
+    @Transactional(rollbackFor = Exception.class)
     public List<CanceledUser> cancel(CancelRequest cancelRequest) throws Exception {
 
         Date date = TimeUtils.getSQLDate(
@@ -99,13 +102,19 @@ public class CancelHelper {
         Time startTime = cancelDao.getStartTime(cancelRequest.getTrainName(),
                 GeneratorUtils.generateDirection(cancelRequest.getTrainName()),
                 GeneratorUtils.generateFast(cancelRequest.getTrainName()));
+
         trainStartCalendar.setTime(startTime);
 
         trainStartCalendar.set(Calendar.YEAR, cancelRequest.getYear());
         trainStartCalendar.set(Calendar.MONTH, cancelRequest.getMonth() - 1);
         trainStartCalendar.set(Calendar.DAY_OF_MONTH, cancelRequest.getDay());
 
+
+        logger.info("Train start calendar is: " + trainStartCalendar.getTime());
+
         long differenceHour = (trainStartCalendar.getTimeInMillis() - timeNow.getTimeInMillis()) / 1000 / 60 / 60;
+
+        logger.info("The different hour is: " + differenceHour);
 
         if (differenceHour < 3) {
             throw new Exception(TIME_LATE_MESSAGE);
@@ -139,7 +148,9 @@ public class CancelHelper {
     private void cancelExistTickets(List<Long> transactionIds) throws Exception {
 
         try {
-            cancelDao.cancelTickets(transactionIds);
+            if (transactionIds != null && transactionIds.size() != 0) {
+                cancelDao.cancelTickets(transactionIds);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception(FAIL_CANCEL_TICKETS_MESSAGE);
@@ -163,6 +174,7 @@ public class CancelHelper {
                                 && tripSearchResult.getBackTripInfoAggregation().getNormalTrainTrips().size() == 0)) {
                     CanceledUser canceledUser = new CanceledUser();
                     canceledUser.setUserName(rebookRequest.getUserName());
+                    canceledUser.setEmail(rebookRequest.getEmail());
                     canceledUserList.add(canceledUser);
                 } else {
                     CreateTransactionRequest createTransactionRequest =
@@ -191,6 +203,7 @@ public class CancelHelper {
 
                 CanceledUser canceledUser = new CanceledUser();
                 canceledUser.setUserName(createTransactionRequest.getUserName());
+                canceledUser.setEmail(createTransactionRequest.getEmail());
 
                 if (!transactionCreationResult.isResult()) {
                     canceledUserList.add(canceledUser);

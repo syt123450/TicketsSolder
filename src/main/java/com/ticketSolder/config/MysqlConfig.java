@@ -67,7 +67,7 @@ public class MysqlConfig {
         sessionFactory.setDataSource(mysqlDataSource);
         sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
                 .getResources(mapperLocation));
-        sessionFactory.setTypeAliasesPackage(typeAliasesPackage);
+//        sessionFactory.setTypeAliasesPackage(typeAliasesPackage);
         return sessionFactory.getObject();
     }
 }

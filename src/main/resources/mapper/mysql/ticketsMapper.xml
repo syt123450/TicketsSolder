@@ -76,7 +76,7 @@
         JOIN traininfo as TI on TI.trainID = TA.trainID
         SET
         <foreach collection="segments" item="segment" index="index" separator=",">
-            TA.${segment} = TA.${segment} - 1
+            TA.${segment} = TA.${segment} - #{passengers}
         </foreach>
         WHERE TI.trainName = #{trainName}
         AND TA.date = #{date}
@@ -88,7 +88,7 @@
         JOIN traininfo as TI on TI.trainID = TA.trainID
         SET
         <foreach collection="segments" item="segment" index="index" separator=",">
-            TA.${segment} = TA.${segment} + 1
+            TA.${segment} = TA.${segment} + #{tickets}
         </foreach>
         WHERE TI.trainName = #{trainName}
         AND TA.date = #{date}

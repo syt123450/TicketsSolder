@@ -2,13 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ticketSolder.model.dao.mysql.CancelDao">
 
-    <resultMap type="CanceledTransactionInfo" id="canceledTransactionMap">
+    <resultMap type="com.ticketSolder.model.domain.mysql.CanceledTransactionInfo" id="canceledTransactionMap">
         <id property="transactionId" column="transactionId"/>
         <result property="userName" column="userName"/>
         <result property="password" column="password"/>
+        <result property="email" column="email" />
         <result property="round" column="round"/>
         <result property="passengers" column="passengers"/>
-        <collection property="canceledSegmentInfoList" ofType="CanceledSegmentInfo">
+        <collection property="canceledSegmentInfoList" ofType="com.ticketSolder.model.domain.mysql.CanceledSegmentInfo">
             <result property="startDate" column="startDate"/>
             <result property="startTime" column="startTime"/>
             <result property="startStation" column="startStation"/>
@@ -30,7 +31,7 @@
         <if test="fast == true">
             fastschedule as S
         </if>
-        <if test="fast == false">
+        <if test="fast != true">
             slowschedule as S
         </if>
         WHERE TI.trainID = S.trainID
@@ -51,6 +52,7 @@
           T.transactionId       AS transactionId,
           U.userName            AS userName,
           U.password            AS password,
+          U.email               AS email,
           T.round               AS round,
           T.passengers          AS passengers,
           S.DAY                 AS startDate,

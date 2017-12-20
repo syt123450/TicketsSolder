@@ -16,6 +16,9 @@ public class CreateTransactionRequest {
     private String userName;
     private String password;
 
+    //field only use for rebook
+    private String email;
+
     private boolean round;
     private int passengers;
 

@@ -83,7 +83,7 @@ public class H2Config {
         sessionFactory.setDataSource(h2DataSource);
         sessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver()
                 .getResources(mapperLocation));
-        sessionFactory.setTypeAliasesPackage(typeAliasesPackage);
+//        sessionFactory.setTypeAliasesPackage(typeAliasesPackage);
         return sessionFactory.getObject();
     }
 }

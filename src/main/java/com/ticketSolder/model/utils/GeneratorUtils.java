@@ -126,7 +126,7 @@ public class GeneratorUtils {
                 new Date(dayCalendar.getTimeInMillis()),
                 new Time(startCalendar.getTimeInMillis()),
                 new Time(endCalendar.getTimeInMillis()),
-                inputSegmentInfo.getPrice(),
+                inputSegmentInfo.getPrice() * transactionTableUnit.getPassengers(),
                 inputSegmentInfo.getStartStation(),
                 inputSegmentInfo.getEndStation(),
                 segmentNumber,
@@ -259,6 +259,7 @@ public class GeneratorUtils {
             RebookRequest rebookRequest = new RebookRequest(
                     canceledTransactionInfo.getUserName(),
                     canceledTransactionInfo.getPassword(),
+                    canceledTransactionInfo.getEmail(),
                     canceledTransactionInfo.getPassengers(),
                     generateTripRequestFromCancelInfo(canceledTransactionInfo)
             );
@@ -296,6 +297,8 @@ public class GeneratorUtils {
             );
             createTransactionRequest.setBackSegments(backSegments);
         }
+
+        createTransactionRequest.setEmail(rebookRequest.getEmail());
 
         return createTransactionRequest;
     }
@@ -430,5 +433,56 @@ public class GeneratorUtils {
 
         return trainName.charAt(trainName.length() - 1) == '0' &&
                 trainName.charAt(trainName.length() - 2) == '0';
+    }
+
+    public static List<List<Character>> generateSegmentPairs(CreateTransactionRequest createTransactionRequest) {
+
+        List<List<Character>> pairs = new ArrayList<>();
+
+        for (InputSegmentInfo inputSegmentInfo: createTransactionRequest.getGoSegments()) {
+            List<Character> pair = new ArrayList<>();
+            pair.add(inputSegmentInfo.getStartStation());
+            pair.add(inputSegmentInfo.getEndStation());
+
+            pairs.add(pair);
+        }
+
+        if (createTransactionRequest.isRound()) {
+            for (InputSegmentInfo inputSegmentInfo: createTransactionRequest.getBackSegments()) {
+                List<Character> pair = new ArrayList<>();
+                pair.add(inputSegmentInfo.getStartStation());
+                pair.add(inputSegmentInfo.getEndStation());
+
+                pairs.add(pair);
+            }
+        }
+
+        return pairs;
+    }
+
+    public static int generateTransactionPrice(CreateTransactionRequest createTransactionRequest) {
+
+        int basePrice = 0;
+
+        for (InputSegmentInfo inputSegmentInfo: createTransactionRequest.getGoSegments()) {
+            basePrice += PriceUtils.getPrice(
+                    inputSegmentInfo.isFast(),
+                    inputSegmentInfo.getStartStation(),
+                    inputSegmentInfo.getEndStation());
+        }
+
+        if (createTransactionRequest.isRound()) {
+            for (InputSegmentInfo inputSegmentInfo: createTransactionRequest.getBackSegments()) {
+                basePrice += PriceUtils.getPrice(
+                        inputSegmentInfo.isFast(),
+                        inputSegmentInfo.getStartStation(),
+                        inputSegmentInfo.getEndStation()
+                );
+            }
+        }
+
+        basePrice *= createTransactionRequest.getPassengers();
+        
+        return basePrice;
     }
 }

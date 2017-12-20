@@ -61,7 +61,7 @@ public class TransactionHandlerImpl implements TransactionHandler {
             transactionHelper.creationHelper(userInfo, createTransactionRequest);
             transactionCreationResult.setResult(true);
             String emailAddress = userDao.getEmailByName(userInfo.getUserName());
-            EmailUtils.sendSuccessEmail(emailAddress);
+            EmailUtils.sendSuccessEmail(createTransactionRequest, emailAddress);
         } catch (Exception e) {
             logger.info("Failed to create transaction because: " + e.getMessage());
             transactionCreationResult.setResult(false);

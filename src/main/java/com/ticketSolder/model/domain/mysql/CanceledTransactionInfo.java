@@ -14,6 +14,7 @@ public class CanceledTransactionInfo {
     private long transactionId;
     private String userName;
     private String password;
+    private String email;
 
     private boolean round;
     private int passengers;

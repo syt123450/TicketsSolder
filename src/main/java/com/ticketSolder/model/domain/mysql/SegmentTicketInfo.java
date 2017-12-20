@@ -15,4 +15,5 @@ public class SegmentTicketInfo {
     private Date day;
     private char startStation;
     private char endStation;
+    private int tickets;
 }

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
  * Created by ss on 2017/11/16.
  */
 
-@CrossOrigin
 @EnableAutoConfiguration
 @RestController
 @RequestMapping("/api/transaction")

@@ -31,6 +31,8 @@ class CancelPresenter {
 
         CancelRequest cancelRequest = gson.fromJson(body, CancelRequest.class);
 
+        logger.info("Cancel request bean is: " + cancelRequest);
+
         return gson.toJson(cancelHandler.cancel(cancelRequest));
     }
 }

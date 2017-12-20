@@ -46,4 +46,10 @@ public class UserDaoTest {
         System.out.println(userDao.getEmailByName("ttt"));
         System.out.println(userDao.getEmailByName("syt123450"));
     }
+
+    @Test
+    @Ignore
+    public void testDeleteAllUsers() {
+        userDao.deleteAllUsers();
+    }
 }

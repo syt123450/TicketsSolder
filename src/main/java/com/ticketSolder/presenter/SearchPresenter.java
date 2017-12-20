@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
  * Created by ss on 2017/11/16.
  */
 
-@CrossOrigin
 @EnableAutoConfiguration
 @RestController
 @RequestMapping("/api/search")

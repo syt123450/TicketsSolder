@@ -17,6 +17,7 @@ public class RebookRequest {
 
     private String userName;
     private String password;
+    private String email;
     private int passengers;
     private TripRequest tripRequest;
 }

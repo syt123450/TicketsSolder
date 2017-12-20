@@ -1,6 +1,7 @@
 package com.ticketSolder.model.utils;
 
 import com.ticketSolder.model.bean.cancel.CanceledUser;
+import com.ticketSolder.model.bean.transaction.CreateTransactionRequest;
 import org.apache.log4j.Logger;
 
 import javax.mail.*;
@@ -20,7 +21,6 @@ public class EmailUtils {
     private static final String senderPassword = "syt19930224";
 
     private static final String SUCCESS_SUBJECT = "Successfully Booking";
-    private static final String SUCCESS_MESSAGE = "Hello, you successfully book the ticket right now.";
     private static final String CANCEL_SUBJECT = "Cancel Notification";
     private static final String CANCEL_MESSAGE = "You successfully canceled your ticket right now.";
     private static final String REBOOK_SUBJECT = "Rebook Notification";
@@ -48,9 +48,15 @@ public class EmailUtils {
                 });
     }
 
-    public static void sendSuccessEmail(String emailAddress) {
+    public static void sendSuccessEmail(CreateTransactionRequest createTransactionRequest, String emailAddress) {
 
-        send(emailAddress, SUCCESS_SUBJECT, SUCCESS_MESSAGE);
+        send(emailAddress,
+                SUCCESS_SUBJECT,
+                MessageUtils.getSuccessMessage(
+                        GeneratorUtils.generateSegmentPairs(createTransactionRequest),
+                        GeneratorUtils.generateTransactionPrice(createTransactionRequest),
+                        createTransactionRequest.getUserName()
+                ));
     }
 
     public static void sendCancelEmail(String emailAddress) {

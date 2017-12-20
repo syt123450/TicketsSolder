@@ -18,4 +18,6 @@ public interface UserDao {
     UserInfo searchUserByName(@Param("userName") String userName);
 
     String getEmailByName(@Param("userName") String userName);
+
+    int deleteAllUsers();
 }

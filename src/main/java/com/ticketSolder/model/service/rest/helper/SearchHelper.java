@@ -111,9 +111,10 @@ public class SearchHelper {
                 basicTripSearchRequest.getEndStation()
         );
 
-        logger.info("At least has " + slicedSegmentLists.size() + " segments.");
+        logger.info("At least has " + slicedSegmentLists.get(0).size() + " segments.");
+        logger.info("User want at most " + (basicTripSearchRequest.getConnections() + 1) + " segments.");
 
-        if (slicedSegmentLists.get(0).size() > basicTripSearchRequest.getConnections()) {
+        if (slicedSegmentLists.get(0).size() > basicTripSearchRequest.getConnections() + 1) {
             logger.info("Do not exist fast combination that has segments less than given connections.");
             return new ArrayList<>();
         }

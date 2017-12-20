@@ -51,7 +51,7 @@ public class TransactionHelper {
         return basicTransactionInfos;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void creationHelper(UserInfo userInfo,
                                CreateTransactionRequest createTransactionRequest)
             throws Exception {
@@ -104,7 +104,8 @@ public class TransactionHelper {
                             createTransactionRequest.getGoSegments().get(i).getYear(),
                             createTransactionRequest.getGoSegments().get(i).getMonth(),
                             createTransactionRequest.getGoSegments().get(i).getDay()
-                    )
+                    ),
+                    createTransactionRequest.getPassengers()
             );
         }
 
@@ -120,13 +121,14 @@ public class TransactionHelper {
                                 createTransactionRequest.getBackSegments().get(i).getYear(),
                                 createTransactionRequest.getBackSegments().get(i).getMonth(),
                                 createTransactionRequest.getBackSegments().get(i).getDay()
-                        )
+                        ),
+                        createTransactionRequest.getPassengers()
                 );
             }
         }
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteHelper(UserInfo userInfo,
                              DeleteTransactionRequest deleteTransactionRequest)
             throws Exception {
@@ -153,7 +155,8 @@ public class TransactionHelper {
                             ticketInfo.getStartStation(),
                             ticketInfo.getEndStation()
                     ),
-                    ticketInfo.getDay()
+                    ticketInfo.getDay(),
+                    ticketInfo.getTickets()
             );
         }
     }

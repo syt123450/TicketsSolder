@@ -11,7 +11,7 @@
         VALUES (#{userName}, #{password}, #{email});
     </insert>
 
-    <select id="searchUser" parameterType="string" resultType="UserInfo">
+    <select id="searchUser" parameterType="string" resultType="com.ticketSolder.model.domain.mysql.UserInfo">
         SELECT
         <include refid="Base_Column_List" />
         FROM user
@@ -19,10 +19,10 @@
         AND password = #{password}
     </select>
 
-    <select id="searchUserByName" parameterType="string" resultType="UserInfo">
+    <select id="searchUserByName" parameterType="string" resultType="com.ticketSolder.model.domain.mysql.UserInfo">
         SELECT
         <include refid="Base_Column_List" />
-        FROM USER
+        FROM user
         WHERE userName = #{userName}
     </select>
 
@@ -31,5 +31,9 @@
         FROM user
         WHERE userName = #{userName};
     </select>
+
+    <delete id="deleteAllUsers">
+        delete from user;
+    </delete>
 
 </mapper>
