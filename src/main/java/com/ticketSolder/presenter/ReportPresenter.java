@@ -42,7 +42,7 @@ class ReportPresenter {
         return gson.toJson(reportHandler.getSystemReport());
     }
 
-    @RequestMapping("/report/perTrain")
+    @RequestMapping(value = "/report/perTrain", method = RequestMethod.POST)
     private String getPerTrainRate(@RequestBody String body) {
 
         logger.info("Get per train rate.");
@@ -52,7 +52,7 @@ class ReportPresenter {
         return gson.toJson(reportHandler.getPerTrainRate(perTrainRequestBean));
     }
 
-    @RequestMapping("/report/whole")
+    @RequestMapping(value = "/report/whole", method = RequestMethod.POST)
     private String getWholeTrainRate(@RequestBody String body) {
 
         logger.info("Get whole day rate.");
@@ -62,7 +62,7 @@ class ReportPresenter {
         return gson.toJson(reportHandler.getWholeTrainRate(wholeTrainRequestBean));
     }
 
-    @RequestMapping("/report/state")
+    @RequestMapping(value = "/report/state", method = RequestMethod.POST)
     private String getSystemSearchState(@RequestBody String body) {
 
         logger.info("Get system search state info.");

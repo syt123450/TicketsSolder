@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @EnableAutoConfiguration
 @RestController
+//@CrossOrigin
 @RequestMapping("/api/user")
 class UserPresenter {
 

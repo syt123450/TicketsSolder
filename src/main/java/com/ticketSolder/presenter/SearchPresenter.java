@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 
 @EnableAutoConfiguration
 @RestController
+//@CrossOrigin
 @RequestMapping("/api/search")
 public class SearchPresenter {
 
