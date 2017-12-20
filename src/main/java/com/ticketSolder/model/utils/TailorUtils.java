@@ -2,6 +2,7 @@ package com.ticketSolder.model.utils;
 
 import com.ticketSolder.model.bean.trip.TripInfo;
 import com.ticketSolder.model.domain.mysql.SearchResultUnit;
+import org.apache.log4j.Logger;
 
 import java.sql.Date;
 import java.util.List;
@@ -11,9 +12,15 @@ import java.util.List;
  */
 public class TailorUtils {
 
+    private static Logger logger = Logger.getLogger(TailorUtils.class);
+
     public static List<TripInfo> curtailBothTrips(List<TripInfo> tripInfoList) {
 
+        logger.info("Tail both trip list.");
+
         tripInfoList.sort(ComparatorUtils.getTripInfoComparator());
+
+        logger.info("Finish sort normal trip and fast trip.");
 
         if (tripInfoList.size() < 5) {
             return tripInfoList;

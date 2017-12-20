@@ -3,6 +3,7 @@ package com.ticketSolder.model.service.rest.impl;
 import com.ticketSolder.model.bean.trip.*;
 import com.ticketSolder.model.service.rest.SearchHandler;
 import com.ticketSolder.model.service.rest.helper.SearchHelper;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 @Service
 @Profile("dev")
 public class SearchHandlerImpl implements SearchHandler {
+
+    private Logger logger = Logger.getLogger(SearchHandlerImpl.class);
 
     @Autowired
     private SearchHelper searchHelper;
@@ -114,7 +117,10 @@ public class SearchHandlerImpl implements SearchHandler {
             tripInfoAggregation.setFast(true);
             tripInfoAggregation.setFastTrainTrips(searchHelper.searchFastTrainTrip(basicTripSearchRequest));
         } else {
-            tripInfoAggregation.setNormal(true);
+
+            logger.info("Jump into both search.");
+
+            tripInfoAggregation.setNormal(false);
             tripInfoAggregation.setFast(true);
             tripInfoAggregation.setFastTrainTrips(searchHelper.searchBothTrainTrip(basicTripSearchRequest));
         }

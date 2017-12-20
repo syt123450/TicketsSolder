@@ -17,17 +17,6 @@ public class SliceUtils {
 
         List<List<SlicedSegment>> slicedSegments = new ArrayList<>();
 
-        if (Math.abs(startStation - endStation) < 5 ||
-                (Math.abs(startStation - endStation) == 5 && !fastStations.contains(startStation))) {
-            List<SlicedSegment> slicedSegmentList = new ArrayList<>();
-            SlicedSegment slicedSegment = new SlicedSegment(startStation, endStation, false);
-            slicedSegmentList.add(slicedSegment);
-
-            slicedSegments.add(slicedSegmentList);
-
-            return slicedSegments;
-        }
-
         boolean direction = startStation - endStation < 0;
 
         if (!direction) {
@@ -39,13 +28,13 @@ public class SliceUtils {
         char fastStart;
 
         if (fastStations.contains(startStation)) {
-            slicedSegments = generateLastSegments(startStation, endStation);
+            slicedSegments = generateLastSegments(startStation, startStation, endStation);
         } else {
             fastStart = getNearestPreviousFastStation(startStation);
 
             SlicedSegment BSlicedSegment = new SlicedSegment(startStation, fastStart, false);
 
-            List<List<SlicedSegment>> leftLists1 = generateLastSegments(fastStart, endStation);
+            List<List<SlicedSegment>> leftLists1 = generateLastSegments(fastStart, startStation, endStation);
             for (List<SlicedSegment> slicedSegmentList: leftLists1) {
                 List<SlicedSegment> BList = new ArrayList<>();
                 BList.add(BSlicedSegment);
@@ -58,7 +47,7 @@ public class SliceUtils {
 
             SlicedSegment GSlicedSegment = new SlicedSegment(startStation, fastStart, false);
 
-            List<List<SlicedSegment>> leftLists2 = generateLastSegments(fastStart, endStation);
+            List<List<SlicedSegment>> leftLists2 = generateLastSegments(fastStart, startStation, endStation);
             for (List<SlicedSegment> slicedSegmentList: leftLists2) {
                 List<SlicedSegment> GList = new ArrayList<>();
                 GList.add(GSlicedSegment);
@@ -80,21 +69,25 @@ public class SliceUtils {
         return slicedSegments;
     }
 
-    private static List<List<SlicedSegment>> generateLastSegments(char fastStart, char endStation) {
+    private static List<List<SlicedSegment>> generateLastSegments(char fastStart, char startStation, char endStation) {
 
         List<List<SlicedSegment>> leftLists = new ArrayList<>();
 
         char fastEnd;
 
         if (fastStations.contains(endStation)) {
-            List<SlicedSegment> slicedSegmentList = new ArrayList<>();
-            SlicedSegment slicedSegment = new SlicedSegment(fastStart, endStation, true);
-            slicedSegmentList.add(slicedSegment);
-            leftLists.add(slicedSegmentList);
+
+            if (endStation != fastStart) {
+                List<SlicedSegment> slicedSegmentList = new ArrayList<>();
+                SlicedSegment slicedSegment = new SlicedSegment(fastStart, endStation, true);
+                slicedSegmentList.add(slicedSegment);
+                leftLists.add(slicedSegmentList);
+            }
+
         } else {
 
             fastEnd = getNearestPreviousFastStation(endStation);
-            if (fastStart != fastEnd) {
+            if (fastStart != fastEnd && fastEnd > startStation) {
                 List<SlicedSegment> GGList = new ArrayList<>();
 
                 SlicedSegment GGSlicedFastSegment = new SlicedSegment(fastStart, fastEnd, true);
@@ -109,13 +102,15 @@ public class SliceUtils {
             List<SlicedSegment> GBList = new ArrayList<>();
             fastEnd = getNearestLastFastStation(endStation);
 
-            SlicedSegment GBSlicedFastSegment = new SlicedSegment(fastStart, fastEnd, true);
-            SlicedSegment GBSlicedSlowSegment = new SlicedSegment(fastEnd, endStation, false);
+            if (fastEnd != fastStart) {
+                SlicedSegment GBSlicedFastSegment = new SlicedSegment(fastStart, fastEnd, true);
+                SlicedSegment GBSlicedSlowSegment = new SlicedSegment(fastEnd, endStation, false);
 
-            GBList.add(GBSlicedFastSegment);
-            GBList.add(GBSlicedSlowSegment);
+                GBList.add(GBSlicedFastSegment);
+                GBList.add(GBSlicedSlowSegment);
 
-            leftLists.add(GBList);
+                leftLists.add(GBList);
+            }
         }
 
         return leftLists;

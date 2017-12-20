@@ -111,6 +111,7 @@ public class SearchHelper {
                 basicTripSearchRequest.getEndStation()
         );
 
+        logger.info("Union of fast choices are: " + slicedSegmentLists);
         logger.info("At least has " + slicedSegmentLists.get(0).size() + " segments.");
         logger.info("User want at most " + (basicTripSearchRequest.getConnections() + 1) + " segments.");
 
@@ -151,8 +152,6 @@ public class SearchHelper {
                         slicedSegmentList.get(i).getEndStation() - slicedSegmentList.get(i).getStartStation() > 0,
                         exactly,
                         slicedSegmentList.get(i).isFast());
-
-                System.out.println(searchResultUnits);
 
                 resultLists.add(searchResultUnits);
             }
