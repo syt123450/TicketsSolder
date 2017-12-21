@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class RouteController {
 
-    @RequestMapping(value = {"/", "/signup", "/signin", "/signout", "/search", "/admin", "/transaction", })
+    @RequestMapping(value = {"/", "/signup", "/signin", "/signout", "/search", "/admin", "/transaction", "/report"})
     public String index() {
         return "index.html";
     }

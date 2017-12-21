@@ -49,6 +49,8 @@ class ReportPresenter {
 
         PerTrainRequestBean perTrainRequestBean = gson.fromJson(body, PerTrainRequestBean.class);
 
+        logger.info(perTrainRequestBean);
+
         return gson.toJson(reportHandler.getPerTrainRate(perTrainRequestBean));
     }
 
@@ -59,6 +61,8 @@ class ReportPresenter {
 
         WholeTrainRequestBean wholeTrainRequestBean = gson.fromJson(body, WholeTrainRequestBean.class);
 
+        logger.info(wholeTrainRequestBean);
+
         return gson.toJson(reportHandler.getWholeTrainRate(wholeTrainRequestBean));
     }
 
@@ -68,6 +72,8 @@ class ReportPresenter {
         logger.info("Get system search state info.");
 
         SearchStateRequestBean searchStateRequestBean = gson.fromJson(body, SearchStateRequestBean.class);
+
+        logger.info(searchStateRequestBean);
 
         return gson.toJson(reportHandler.getSystemSearchState(searchStateRequestBean));
     }

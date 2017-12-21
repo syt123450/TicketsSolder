@@ -82,12 +82,15 @@
       AND TA.date = #{date}
     </select>
 
+
+
     <select id="getSystemReservationRate" resultType="double">
-      SELECT SUM (
-              1 - (TA.AB + TA.BC + TA.CD + TA.DE + TA.EF + TA.FG + TA.GH + TA.HI + TA.IJ + TA.JK + TA.KL + TA.LM + TA.MN
-                  + TA.NO + TA.OP + TA.PQ + TA.QR + TA.RS + TA.ST + TA.TU + TA.UV + TA.VW + TA.WX + TA.XY + TA.YZ)
-                  / (25 * SI.totalTicketPerLine)
-      ) / COUNT (*)
+       SELECT SUM(
+                1 - (TA.AB + TA.BC + TA.CD + TA.DE + TA.EF + TA.FG + TA.GH + TA.HI + TA.IJ + TA.JK + TA.KL + TA.LM + TA.MN
+                    + TA.NO + TA.OP + TA.PQ + TA.QR + TA.RS + TA.ST + TA.TU + TA.UV + TA.VW + TA.WX + TA.XY + TA.YZ)
+                    / SI.totalTicketPerLine / 25
+
+       ) / COUNT(1)
 
       FROM traininfo AS TI, ticketamount AS TA, systeminfo as SI
       WHERE TI.trainId = TA.trainId

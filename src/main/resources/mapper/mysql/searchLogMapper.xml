@@ -3,7 +3,7 @@
 <mapper namespace="com.ticketSolder.model.dao.mysql.SearchLogDao">
 
     <delete id="clearSearchLog">
-        DELETE FROM searchLog;
+        DELETE FROM searchlog;
     </delete>
 
     <insert id="insertOrUpdateSearchLog">

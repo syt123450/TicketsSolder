@@ -49,6 +49,8 @@ public class ReportHandlerImpl implements ReportHandler {
                 date
                 );
 
+        System.out.println(rate);
+
         RateResult rateResult = new RateResult();
         rateResult.setRate(NumberFormatter.formatRate(rate));
 
@@ -83,14 +85,16 @@ public class ReportHandlerImpl implements ReportHandler {
 
         SearchLogInfo searchLogInfo = reportDao.getSearchState(date);
 
+        System.out.println(searchLogInfo);
+
         SystemSearchState systemSearchState = new SystemSearchState(
                 searchLogInfo.getSearchTimes(),
                 searchLogInfo.getConnection0(),
                 searchLogInfo.getConnection1(),
                 searchLogInfo.getConnection2(),
-                NumberFormatter.formatPercentage(searchLogInfo.getConnection0() / searchLogInfo.getSearchTimes()),
-                NumberFormatter.formatPercentage(searchLogInfo.getConnection1() / searchLogInfo.getSearchTimes()),
-                NumberFormatter.formatPercentage(searchLogInfo.getConnection2() / searchLogInfo.getSearchTimes()),
+                NumberFormatter.formatPercentage(100 * searchLogInfo.getConnection0() / searchLogInfo.getSearchTimes()),
+                NumberFormatter.formatPercentage(100 * searchLogInfo.getConnection1() / searchLogInfo.getSearchTimes()),
+                NumberFormatter.formatPercentage(100 * searchLogInfo.getConnection2() / searchLogInfo.getSearchTimes()),
                 NumberFormatter.formatQPS(searchLogInfo.getAverage0()),
                 NumberFormatter.formatQPS(searchLogInfo.getAverage1()),
                 NumberFormatter.formatQPS(searchLogInfo.getAverage2())

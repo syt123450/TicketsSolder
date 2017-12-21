@@ -47,7 +47,7 @@ public class ReportDaoTest {
     }
 
     @Test
-    @Ignore
+//    @Ignore
     public void testGetSystemReservationRate() {
 
         Calendar calendar = Calendar.getInstance();
